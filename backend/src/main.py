@@ -7,7 +7,6 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
-from fastapi.templating import Jinja2Templates
 
 from src.api.routes import analysis, anomalies, heatmap, sources, timeseries
 from src.ui.templates import templates
@@ -19,7 +18,7 @@ async def lifespan(app: FastAPI):
     # Startup: Initialize database if needed
     db_path = Path("backend/data/anomaly_detection.db")
     db_path.parent.mkdir(parents=True, exist_ok=True)
-    print(f"🚀 Starting Financial Anomaly Detection Service")
+    print("🚀 Starting Financial Anomaly Detection Service")
     print(f"📊 Database: {db_path}")
     yield
     # Shutdown: cleanup if needed
