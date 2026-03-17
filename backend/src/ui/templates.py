@@ -12,14 +12,9 @@ templates_path.mkdir(parents=True, exist_ok=True)
 templates = Jinja2Templates(directory=str(templates_path))
 
 # Custom Jinja2 filters
-@templates.env.filter("to_json")
-def to_json_filter(value: object) -> str:
-    """Convert value to JSON string for embedding in templates."""
-    import json
-    return json.dumps(value, default=str)
+templates.env.filters["to_json"] = lambda value: __import__("json").dumps(value, default=str)
 
 
-@templates.env.filter("format_number")
 def format_number_filter(value: float | None, decimals: int = 2) -> str:
     """Format number with specified decimal places."""
     if value is None:
@@ -27,7 +22,9 @@ def format_number_filter(value: float | None, decimals: int = 2) -> str:
     return f"{value:,.{decimals}f}"
 
 
-@templates.env.filter("format_date")
+templates.env.filters["format_number"] = format_number_filter
+
+
 def format_date_filter(value: object) -> str:
     """Format date for display."""
     if value is None:
@@ -40,7 +37,9 @@ def format_date_filter(value: object) -> str:
     return str(value)
 
 
-@templates.env.filter("anomaly_color")
+templates.env.filters["format_date"] = format_date_filter
+
+
 def anomaly_color_filter(anomaly_type: str) -> str:
     """Get color code for anomaly type."""
     colors = {
@@ -54,7 +53,9 @@ def anomaly_color_filter(anomaly_type: str) -> str:
     return colors.get(anomaly_type, "#6B7280")
 
 
-@templates.env.filter("anomaly_label")
+templates.env.filters["anomaly_color"] = anomaly_color_filter
+
+
 def anomaly_label_filter(anomaly_type: str) -> str:
     """Get human-readable label for anomaly type."""
     labels = {
@@ -66,3 +67,6 @@ def anomaly_label_filter(anomaly_type: str) -> str:
         "MISSING_DATA": "Missing Data",
     }
     return labels.get(anomaly_type, anomaly_type)
+
+
+templates.env.filters["anomaly_label"] = anomaly_label_filter
