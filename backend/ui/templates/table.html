@@ -6,15 +6,24 @@
 
 {% block content %}
 <div class="space-y-6">
-    <h1 class="text-3xl font-bold text-gray-900">Таблиця аномалій</h1>
+    <!-- Page Header -->
+    <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-primary-600">
+        <h1 class="text-2xl font-semibold text-gray-800 flex items-center gap-3">
+            <span class="material-icons text-primary-600">table_chart</span>
+            Таблиця аномалій
+        </h1>
+    </div>
 
     <!-- Filters -->
     <section class="bg-white rounded-xl shadow-md p-6">
-        <h2 class="text-xl font-semibold text-gray-800 mb-4">Фільтри</h2>
+        <h2 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+            <span class="material-icons text-primary-600">filter_list</span>
+            Фільтри
+        </h2>
         <div class="flex flex-wrap gap-4 items-end">
             <div class="flex-1 min-w-[200px]">
-                <label for="filter-type" class="block text-sm font-medium text-gray-700 mb-1">Тип аномалії:</label>
-                <select id="filter-type" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                <label for="filter-type" class="block text-sm font-medium text-gray-700 mb-2">Тип аномалії:</label>
+                <select id="filter-type" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors bg-white">
                     <option value="">Всі типи</option>
                     <option value="SPIKE">SPIKE</option>
                     <option value="TREND_BREAK">TREND_BREAK</option>
@@ -26,119 +35,191 @@
             </div>
 
             <div class="flex-1 min-w-[200px]">
-                <label for="filter-period" class="block text-sm font-medium text-gray-700 mb-1">Період:</label>
-                <input type="month" id="filter-period" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                <label for="filter-period" class="block text-sm font-medium text-gray-700 mb-2">Період:</label>
+                <input type="month" id="filter-period" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors">
             </div>
 
             <div class="flex-1 min-w-[200px]">
-                <label for="filter-product" class="block text-sm font-medium text-gray-700 mb-1">Товар:</label>
-                <input type="text" id="filter-product" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" placeholder="Фільтр за назвою товару">
+                <label for="filter-product" class="block text-sm font-medium text-gray-700 mb-2">Товар:</label>
+                <input type="text" id="filter-product" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors" placeholder="Фільтр за назвою товару">
             </div>
 
-            <button id="apply-filters-btn" class="px-6 py-2.5 bg-blue-900 text-white font-medium rounded-lg hover:bg-blue-800 transition-colors shadow-sm">Застосувати фільтри</button>
-            <button id="clear-filters-btn" class="px-6 py-2.5 bg-gray-600 text-white font-medium rounded-lg hover:bg-gray-700 transition-colors shadow-sm">Очистити</button>
+            <div class="flex gap-2">
+                <button id="apply-filters-btn" class="px-6 py-3 bg-primary-600 text-white font-medium rounded-lg hover:bg-primary-700 transition-colors shadow-md flex items-center gap-2">
+                    <span class="material-icons text-sm">search</span>
+                    Застосувати
+                </button>
+                <button id="clear-filters-btn" class="px-6 py-3 bg-gray-600 text-white font-medium rounded-lg hover:bg-gray-700 transition-colors shadow-md flex items-center gap-2">
+                    <span class="material-icons text-sm">clear</span>
+                    Очистити
+                </button>
+            </div>
         </div>
-        <p class="text-sm text-gray-500 italic mt-2">Примітка: Статичний UI демо - фільтри не функціональні</p>
+        <p class="text-sm text-gray-500 italic mt-3 flex items-center gap-1">
+            <span class="material-icons text-sm">info</span>
+            Статичний UI демо - фільтри не функціональні
+        </p>
     </section>
 
     <!-- Anomaly Table -->
     <section class="bg-white rounded-xl shadow-md p-6">
-        <h2 class="text-xl font-semibold text-gray-800 mb-4">Аномалії (5 знайдено)</h2>
-        <div class="overflow-x-auto">
+        <h2 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+            <span class="material-icons text-primary-600">fact_check</span>
+            Аномалії (5 знайдено)
+        </h2>
+        <div class="overflow-x-auto rounded-lg border border-gray-200">
             <table class="w-full border-collapse">
                 <thead>
-                    <tr>
-                        <th class="px-4 py-3 text-left border-b bg-gray-50 font-semibold text-gray-700 cursor-pointer hover:bg-gray-100 select-none" data-sort="type">Тип ⬍</th>
-                        <th class="px-4 py-3 text-left border-b bg-gray-50 font-semibold text-gray-700">Регістр</th>
-                        <th class="px-4 py-3 text-left border-b bg-gray-50 font-semibold text-gray-700">Виміри</th>
-                        <th class="px-4 py-3 text-left border-b bg-gray-50 font-semibold text-gray-700 cursor-pointer hover:bg-gray-100 select-none" data-sort="period">Період ⬍</th>
-                        <th class="px-4 py-3 text-left border-b bg-gray-50 font-semibold text-gray-700 cursor-pointer hover:bg-gray-100 select-none" data-sort="current_value">Поточне ⬍</th>
-                        <th class="px-4 py-3 text-left border-b bg-gray-50 font-semibold text-gray-700 cursor-pointer hover:bg-gray-100 select-none" data-sort="previous_value">Попереднє ⬍</th>
-                        <th class="px-4 py-3 text-left border-b bg-gray-50 font-semibold text-gray-700 cursor-pointer hover:bg-gray-100 select-none" data-sort="pct_change">% зміни ⬍</th>
-                        <th class="px-4 py-3 text-left border-b bg-gray-50 font-semibold text-gray-700 cursor-pointer hover:bg-gray-100 select-none" data-sort="zscore">Z-оцінка ⬍</th>
+                    <tr class="bg-gray-50">
+                        <th class="px-4 py-4 text-left border-b-2 border-gray-200 font-semibold text-gray-700 cursor-pointer hover:bg-gray-100 transition-colors select-none" data-sort="type">
+                            <div class="flex items-center gap-2">
+                                Тип
+                                <span class="material-icons text-sm text-gray-400">swap_vert</span>
+                            </div>
+                        </th>
+                        <th class="px-4 py-4 text-left border-b-2 border-gray-200 font-semibold text-gray-700">Регістр</th>
+                        <th class="px-4 py-4 text-left border-b-2 border-gray-200 font-semibold text-gray-700">Виміри</th>
+                        <th class="px-4 py-4 text-left border-b-2 border-gray-200 font-semibold text-gray-700 cursor-pointer hover:bg-gray-100 transition-colors select-none" data-sort="period">
+                            <div class="flex items-center gap-2">
+                                Період
+                                <span class="material-icons text-sm text-gray-400">swap_vert</span>
+                            </div>
+                        </th>
+                        <th class="px-4 py-4 text-left border-b-2 border-gray-200 font-semibold text-gray-700 cursor-pointer hover:bg-gray-100 transition-colors select-none" data-sort="current_value">
+                            <div class="flex items-center gap-2">
+                                Поточне
+                                <span class="material-icons text-sm text-gray-400">swap_vert</span>
+                            </div>
+                        </th>
+                        <th class="px-4 py-4 text-left border-b-2 border-gray-200 font-semibold text-gray-700 cursor-pointer hover:bg-gray-100 transition-colors select-none" data-sort="previous_value">
+                            <div class="flex items-center gap-2">
+                                Попереднє
+                                <span class="material-icons text-sm text-gray-400">swap_vert</span>
+                            </div>
+                        </th>
+                        <th class="px-4 py-4 text-left border-b-2 border-gray-200 font-semibold text-gray-700 cursor-pointer hover:bg-gray-100 transition-colors select-none" data-sort="pct_change">
+                            <div class="flex items-center gap-2">
+                                % зміни
+                                <span class="material-icons text-sm text-gray-400">swap_vert</span>
+                            </div>
+                        </th>
+                        <th class="px-4 py-4 text-left border-b-2 border-gray-200 font-semibold text-gray-700 cursor-pointer hover:bg-gray-100 transition-colors select-none" data-sort="zscore">
+                            <div class="flex items-center gap-2">
+                                Z-оцінка
+                                <span class="material-icons text-sm text-gray-400">swap_vert</span>
+                            </div>
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
                     <!-- Row 1: SPIKE -->
-                    <tr class="anomaly-row hover:bg-gray-50 cursor-pointer" data-href="/drilldown?product=Product+A">
-                        <td class="px-4 py-3 border-b"><span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-amber-500 text-white">SPIKE</span></td>
-                        <td class="px-4 py-3 border-b text-gray-700">ПартіїТоварівНаСкладахПоВиробниках</td>
-                        <td class="px-4 py-3 border-b">
-                            <small class="text-gray-700">Продукт A</small><br>
-                            <small class="text-gray-500">Центральний / ТОВ Компанія</small>
+                    <tr class="anomaly-row hover:bg-blue-50 cursor-pointer transition-colors" data-href="/drilldown?product=Product+A">
+                        <td class="px-4 py-4 border-b border-gray-100">
+                            <span class="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-semibold bg-amber-500 text-white shadow-sm">
+                                <span class="material-icons text-xs">warning</span>
+                                SPIKE
+                            </span>
                         </td>
-                        <td class="px-4 py-3 border-b text-gray-700">2026-02-28</td>
-                        <td class="px-4 py-3 border-b text-gray-700">1240.0</td>
-                        <td class="px-4 py-3 border-b text-gray-700">500.0</td>
-                        <td class="px-4 py-3 border-b text-red-600 font-semibold">+148.0%</td>
-                        <td class="px-4 py-3 border-b text-red-600 font-semibold">3.5</td>
+                        <td class="px-4 py-4 border-b border-gray-100 text-gray-700">ПартіїТоварівНаСкладахПоВиробниках</td>
+                        <td class="px-4 py-4 border-b border-gray-100">
+                            <div class="text-sm text-gray-900">Продукт A</div>
+                            <div class="text-xs text-gray-500">Центральний / ТОВ Компанія</div>
+                        </td>
+                        <td class="px-4 py-4 border-b border-gray-100 text-gray-700">2026-02-28</td>
+                        <td class="px-4 py-4 border-b border-gray-100 text-gray-700 font-medium">1240.0</td>
+                        <td class="px-4 py-4 border-b border-gray-100 text-gray-700 font-medium">500.0</td>
+                        <td class="px-4 py-4 border-b border-gray-100 text-red-600 font-bold">+148.0%</td>
+                        <td class="px-4 py-4 border-b border-gray-100 text-red-600 font-bold">3.5</td>
                     </tr>
 
                     <!-- Row 2: ZERO_NEG -->
-                    <tr class="anomaly-row hover:bg-gray-50 cursor-pointer" data-href="/drilldown?product=Product+B">
-                        <td class="px-4 py-3 border-b"><span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-red-600 text-white">ZERO_NEG</span></td>
-                        <td class="px-4 py-3 border-b text-gray-700">ПартіїТоварівНаСкладахПоВиробниках</td>
-                        <td class="px-4 py-3 border-b">
-                            <small class="text-gray-700">Продукт B</small><br>
-                            <small class="text-gray-500">Центральний / ТОВ Компанія</small>
+                    <tr class="anomaly-row hover:bg-blue-50 cursor-pointer transition-colors" data-href="/drilldown?product=Product+B">
+                        <td class="px-4 py-4 border-b border-gray-100">
+                            <span class="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-semibold bg-red-600 text-white shadow-sm">
+                                <span class="material-icons text-xs">error</span>
+                                ZERO_NEG
+                            </span>
                         </td>
-                        <td class="px-4 py-3 border-b text-gray-700">2026-01-31</td>
-                        <td class="px-4 py-3 border-b text-red-600 font-semibold">-100.0</td>
-                        <td class="px-4 py-3 border-b text-gray-700">1600.0</td>
-                        <td class="px-4 py-3 border-b text-gray-700">Н/Д</td>
-                        <td class="px-4 py-3 border-b text-gray-700">Н/Д</td>
+                        <td class="px-4 py-4 border-b border-gray-100 text-gray-700">ПартіїТоварівНаСкладахПоВиробниках</td>
+                        <td class="px-4 py-4 border-b border-gray-100">
+                            <div class="text-sm text-gray-900">Продукт B</div>
+                            <div class="text-xs text-gray-500">Центральний / ТОВ Компанія</div>
+                        </td>
+                        <td class="px-4 py-4 border-b border-gray-100 text-gray-700">2026-01-31</td>
+                        <td class="px-4 py-4 border-b border-gray-100 text-red-600 font-bold">-100.0</td>
+                        <td class="px-4 py-4 border-b border-gray-100 text-gray-700 font-medium">1600.0</td>
+                        <td class="px-4 py-4 border-b border-gray-100 text-gray-700">Н/Д</td>
+                        <td class="px-4 py-4 border-b border-gray-100 text-gray-700">Н/Д</td>
                     </tr>
 
                     <!-- Row 3: TREND_BREAK -->
-                    <tr class="anomaly-row hover:bg-gray-50 cursor-pointer" data-href="/drilldown?product=Product+C">
-                        <td class="px-4 py-3 border-b"><span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-blue-500 text-white">TREND_BREAK</span></td>
-                        <td class="px-4 py-3 border-b text-gray-700">ПартіїТоварівНаСкладахПоВиробниках</td>
-                        <td class="px-4 py-3 border-b">
-                            <small class="text-gray-700">Продукт C</small><br>
-                            <small class="text-gray-500">Центральний / ТОВ Компанія</small>
+                    <tr class="anomaly-row hover:bg-blue-50 cursor-pointer transition-colors" data-href="/drilldown?product=Product+C">
+                        <td class="px-4 py-4 border-b border-gray-100">
+                            <span class="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-semibold bg-blue-500 text-white shadow-sm">
+                                <span class="material-icons text-xs">trending_flat</span>
+                                TREND_BREAK
+                            </span>
                         </td>
-                        <td class="px-4 py-3 border-b text-gray-700">2026-03-31</td>
-                        <td class="px-4 py-3 border-b text-gray-700">450.0</td>
-                        <td class="px-4 py-3 border-b text-gray-700">550.0</td>
-                        <td class="px-4 py-3 border-b text-red-600 font-semibold">-18.2%</td>
-                        <td class="px-4 py-3 border-b text-gray-700">2.1</td>
+                        <td class="px-4 py-4 border-b border-gray-100 text-gray-700">ПартіїТоварівНаСкладахПоВиробниках</td>
+                        <td class="px-4 py-4 border-b border-gray-100">
+                            <div class="text-sm text-gray-900">Продукт C</div>
+                            <div class="text-xs text-gray-500">Центральний / ТОВ Компанія</div>
+                        </td>
+                        <td class="px-4 py-4 border-b border-gray-100 text-gray-700">2026-03-31</td>
+                        <td class="px-4 py-4 border-b border-gray-100 text-gray-700 font-medium">450.0</td>
+                        <td class="px-4 py-4 border-b border-gray-100 text-gray-700 font-medium">550.0</td>
+                        <td class="px-4 py-4 border-b border-gray-100 text-red-600 font-bold">-18.2%</td>
+                        <td class="px-4 py-4 border-b border-gray-100 text-gray-700 font-medium">2.1</td>
                     </tr>
 
                     <!-- Row 4: MISSING -->
-                    <tr class="anomaly-row hover:bg-gray-50 cursor-pointer" data-href="/drilldown?product=Product+D">
-                        <td class="px-4 py-3 border-b"><span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-gray-500 text-white">MISSING</span></td>
-                        <td class="px-4 py-3 border-b text-gray-700">ПартіїТоварівНаСкладахПоВиробниках</td>
-                        <td class="px-4 py-3 border-b">
-                            <small class="text-gray-700">Продукт D</small><br>
-                            <small class="text-gray-500">Центральний / ТОВ Компанія</small>
+                    <tr class="anomaly-row hover:bg-blue-50 cursor-pointer transition-colors" data-href="/drilldown?product=Product+D">
+                        <td class="px-4 py-4 border-b border-gray-100">
+                            <span class="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-semibold bg-gray-500 text-white shadow-sm">
+                                <span class="material-icons text-xs">block</span>
+                                MISSING
+                            </span>
                         </td>
-                        <td class="px-4 py-3 border-b text-gray-700">2026-02-28</td>
-                        <td class="px-4 py-3 border-b text-gray-700">Н/Д</td>
-                        <td class="px-4 py-3 border-b text-gray-700">900.0</td>
-                        <td class="px-4 py-3 border-b text-gray-700">Н/Д</td>
-                        <td class="px-4 py-3 border-b text-gray-700">Н/Д</td>
+                        <td class="px-4 py-4 border-b border-gray-100 text-gray-700">ПартіїТоварівНаСкладахПоВиробниках</td>
+                        <td class="px-4 py-4 border-b border-gray-100">
+                            <div class="text-sm text-gray-900">Продукт D</div>
+                            <div class="text-xs text-gray-500">Центральний / ТОВ Компанія</div>
+                        </td>
+                        <td class="px-4 py-4 border-b border-gray-100 text-gray-700">2026-02-28</td>
+                        <td class="px-4 py-4 border-b border-gray-100 text-gray-700">Н/Д</td>
+                        <td class="px-4 py-4 border-b border-gray-100 text-gray-700 font-medium">900.0</td>
+                        <td class="px-4 py-4 border-b border-gray-100 text-gray-700">Н/Д</td>
+                        <td class="px-4 py-4 border-b border-gray-100 text-gray-700">Н/Д</td>
                     </tr>
 
                     <!-- Row 5: Another SPIKE -->
-                    <tr class="anomaly-row hover:bg-gray-50 cursor-pointer" data-href="/drilldown?product=Product+A">
-                        <td class="px-4 py-3 border-b"><span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-amber-500 text-white">SPIKE</span></td>
-                        <td class="px-4 py-3 border-b text-gray-700">ПартіїТоварівНаСкладахПоВиробниках</td>
-                        <td class="px-4 py-3 border-b">
-                            <small class="text-gray-700">Продукт A</small><br>
-                            <small class="text-gray-500">Склад Північний / ТОВ Компанія</small>
+                    <tr class="anomaly-row hover:bg-blue-50 cursor-pointer transition-colors" data-href="/drilldown?product=Product+A">
+                        <td class="px-4 py-4 border-b border-gray-100">
+                            <span class="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-semibold bg-amber-500 text-white shadow-sm">
+                                <span class="material-icons text-xs">warning</span>
+                                SPIKE
+                            </span>
                         </td>
-                        <td class="px-4 py-3 border-b text-gray-700">2026-02-28</td>
-                        <td class="px-4 py-3 border-b text-gray-700">980.0</td>
-                        <td class="px-4 py-3 border-b text-gray-700">400.0</td>
-                        <td class="px-4 py-3 border-b text-red-600 font-semibold">+145.0%</td>
-                        <td class="px-4 py-3 border-b text-red-600 font-semibold">3.2</td>
+                        <td class="px-4 py-4 border-b border-gray-100 text-gray-700">ПартіїТоварівНаСкладахПоВиробниках</td>
+                        <td class="px-4 py-4 border-b border-gray-100">
+                            <div class="text-sm text-gray-900">Продукт A</div>
+                            <div class="text-xs text-gray-500">Склад Північний / ТОВ Компанія</div>
+                        </td>
+                        <td class="px-4 py-4 border-b border-gray-100 text-gray-700">2026-02-28</td>
+                        <td class="px-4 py-4 border-b border-gray-100 text-gray-700 font-medium">980.0</td>
+                        <td class="px-4 py-4 border-b border-gray-100 text-gray-700 font-medium">400.0</td>
+                        <td class="px-4 py-4 border-b border-gray-100 text-red-600 font-bold">+145.0%</td>
+                        <td class="px-4 py-4 border-b border-gray-100 text-red-600 font-bold">3.2</td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </section>
 
-    <p class="text-sm text-gray-500 italic">Примітка: Статичний UI демо - сортування та кліки по рядках не функціональні</p>
+    <p class="text-sm text-gray-500 italic bg-gray-50 px-4 py-3 rounded-lg border border-gray-200">
+        <span class="material-icons text-sm align-middle">info</span>
+        Статичний UI демо - сортування та кліки по рядках не функціональні
+    </p>
 </div>
 {% endblock %}
 
@@ -156,7 +237,6 @@ document.querySelectorAll('.anomaly-row').forEach(function(row) {
     row.addEventListener('click', function() {
         const href = this.getAttribute('data-href');
         alert('Статичний UI Демо: Перехід до ' + href);
-        // window.location.href = href; // Uncomment in Phase 2
     });
 });
 </script>
