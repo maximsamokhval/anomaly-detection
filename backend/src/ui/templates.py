@@ -1,7 +1,8 @@
 """Jinja2 templates configuration."""
 
-from fastapi.templating import Jinja2Templates
 from pathlib import Path
+
+from fastapi.templating import Jinja2Templates
 
 # Templates directory
 templates_path = Path(__file__).parent / "templates"
