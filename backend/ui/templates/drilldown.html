@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+
+{% block title %}Drill-down - Anomaly Detection{% endblock %}
+
+{% set active_page = 'heatmap' %}
+
+{% block content %}
+<div class="drilldown-page">
+    <h1>Drill-down Analysis</h1>
+    
+    <!-- Back button -->
+    <a href="/heatmap" class="btn btn-secondary mb-4">← Back to Heat Map</a>
+    
+    <!-- Dimension Info -->
+    <section class="card">
+        <h2>Dimensions</h2>
+        <div class="dimension-info">
+            <div class="dimension-item">
+                <span class="label">Номенклатура:</span>
+                <span class="value">Продукт A</span>
+            </div>
+            <div class="dimension-item">
+                <span class="label">Склад:</span>
+                <span class="value">Центральный</span>
+            </div>
+            <div class="dimension-item">
+                <span class="label">Организация:</span>
+                <span class="value">ООО Компания</span>
+            </div>
+            <div class="dimension-item">
+                <span class="label">Производитель:</span>
+                <span class="value">Завод №1</span>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Time Series Chart -->
+    <section class="card">
+        <h2>Time Series</h2>
+        <div class="chart-container">
+            <canvas id="timeseries-chart"></canvas>
+        </div>
+    </section>
+    
+    <!-- Anomaly Metadata -->
+    <section class="card">
+        <h2>Anomaly Details</h2>
+        <div class="anomaly-metadata">
+            <div class="metadata-item">
+                <span class="label">Anomaly Type:</span>
+                <span class="value anomaly-type-spike">SPIKE</span>
+            </div>
+            <div class="metadata-item">
+                <span class="label">Current Value:</span>
+                <span class="value">1240.0</span>
+            </div>
+            <div class="metadata-item">
+                <span class="label">Previous Value:</span>
+                <span class="value">500.0</span>
+            </div>
+            <div class="metadata-item">
+                <span class="label">% Change:</span>
+                <span class="value anomaly-high">+148.0%</span>
+            </div>
+            <div class="metadata-item">
+                <span class="label">Z-Score:</span>
+                <span class="value anomaly-high">3.5</span>
+            </div>
+            <div class="metadata-item">
+                <span class="label">Triggered Thresholds:</span>
+                <span class="value">spike_pct (20%), spike_zscore (3.0)</span>
+            </div>
+        </div>
+    </section>
+    
+    <p class="help-text">Note: Static UI demo - chart shows mock data</p>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+// Static UI - Mock time series data
+const mockData = {
+    labels: ['2026-01-31', '2026-02-28', '2026-03-31'],
+    datasets: [{
+        label: 'Value (Sum/Qty)',
+        data: [500.0, 1240.0, 420.0],
+        borderColor: 'rgb(75, 192, 192)',
+        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+        tension: 0.1,
+        pointRadius: 5,
+        pointHoverRadius: 7,
+    }]
+};
+
+// Add anomaly markers
+const anomalyPoints = [
+    { index: 1, type: 'SPIKE', color: 'rgb(245, 158, 11)' }  // February
+];
+
+// Initialize Chart.js
+const ctx = document.getElementById('timeseries-chart').getContext('2d');
+const chart = new Chart(ctx, {
+    type: 'line',
+    data: mockData,
+    options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+            legend: {
+                display: true,
+                position: 'top'
+            },
+            tooltip: {
+                callbacks: {
+                    label: function(context) {
+                        return context.dataset.label + ': ' + context.parsed.y.toFixed(2);
+                    }
+                }
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                title: {
+                    display: true,
+                    text: 'Value'
+                }
+            },
+            x: {
+                title: {
+                    display: true,
+                    text: 'Period'
+                }
+            }
+        }
+    }
+});
+
+// Note: In Phase 2, this will fetch real data from /api/v1/timeseries
+</script>
+{% endblock %}
