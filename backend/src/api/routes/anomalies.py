@@ -19,13 +19,13 @@ async def get_anomalies(
     period_to: str | None = None,
 ) -> dict:
     """Get anomalies with optional filtering.
-    
+
     Args:
         run_id: Filter by analysis run ID
         anomaly_type: Filter by anomaly type (SPIKE, ZERO_NEG, etc.)
         period_from: Filter by period start date
         period_to: Filter by period end date
-    
+
     Returns:
         List of anomalies matching filters
     """
@@ -35,11 +35,11 @@ async def get_anomalies(
     else:
         # For now, get all anomalies (last run)
         anomalies = anomaly_repo.get_all()
-    
+
     # Apply additional filters
     if anomaly_type:
         anomalies = [a for a in anomalies if a.anomaly_type == anomaly_type]
-    
+
     # Convert to response format
     return {
         "anomalies": [
