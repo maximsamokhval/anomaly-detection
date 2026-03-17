@@ -15,17 +15,16 @@ def detect_anomalies_mock(
     source_id: str,
     run_id: str,
 ) -> list[Anomaly]:
-    """
-    Provide five pre-canned Anomaly objects used for testing the detector.
+    """Return pre-canned anomalies for mock testing.
     
-    Parameters:
-        data_points (list[DataPoint]): Input data points (ignored by this mock).
-        threshold_rules (ThresholdRules): Threshold configuration (ignored by this mock).
-        source_id (str): Source identifier to embed in each returned anomaly.
-        run_id (str): Analysis run identifier to embed in each returned anomaly.
+    Args:
+        data_points: List of data points to analyze (ignored in mock)
+        threshold_rules: Threshold configuration (ignored in mock)
+        source_id: Source identifier
+        run_id: Analysis run identifier
     
     Returns:
-        list[Anomaly]: Five predefined Anomaly instances covering SPIKE, ZERO_NEG, TREND_BREAK, and MISSING cases.
+        List of mock anomalies with predefined values
     """
     # Return 5 mock anomalies covering different types
     return [
