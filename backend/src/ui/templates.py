@@ -18,8 +18,8 @@ templates.env.filters["to_json"] = lambda value: __import__("json").dumps(value,
 def format_number_filter(value: float | None, decimals: int = 2) -> str:
     """Format number with specified decimal places."""
     if value is None:
-        return "N/A"
-    return f"{value:,.{decimals}f}"
+        return "Н/Д"
+    return f"{value:,.{decimals}f}".replace(",", " ")
 
 
 templates.env.filters["format_number"] = format_number_filter
@@ -28,7 +28,7 @@ templates.env.filters["format_number"] = format_number_filter
 def format_date_filter(value: object) -> str:
     """Format date for display."""
     if value is None:
-        return "N/A"
+        return "Н/Д"
     from datetime import date, datetime
     if isinstance(value, datetime):
         return value.strftime("%Y-%m-%d %H:%M")
@@ -57,14 +57,14 @@ templates.env.filters["anomaly_color"] = anomaly_color_filter
 
 
 def anomaly_label_filter(anomaly_type: str) -> str:
-    """Get human-readable label for anomaly type."""
+    """Get human-readable label for anomaly type in Ukrainian."""
     labels = {
-        "ZERO_NEG": "Zero/Negative",
-        "SPIKE": "Spike",
-        "RATIO": "Ratio",
-        "TREND_BREAK": "Trend Break",
-        "MISSING": "Missing",
-        "MISSING_DATA": "Missing Data",
+        "ZERO_NEG": "Нуль/Негативне",
+        "SPIKE": "Спалах",
+        "RATIO": "Відношення",
+        "TREND_BREAK": "Розрив тренду",
+        "MISSING": "Відсутні",
+        "MISSING_DATA": "Відсутні дані",
     }
     return labels.get(anomaly_type, anomaly_type)
 
