@@ -6,7 +6,7 @@ router = APIRouter()
 
 
 @router.get("")
-async def get_timeseries():
+async def get_timeseries() -> dict:
     """Get time series data for drill-down."""
     # TODO: Implement in Phase 4
     return {"dimensions": {}, "data": []}

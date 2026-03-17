@@ -7,7 +7,7 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
-from fastapi.templating import TemplateResponse
+from starlette.responses import Response as StarletteResponse
 
 from src.api.routes import analysis, anomalies, heatmap, sources, timeseries
 from src.ui.templates import templates
@@ -76,31 +76,31 @@ async def internal_error_handler(request: Request, exc: Exception) -> JSONRespon
 
 # UI Routes (Server-Rendered)
 @app.get("/")
-async def dashboard(request: Request) -> TemplateResponse:
+async def dashboard(request: Request) -> StarletteResponse:
     """Dashboard - main landing page."""
     return templates.TemplateResponse("dashboard.html", {"request": request})
 
 
 @app.get("/heatmap")
-async def heatmap_page(request: Request) -> TemplateResponse:
+async def heatmap_page(request: Request) -> StarletteResponse:
     """Heat Map visualization page."""
     return templates.TemplateResponse("heatmap.html", {"request": request})
 
 
 @app.get("/table")
-async def table_page(request: Request) -> TemplateResponse:
+async def table_page(request: Request) -> StarletteResponse:
     """Anomaly Table page."""
     return templates.TemplateResponse("table.html", {"request": request})
 
 
 @app.get("/drilldown")
-async def drilldown_page(request: Request) -> TemplateResponse:
+async def drilldown_page(request: Request) -> StarletteResponse:
     """Drill-down detail page."""
     return templates.TemplateResponse("drilldown.html", {"request": request})
 
 
 @app.get("/sources")
-async def sources_page(request: Request) -> TemplateResponse:
+async def sources_page(request: Request) -> StarletteResponse:
     """Data Sources configuration page."""
     return templates.TemplateResponse("sources.html", {"request": request})
 

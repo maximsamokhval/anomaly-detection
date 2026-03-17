@@ -6,7 +6,7 @@ router = APIRouter()
 
 
 @router.get("")
-async def list_sources():
+async def list_sources() -> dict:
     """List all data sources."""
     # TODO: Implement in Phase 4
     return {"sources": []}

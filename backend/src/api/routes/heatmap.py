@@ -6,7 +6,7 @@ router = APIRouter()
 
 
 @router.get("")
-async def get_heatmap():
+async def get_heatmap() -> dict:
     """Get heat map data."""
     # TODO: Implement in Phase 4
     return {"rows": [], "columns": [], "cells": []}

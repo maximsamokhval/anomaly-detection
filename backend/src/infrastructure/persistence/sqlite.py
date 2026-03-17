@@ -73,7 +73,7 @@ def _serialize_dimensions(dimensions: list[str]) -> str:
 
 def _deserialize_dimensions(data: str) -> list[str]:
     """Deserialize dimensions list from JSON."""
-    return json.loads(data)
+    return json.loads(data)  # type: ignore[no-any-return]
 
 
 def _serialize_metric_fields(fields: dict[str, str]) -> str:
@@ -83,7 +83,7 @@ def _serialize_metric_fields(fields: dict[str, str]) -> str:
 
 def _deserialize_metric_fields(data: str) -> dict[str, str]:
     """Deserialize metric fields from JSON."""
-    return json.loads(data)
+    return json.loads(data)  # type: ignore[no-any-return]
 
 
 def _serialize_dimensions_dict(dimensions: dict[str, str]) -> str:
@@ -93,7 +93,7 @@ def _serialize_dimensions_dict(dimensions: dict[str, str]) -> str:
 
 def _deserialize_dimensions_dict(data: str) -> dict[str, str]:
     """Deserialize dimensions dict from JSON."""
-    return json.loads(data)
+    return json.loads(data)  # type: ignore[no-any-return]
 
 
 def _serialize_threshold_triggered(triggered: dict) -> str:
@@ -103,7 +103,7 @@ def _serialize_threshold_triggered(triggered: dict) -> str:
 
 def _deserialize_threshold_triggered(data: str) -> dict:
     """Deserialize threshold_triggered dict from JSON."""
-    return json.loads(data)
+    return json.loads(data)  # type: ignore[no-any-return]
 
 
 def _parse_date(date_str: str) -> date:
@@ -488,7 +488,7 @@ class SQLiteAnomalyRepository(AnomalyRepository):
         cursor.execute(
             "SELECT COUNT(*) FROM anomalies WHERE run_id = ?", (run_id,)
         )
-        count = cursor.fetchone()[0]
+        count = cursor.fetchone()[0]  # type: ignore[no-any-return]
         conn.close()
         return count
 

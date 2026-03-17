@@ -6,7 +6,7 @@ router = APIRouter()
 
 
 @router.get("")
-async def get_anomalies():
+async def get_anomalies() -> dict:
     """Get anomalies with filtering."""
     # TODO: Implement in Phase 4
     return {"anomalies": []}
