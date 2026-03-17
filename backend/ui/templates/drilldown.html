@@ -1,79 +1,79 @@
 {% extends "base.html" %}
 
-{% block title %}Drill-down - Anomaly Detection{% endblock %}
+{% block title %}Деталі - Виявлення Аномалій{% endblock %}
 
 {% set active_page = 'heatmap' %}
 
 {% block content %}
-<div class="drilldown-page">
-    <h1>Drill-down Analysis</h1>
-    
+<div class="space-y-6">
+    <h1 class="text-3xl font-bold text-gray-900">Деталізація аналізу</h1>
+
     <!-- Back button -->
-    <a href="/heatmap" class="btn btn-secondary mb-4">← Back to Heat Map</a>
-    
+    <a href="/heatmap" class="inline-block px-6 py-2.5 bg-gray-600 text-white font-medium rounded-lg hover:bg-gray-700 transition-colors">← Назад до теплової карти</a>
+
     <!-- Dimension Info -->
-    <section class="card">
-        <h2>Dimensions</h2>
-        <div class="dimension-info">
-            <div class="dimension-item">
-                <span class="label">Номенклатура:</span>
-                <span class="value">Продукт A</span>
+    <section class="bg-white rounded-xl shadow-md p-6">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">Виміри</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="space-y-1">
+                <span class="text-sm text-gray-600">Номенклатура:</span>
+                <span class="block text-base font-semibold text-gray-900">Продукт A</span>
             </div>
-            <div class="dimension-item">
-                <span class="label">Склад:</span>
-                <span class="value">Центральный</span>
+            <div class="space-y-1">
+                <span class="text-sm text-gray-600">Склад:</span>
+                <span class="block text-base font-semibold text-gray-900">Центральний</span>
             </div>
-            <div class="dimension-item">
-                <span class="label">Организация:</span>
-                <span class="value">ООО Компания</span>
+            <div class="space-y-1">
+                <span class="text-sm text-gray-600">Організація:</span>
+                <span class="block text-base font-semibold text-gray-900">ТОВ Компанія</span>
             </div>
-            <div class="dimension-item">
-                <span class="label">Производитель:</span>
-                <span class="value">Завод №1</span>
+            <div class="space-y-1">
+                <span class="text-sm text-gray-600">Виробник:</span>
+                <span class="block text-base font-semibold text-gray-900">Завод №1</span>
             </div>
         </div>
     </section>
-    
+
     <!-- Time Series Chart -->
-    <section class="card">
-        <h2>Time Series</h2>
-        <div class="chart-container">
+    <section class="bg-white rounded-xl shadow-md p-6">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">Часовий ряд</h2>
+        <div class="relative h-96">
             <canvas id="timeseries-chart"></canvas>
         </div>
     </section>
-    
+
     <!-- Anomaly Metadata -->
-    <section class="card">
-        <h2>Anomaly Details</h2>
-        <div class="anomaly-metadata">
-            <div class="metadata-item">
-                <span class="label">Anomaly Type:</span>
-                <span class="value anomaly-type-spike">SPIKE</span>
+    <section class="bg-white rounded-xl shadow-md p-6">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">Деталі аномалії</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div class="space-y-1">
+                <span class="text-sm text-gray-600">Тип аномалії:</span>
+                <span class="block text-base font-semibold text-amber-500">SPIKE</span>
             </div>
-            <div class="metadata-item">
-                <span class="label">Current Value:</span>
-                <span class="value">1240.0</span>
+            <div class="space-y-1">
+                <span class="text-sm text-gray-600">Поточне значення:</span>
+                <span class="block text-base font-semibold text-gray-900">1240.0</span>
             </div>
-            <div class="metadata-item">
-                <span class="label">Previous Value:</span>
-                <span class="value">500.0</span>
+            <div class="space-y-1">
+                <span class="text-sm text-gray-600">Попереднє значення:</span>
+                <span class="block text-base font-semibold text-gray-900">500.0</span>
             </div>
-            <div class="metadata-item">
-                <span class="label">% Change:</span>
-                <span class="value anomaly-high">+148.0%</span>
+            <div class="space-y-1">
+                <span class="text-sm text-gray-600">% зміни:</span>
+                <span class="block text-base font-semibold text-red-600">+148.0%</span>
             </div>
-            <div class="metadata-item">
-                <span class="label">Z-Score:</span>
-                <span class="value anomaly-high">3.5</span>
+            <div class="space-y-1">
+                <span class="text-sm text-gray-600">Z-оцінка:</span>
+                <span class="block text-base font-semibold text-red-600">3.5</span>
             </div>
-            <div class="metadata-item">
-                <span class="label">Triggered Thresholds:</span>
-                <span class="value">spike_pct (20%), spike_zscore (3.0)</span>
+            <div class="space-y-1">
+                <span class="text-sm text-gray-600">Вопрацьовані пороги:</span>
+                <span class="block text-base font-semibold text-gray-900">spike_pct (20%), spike_zscore (3.0)</span>
             </div>
         </div>
     </section>
-    
-    <p class="help-text">Note: Static UI demo - chart shows mock data</p>
+
+    <p class="text-sm text-gray-500 italic">Примітка: Статичний UI демо - графік показує тестові дані</p>
 </div>
 {% endblock %}
 
@@ -83,7 +83,7 @@
 const mockData = {
     labels: ['2026-01-31', '2026-02-28', '2026-03-31'],
     datasets: [{
-        label: 'Value (Sum/Qty)',
+        label: 'Значення (Сума/Кіл-сть)',
         data: [500.0, 1240.0, 420.0],
         borderColor: 'rgb(75, 192, 192)',
         backgroundColor: 'rgba(75, 192, 192, 0.2)',
@@ -124,13 +124,13 @@ const chart = new Chart(ctx, {
                 beginAtZero: true,
                 title: {
                     display: true,
-                    text: 'Value'
+                    text: 'Значення'
                 }
             },
             x: {
                 title: {
                     display: true,
-                    text: 'Period'
+                    text: 'Період'
                 }
             }
         }
