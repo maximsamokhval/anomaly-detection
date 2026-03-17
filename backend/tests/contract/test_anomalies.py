@@ -4,7 +4,7 @@ import pytest
 from httpx import AsyncClient, ASGITransport
 
 
-@pytest.mark.anyio
+@pytest.mark.asyncio
 async def test_get_anomalies_success(app):
     """Test successful anomalies retrieval."""
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
@@ -15,7 +15,7 @@ async def test_get_anomalies_success(app):
     assert isinstance(data["anomalies"], list)
 
 
-@pytest.mark.anyio
+@pytest.mark.asyncio
 async def test_get_anomalies_with_run_id_filter(app):
     """Test anomalies retrieval with run_id filter."""
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
@@ -25,7 +25,7 @@ async def test_get_anomalies_with_run_id_filter(app):
     assert "anomalies" in data
 
 
-@pytest.mark.anyio
+@pytest.mark.asyncio
 async def test_get_anomalies_with_type_filter(app):
     """Test anomalies retrieval with type filter."""
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
@@ -35,7 +35,7 @@ async def test_get_anomalies_with_type_filter(app):
     assert "anomalies" in data
 
 
-@pytest.mark.anyio
+@pytest.mark.asyncio
 async def test_get_anomalies_with_period_filter(app):
     """Test anomalies retrieval with period filter."""
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
@@ -45,7 +45,7 @@ async def test_get_anomalies_with_period_filter(app):
     assert "anomalies" in data
 
 
-@pytest.mark.anyio
+@pytest.mark.asyncio
 async def test_get_anomalies_response_structure(app):
     """Test anomalies response has correct structure."""
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
@@ -61,7 +61,7 @@ async def test_get_anomalies_response_structure(app):
         assert "period" in anomaly
 
 
-@pytest.mark.anyio
+@pytest.mark.asyncio
 async def test_get_anomalies_empty_result(app):
     """Test anomalies retrieval returns empty list when no anomalies."""
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
