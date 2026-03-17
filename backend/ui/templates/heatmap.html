@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+
+{% block title %}Heat Map - Anomaly Detection{% endblock %}
+
+{% set active_page = 'heatmap' %}
+
+{% block content %}
+<div class="heatmap-page">
+    <h1>Heat Map</h1>
+    
+    <!-- Controls -->
+    <section class="card">
+        <div class="controls-row">
+            <div class="form-group">
+                <label for="analysis-select">Analysis Run:</label>
+                <select id="analysis-select" class="form-control">
+                    <option value="run-001">Run #001 - 2026-03-17</option>
+                </select>
+            </div>
+            <a href="/drilldown" class="btn btn-secondary">View Drill-down</a>
+        </div>
+    </section>
+    
+    <!-- Heat Map -->
+    <section class="card">
+        <h2>Anomaly Heat Map</h2>
+        <div class="heatmap-container">
+            <table class="heatmap-table">
+                <thead>
+                    <tr>
+                        <th class="row-header">Product / Warehouse / Org</th>
+                        <th>2026-01-31</th>
+                        <th>2026-02-28</th>
+                        <th>2026-03-31</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Row 1: Product A - SPIKE in February -->
+                    <tr class="heatmap-row" data-href="/drilldown?product=Product+A">
+                        <td class="row-label">
+                            <strong>Продукт A</strong><br>
+                            <small>Центральный / ООО Компания</small>
+                        </td>
+                        <td class="cell cell-normal" title="No anomaly">500.0</td>
+                        <td class="cell cell-spike" title="SPIKE: 148% increase">1240.0 🔴</td>
+                        <td class="cell cell-normal" title="No anomaly">420.0</td>
+                    </tr>
+                    
+                    <!-- Row 2: Product B - ZERO_NEG in January -->
+                    <tr class="heatmap-row" data-href="/drilldown?product=Product+B">
+                        <td class="row-label">
+                            <strong>Продукт B</strong><br>
+                            <small>Центральный / ООО Компания</small>
+                        </td>
+                        <td class="cell cell-zero-neg" title="ZERO_NEG: -100.0">-100.0 🔴</td>
+                        <td class="cell cell-normal" title="No anomaly">1600.0</td>
+                        <td class="cell cell-normal" title="No anomaly">1640.0</td>
+                    </tr>
+                    
+                    <!-- Row 3: Product C - TREND_BREAK in March -->
+                    <tr class="heatmap-row" data-href="/drilldown?product=Product+C">
+                        <td class="row-label">
+                            <strong>Продукт C</strong><br>
+                            <small>Центральный / ООО Компания</small>
+                        </td>
+                        <td class="cell cell-normal" title="No anomaly">500.0</td>
+                        <td class="cell cell-normal" title="No anomaly">550.0</td>
+                        <td class="cell cell-trend-break" title="TREND_BREAK: -18% reversal">450.0 🔵</td>
+                    </tr>
+                    
+                    <!-- Row 4: Product D - MISSING February -->
+                    <tr class="heatmap-row" data-href="/drilldown?product=Product+D">
+                        <td class="row-label">
+                            <strong>Продукт D</strong><br>
+                            <small>Центральный / ООО Компания</small>
+                        </td>
+                        <td class="cell cell-normal" title="No anomaly">900.0</td>
+                        <td class="cell cell-missing" title="MISSING: No data">N/A ⚫</td>
+                        <td class="cell cell-normal" title="No anomaly">920.0</td>
+                    </tr>
+                    
+                    <!-- Row 5: Product E - Normal -->
+                    <tr class="heatmap-row" data-href="/drilldown?product=Product+E">
+                        <td class="row-label">
+                            <strong>Продукт E</strong><br>
+                            <small>Центральный / ООО Компания</small>
+                        </td>
+                        <td class="cell cell-normal" title="No anomaly">1000.0</td>
+                        <td class="cell cell-normal" title="No anomaly">1020.0</td>
+                        <td class="cell cell-normal" title="No anomaly">1040.0</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+    
+    <!-- Legend -->
+    <section class="card">
+        <h2>Legend</h2>
+        <div class="legend">
+            <div class="legend-item">
+                <span class="legend-color" style="background-color: #DC2626;"></span>
+                <span>Zero/Negative (Highest Priority)</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-color" style="background-color: #F59E0B;"></span>
+                <span>Spike (High Priority)</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-color" style="background-color: #8B5CF6;"></span>
+                <span>Ratio (Medium Priority)</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-color" style="background-color: #3B82F6;"></span>
+                <span>Trend Break (Low Priority)</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-color" style="background-color: #6B7280;"></span>
+                <span>Missing (Low Priority)</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-color" style="background-color: #ffffff; border: 1px solid #ddd;"></span>
+                <span>Normal</span>
+            </div>
+        </div>
+    </section>
+    
+    <p class="help-text">Note: Static UI demo - click on cells to navigate to drill-down (mock navigation)</p>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+// Static UI - mock navigation
+document.querySelectorAll('.heatmap-row').forEach(function(row) {
+    row.addEventListener('click', function() {
+        const href = this.getAttribute('data-href');
+        alert('Static UI Demo: Would navigate to ' + href);
+        // window.location.href = href; // Uncomment in Phase 2
+    });
+});
+</script>
+{% endblock %}
