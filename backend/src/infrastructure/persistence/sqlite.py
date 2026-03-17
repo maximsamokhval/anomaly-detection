@@ -488,9 +488,9 @@ class SQLiteAnomalyRepository(AnomalyRepository):
         cursor.execute(
             "SELECT COUNT(*) FROM anomalies WHERE run_id = ?", (run_id,)
         )
-        count = cursor.fetchone()[0]  # type: ignore[no-any-return]
+        result = cursor.fetchone()
         conn.close()
-        return count
+        return int(result[0]) if result else 0
 
     def _row_to_anomaly(self, row: tuple[Any, ...]) -> Anomaly:
         """Convert database row to Anomaly."""
