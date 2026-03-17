@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Anomaly Detection{% endblock %}
+
+{% set active_page = 'dashboard' %}
+
+{% block content %}
+<div class="dashboard">
+    <h1>Dashboard</h1>
+    
+    <!-- Source Selection -->
+    <section class="card">
+        <h2>Select Data Source</h2>
+        <div class="form-group">
+            <label for="source-select">Data Source:</label>
+            <select id="source-select" class="form-control">
+                <option value="partii_tovarov">ПартииТоваровНаСкладахПоПроизводителям</option>
+                <option value="reg_cost_price">Себестоимость производства</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="date-from">Date From:</label>
+            <input type="date" id="date-from" class="form-control" value="2026-01-01">
+        </div>
+        
+        <div class="form-group">
+            <label for="date-to">Date To:</label>
+            <input type="date" id="date-to" class="form-control" value="2026-03-31">
+        </div>
+        
+        <button id="run-analysis-btn" class="btn btn-primary">Run Analysis</button>
+        <p class="help-text">Note: Static UI demo - button is non-functional</p>
+    </section>
+    
+    <!-- Last Analysis Status -->
+    <section class="card">
+        <h2>Last Analysis</h2>
+        <div class="analysis-status">
+            <div class="status-item">
+                <span class="label">Status:</span>
+                <span class="value status-completed">Completed</span>
+            </div>
+            <div class="status-item">
+                <span class="label">Date:</span>
+                <span class="value">2026-03-17 10:00:00</span>
+            </div>
+            <div class="status-item">
+                <span class="label">Anomalies Found:</span>
+                <span class="value">5</span>
+            </div>
+            <div class="status-item">
+                <span class="label">Duration:</span>
+                <span class="value">1.2s</span>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Quick Stats -->
+    <section class="card">
+        <h2>Quick Stats</h2>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>Total Sources</h3>
+                <p class="stat-value">2</p>
+            </div>
+            <div class="stat-card">
+                <h3>Analyses Run</h3>
+                <p class="stat-value">1</p>
+            </div>
+            <div class="stat-card">
+                <h3>Anomalies Detected</h3>
+                <p class="stat-value">5</p>
+            </div>
+            <div class="stat-card">
+                <h3>Avg. Analysis Time</h3>
+                <p class="stat-value">1.2s</p>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+// Static UI - no functionality yet
+document.getElementById('run-analysis-btn').addEventListener('click', function() {
+    alert('Static UI Demo: This button will trigger analysis in Phase 2');
+});
+</script>
+{% endblock %}
