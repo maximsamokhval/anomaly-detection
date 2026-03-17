@@ -5,40 +5,92 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Виявлення аномалій{% endblock %}</title>
 
-    <!-- Tailwind CSS v4 -->
-    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <!-- Tailwind CSS v3 (stable CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#e3f2fd',
+                            100: '#bbdefb',
+                            200: '#90caf9',
+                            300: '#64b5f6',
+                            400: '#42a5f5',
+                            500: '#2196f3',
+                            600: '#1e88e5',
+                            700: '#1976d2',
+                            800: '#1565c0',
+                            900: '#0d47a1',
+                        },
+                        accent: {
+                            500: '#ff4081',
+                            700: '#f50057',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
 
     <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <!-- Custom styles -->
     <link rel="stylesheet" href="/static/styles.css">
 
     {% block extra_head %}{% endblock %}
 </head>
-<body class="bg-gray-50 min-h-screen">
+<body class="bg-gray-100 min-h-screen flex flex-col">
     <!-- Navigation -->
-    <nav class="bg-slate-800 text-white shadow-lg">
+    <nav class="bg-primary-800 text-white shadow-lg sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
-                <a href="/" class="text-xl font-bold hover:text-blue-200 transition-colors">🔍 Виявлення Аномалій</a>
-                <ul class="flex space-x-1">
-                    <li><a href="/" class="px-4 py-2 rounded-lg hover:bg-slate-700 transition-colors {% if active_page == 'dashboard' %}bg-slate-700{% endif %}">Головна</a></li>
-                    <li><a href="/heatmap" class="px-4 py-2 rounded-lg hover:bg-slate-700 transition-colors {% if active_page == 'heatmap' %}bg-slate-700{% endif %}">Теплова карта</a></li>
-                    <li><a href="/table" class="px-4 py-2 rounded-lg hover:bg-slate-700 transition-colors {% if active_page == 'table' %}bg-slate-700{% endif %}">Таблиця</a></li>
-                    <li><a href="/sources" class="px-4 py-2 rounded-lg hover:bg-slate-700 transition-colors {% if active_page == 'sources' %}bg-slate-700{% endif %}">Джерела</a></li>
+                <a href="/" class="text-xl font-semibold hover:bg-primary-700 px-3 py-2 rounded-lg transition-colors flex items-center gap-2">
+                    <span class="material-icons text-2xl">analytics</span>
+                    Виявлення Аномалій
+                </a>
+                <ul class="flex space-x-2">
+                    <li>
+                        <a href="/" class="px-4 py-2 rounded-lg hover:bg-primary-700 transition-colors flex items-center gap-2 {% if active_page == 'dashboard' %}bg-primary-700{% endif %}">
+                            <span class="material-icons text-sm">dashboard</span>
+                            Головна
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/heatmap" class="px-4 py-2 rounded-lg hover:bg-primary-700 transition-colors flex items-center gap-2 {% if active_page == 'heatmap' %}bg-primary-700{% endif %}">
+                            <span class="material-icons text-sm">grid_on</span>
+                            Теплова карта
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/table" class="px-4 py-2 rounded-lg hover:bg-primary-700 transition-colors flex items-center gap-2 {% if active_page == 'table' %}bg-primary-700{% endif %}">
+                            <span class="material-icons text-sm">table_chart</span>
+                            Таблиця
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/sources" class="px-4 py-2 rounded-lg hover:bg-primary-700 transition-colors flex items-center gap-2 {% if active_page == 'sources' %}bg-primary-700{% endif %}">
+                            <span class="material-icons text-sm">storage</span>
+                            Джерела
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <!-- Main content -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Main content - flex-1 ensures footer stays at bottom -->
+    <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
         {% block content %}{% endblock %}
     </main>
 
     <!-- Footer -->
-    <footer class="bg-slate-800 text-white mt-12">
+    <footer class="bg-primary-900 text-white mt-auto">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 text-center">
             <p class="text-sm text-gray-300">Сервіс виявлення фінансових аномалій &copy; 2026</p>
         </div>
