@@ -1,21 +1,21 @@
 {% extends "base.html" %}
 
-{% block title %}Anomaly Table - Anomaly Detection{% endblock %}
+{% block title %}Таблиця аномалій - Виявлення Аномалій{% endblock %}
 
 {% set active_page = 'table' %}
 
 {% block content %}
-<div class="table-page">
-    <h1>Anomaly Table</h1>
-    
+<div class="space-y-6">
+    <h1 class="text-3xl font-bold text-gray-900">Таблиця аномалій</h1>
+
     <!-- Filters -->
-    <section class="card">
-        <h2>Filters</h2>
-        <div class="filters-row">
-            <div class="form-group">
-                <label for="filter-type">Anomaly Type:</label>
-                <select id="filter-type" class="form-control">
-                    <option value="">All Types</option>
+    <section class="bg-white rounded-xl shadow-md p-6">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">Фільтри</h2>
+        <div class="flex flex-wrap gap-4 items-end">
+            <div class="flex-1 min-w-[200px]">
+                <label for="filter-type" class="block text-sm font-medium text-gray-700 mb-1">Тип аномалії:</label>
+                <select id="filter-type" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                    <option value="">Всі типи</option>
                     <option value="SPIKE">SPIKE</option>
                     <option value="TREND_BREAK">TREND_BREAK</option>
                     <option value="ZERO_NEG">ZERO_NEG</option>
@@ -24,121 +24,121 @@
                     <option value="MISSING_DATA">MISSING_DATA</option>
                 </select>
             </div>
-            
-            <div class="form-group">
-                <label for="filter-period">Period:</label>
-                <input type="month" id="filter-period" class="form-control">
+
+            <div class="flex-1 min-w-[200px]">
+                <label for="filter-period" class="block text-sm font-medium text-gray-700 mb-1">Період:</label>
+                <input type="month" id="filter-period" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
             </div>
-            
-            <div class="form-group">
-                <label for="filter-product">Product:</label>
-                <input type="text" id="filter-product" class="form-control" placeholder="Filter by product name">
+
+            <div class="flex-1 min-w-[200px]">
+                <label for="filter-product" class="block text-sm font-medium text-gray-700 mb-1">Товар:</label>
+                <input type="text" id="filter-product" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" placeholder="Фільтр за назвою товару">
             </div>
-            
-            <button id="apply-filters-btn" class="btn btn-primary">Apply Filters</button>
-            <button id="clear-filters-btn" class="btn btn-secondary">Clear</button>
+
+            <button id="apply-filters-btn" class="px-6 py-2.5 bg-blue-900 text-white font-medium rounded-lg hover:bg-blue-800 transition-colors shadow-sm">Застосувати фільтри</button>
+            <button id="clear-filters-btn" class="px-6 py-2.5 bg-gray-600 text-white font-medium rounded-lg hover:bg-gray-700 transition-colors shadow-sm">Очистити</button>
         </div>
-        <p class="help-text">Note: Static UI demo - filters are non-functional</p>
+        <p class="text-sm text-gray-500 italic mt-2">Примітка: Статичний UI демо - фільтри не функціональні</p>
     </section>
-    
+
     <!-- Anomaly Table -->
-    <section class="card">
-        <h2>Anomalies (5 found)</h2>
-        <div class="table-container">
-            <table class="data-table">
+    <section class="bg-white rounded-xl shadow-md p-6">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">Аномалії (5 знайдено)</h2>
+        <div class="overflow-x-auto">
+            <table class="w-full border-collapse">
                 <thead>
                     <tr>
-                        <th class="sortable" data-sort="type">Type ⬍</th>
-                        <th>Register</th>
-                        <th>Dimensions</th>
-                        <th class="sortable" data-sort="period">Period ⬍</th>
-                        <th class="sortable" data-sort="current_value">Current Value ⬍</th>
-                        <th class="sortable" data-sort="previous_value">Previous Value ⬍</th>
-                        <th class="sortable" data-sort="pct_change">% Change ⬍</th>
-                        <th class="sortable" data-sort="zscore">Z-Score ⬍</th>
+                        <th class="px-4 py-3 text-left border-b bg-gray-50 font-semibold text-gray-700 cursor-pointer hover:bg-gray-100 select-none" data-sort="type">Тип ⬍</th>
+                        <th class="px-4 py-3 text-left border-b bg-gray-50 font-semibold text-gray-700">Регістр</th>
+                        <th class="px-4 py-3 text-left border-b bg-gray-50 font-semibold text-gray-700">Виміри</th>
+                        <th class="px-4 py-3 text-left border-b bg-gray-50 font-semibold text-gray-700 cursor-pointer hover:bg-gray-100 select-none" data-sort="period">Період ⬍</th>
+                        <th class="px-4 py-3 text-left border-b bg-gray-50 font-semibold text-gray-700 cursor-pointer hover:bg-gray-100 select-none" data-sort="current_value">Поточне ⬍</th>
+                        <th class="px-4 py-3 text-left border-b bg-gray-50 font-semibold text-gray-700 cursor-pointer hover:bg-gray-100 select-none" data-sort="previous_value">Попереднє ⬍</th>
+                        <th class="px-4 py-3 text-left border-b bg-gray-50 font-semibold text-gray-700 cursor-pointer hover:bg-gray-100 select-none" data-sort="pct_change">% зміни ⬍</th>
+                        <th class="px-4 py-3 text-left border-b bg-gray-50 font-semibold text-gray-700 cursor-pointer hover:bg-gray-100 select-none" data-sort="zscore">Z-оцінка ⬍</th>
                     </tr>
                 </thead>
                 <tbody>
                     <!-- Row 1: SPIKE -->
-                    <tr class="anomaly-row" data-href="/drilldown?product=Product+A">
-                        <td><span class="badge badge-spike">SPIKE</span></td>
-                        <td>ПартииТоваровНаСкладахПоПроизводителям</td>
-                        <td>
-                            <small>Продукт A</small><br>
-                            <small>Центральный / ООО Компания</small>
+                    <tr class="anomaly-row hover:bg-gray-50 cursor-pointer" data-href="/drilldown?product=Product+A">
+                        <td class="px-4 py-3 border-b"><span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-amber-500 text-white">SPIKE</span></td>
+                        <td class="px-4 py-3 border-b text-gray-700">ПартіїТоварівНаСкладахПоВиробниках</td>
+                        <td class="px-4 py-3 border-b">
+                            <small class="text-gray-700">Продукт A</small><br>
+                            <small class="text-gray-500">Центральний / ТОВ Компанія</small>
                         </td>
-                        <td>2026-02-28</td>
-                        <td>1240.0</td>
-                        <td>500.0</td>
-                        <td class="value-high">+148.0%</td>
-                        <td class="value-high">3.5</td>
+                        <td class="px-4 py-3 border-b text-gray-700">2026-02-28</td>
+                        <td class="px-4 py-3 border-b text-gray-700">1240.0</td>
+                        <td class="px-4 py-3 border-b text-gray-700">500.0</td>
+                        <td class="px-4 py-3 border-b text-red-600 font-semibold">+148.0%</td>
+                        <td class="px-4 py-3 border-b text-red-600 font-semibold">3.5</td>
                     </tr>
-                    
+
                     <!-- Row 2: ZERO_NEG -->
-                    <tr class="anomaly-row" data-href="/drilldown?product=Product+B">
-                        <td><span class="badge badge-zero-neg">ZERO_NEG</span></td>
-                        <td>ПартииТоваровНаСкладахПоПроизводителям</td>
-                        <td>
-                            <small>Продукт B</small><br>
-                            <small>Центральный / ООО Компания</small>
+                    <tr class="anomaly-row hover:bg-gray-50 cursor-pointer" data-href="/drilldown?product=Product+B">
+                        <td class="px-4 py-3 border-b"><span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-red-600 text-white">ZERO_NEG</span></td>
+                        <td class="px-4 py-3 border-b text-gray-700">ПартіїТоварівНаСкладахПоВиробниках</td>
+                        <td class="px-4 py-3 border-b">
+                            <small class="text-gray-700">Продукт B</small><br>
+                            <small class="text-gray-500">Центральний / ТОВ Компанія</small>
                         </td>
-                        <td>2026-01-31</td>
-                        <td class="value-negative">-100.0</td>
-                        <td>1600.0</td>
-                        <td class="value-high">N/A</td>
-                        <td>N/A</td>
+                        <td class="px-4 py-3 border-b text-gray-700">2026-01-31</td>
+                        <td class="px-4 py-3 border-b text-red-600 font-semibold">-100.0</td>
+                        <td class="px-4 py-3 border-b text-gray-700">1600.0</td>
+                        <td class="px-4 py-3 border-b text-gray-700">Н/Д</td>
+                        <td class="px-4 py-3 border-b text-gray-700">Н/Д</td>
                     </tr>
-                    
+
                     <!-- Row 3: TREND_BREAK -->
-                    <tr class="anomaly-row" data-href="/drilldown?product=Product+C">
-                        <td><span class="badge badge-trend-break">TREND_BREAK</span></td>
-                        <td>ПартииТоваровНаСкладахПоПроизводителям</td>
-                        <td>
-                            <small>Продукт C</small><br>
-                            <small>Центральный / ООО Компания</small>
+                    <tr class="anomaly-row hover:bg-gray-50 cursor-pointer" data-href="/drilldown?product=Product+C">
+                        <td class="px-4 py-3 border-b"><span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-blue-500 text-white">TREND_BREAK</span></td>
+                        <td class="px-4 py-3 border-b text-gray-700">ПартіїТоварівНаСкладахПоВиробниках</td>
+                        <td class="px-4 py-3 border-b">
+                            <small class="text-gray-700">Продукт C</small><br>
+                            <small class="text-gray-500">Центральний / ТОВ Компанія</small>
                         </td>
-                        <td>2026-03-31</td>
-                        <td>450.0</td>
-                        <td>550.0</td>
-                        <td class="value-high">-18.2%</td>
-                        <td>2.1</td>
+                        <td class="px-4 py-3 border-b text-gray-700">2026-03-31</td>
+                        <td class="px-4 py-3 border-b text-gray-700">450.0</td>
+                        <td class="px-4 py-3 border-b text-gray-700">550.0</td>
+                        <td class="px-4 py-3 border-b text-red-600 font-semibold">-18.2%</td>
+                        <td class="px-4 py-3 border-b text-gray-700">2.1</td>
                     </tr>
-                    
+
                     <!-- Row 4: MISSING -->
-                    <tr class="anomaly-row" data-href="/drilldown?product=Product+D">
-                        <td><span class="badge badge-missing">MISSING</span></td>
-                        <td>ПартииТоваровНаСкладахПоПроизводителям</td>
-                        <td>
-                            <small>Продукт D</small><br>
-                            <small>Центральный / ООО Компания</small>
+                    <tr class="anomaly-row hover:bg-gray-50 cursor-pointer" data-href="/drilldown?product=Product+D">
+                        <td class="px-4 py-3 border-b"><span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-gray-500 text-white">MISSING</span></td>
+                        <td class="px-4 py-3 border-b text-gray-700">ПартіїТоварівНаСкладахПоВиробниках</td>
+                        <td class="px-4 py-3 border-b">
+                            <small class="text-gray-700">Продукт D</small><br>
+                            <small class="text-gray-500">Центральний / ТОВ Компанія</small>
                         </td>
-                        <td>2026-02-28</td>
-                        <td>N/A</td>
-                        <td>900.0</td>
-                        <td>N/A</td>
-                        <td>N/A</td>
+                        <td class="px-4 py-3 border-b text-gray-700">2026-02-28</td>
+                        <td class="px-4 py-3 border-b text-gray-700">Н/Д</td>
+                        <td class="px-4 py-3 border-b text-gray-700">900.0</td>
+                        <td class="px-4 py-3 border-b text-gray-700">Н/Д</td>
+                        <td class="px-4 py-3 border-b text-gray-700">Н/Д</td>
                     </tr>
-                    
+
                     <!-- Row 5: Another SPIKE -->
-                    <tr class="anomaly-row" data-href="/drilldown?product=Product+A">
-                        <td><span class="badge badge-spike">SPIKE</span></td>
-                        <td>ПартииТоваровНаСкладахПоПроизводителям</td>
-                        <td>
-                            <small>Продукт A</small><br>
-                            <small>Склад Северный / ООО Компания</small>
+                    <tr class="anomaly-row hover:bg-gray-50 cursor-pointer" data-href="/drilldown?product=Product+A">
+                        <td class="px-4 py-3 border-b"><span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-amber-500 text-white">SPIKE</span></td>
+                        <td class="px-4 py-3 border-b text-gray-700">ПартіїТоварівНаСкладахПоВиробниках</td>
+                        <td class="px-4 py-3 border-b">
+                            <small class="text-gray-700">Продукт A</small><br>
+                            <small class="text-gray-500">Склад Північний / ТОВ Компанія</small>
                         </td>
-                        <td>2026-02-28</td>
-                        <td>980.0</td>
-                        <td>400.0</td>
-                        <td class="value-high">+145.0%</td>
-                        <td>3.2</td>
+                        <td class="px-4 py-3 border-b text-gray-700">2026-02-28</td>
+                        <td class="px-4 py-3 border-b text-gray-700">980.0</td>
+                        <td class="px-4 py-3 border-b text-gray-700">400.0</td>
+                        <td class="px-4 py-3 border-b text-red-600 font-semibold">+145.0%</td>
+                        <td class="px-4 py-3 border-b text-red-600 font-semibold">3.2</td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </section>
-    
-    <p class="help-text">Note: Static UI demo - sorting and row clicks are non-functional</p>
+
+    <p class="text-sm text-gray-500 italic">Примітка: Статичний UI демо - сортування та кліки по рядках не функціональні</p>
 </div>
 {% endblock %}
 
@@ -147,7 +147,7 @@
 // Static UI - mock sorting
 document.querySelectorAll('.sortable').forEach(function(header) {
     header.addEventListener('click', function() {
-        alert('Static UI Demo: Sorting will be implemented in Phase 4 (US3)');
+        alert('Статичний UI Демо: Сортування буде реалізоване у Фазі 4 (US3)');
     });
 });
 
@@ -155,7 +155,7 @@ document.querySelectorAll('.sortable').forEach(function(header) {
 document.querySelectorAll('.anomaly-row').forEach(function(row) {
     row.addEventListener('click', function() {
         const href = this.getAttribute('data-href');
-        alert('Static UI Demo: Would navigate to ' + href);
+        alert('Статичний UI Демо: Перехід до ' + href);
         // window.location.href = href; // Uncomment in Phase 2
     });
 });
