@@ -18,28 +18,16 @@ async def get_anomalies(
     period_from: str | None = None,
     period_to: str | None = None,
 ) -> dict:
-    """
-    Return anomalies optionally filtered by run_id and anomaly_type.
+    """Get anomalies with optional filtering.
     
-    Parameters:
-        run_id (str | None): If provided, only anomalies from the specified analysis run are returned.
-        anomaly_type (str | None): If provided, only anomalies whose `anomaly_type` equals this value are included.
-        period_from (str | None): Accepted but not applied to filtering.
-        period_to (str | None): Accepted but not applied to filtering.
+    Args:
+        run_id: Filter by analysis run ID
+        anomaly_type: Filter by anomaly type (SPIKE, ZERO_NEG, etc.)
+        period_from: Filter by period start date
+        period_to: Filter by period end date
     
     Returns:
-        dict: A dictionary with key "anomalies" mapping to a list of serialized anomaly objects. Each anomaly object contains:
-            - id
-            - run_id
-            - source_id
-            - dimensions
-            - period (ISO-formatted string when possible)
-            - anomaly_type
-            - current_value
-            - previous_value
-            - pct_change
-            - zscore
-            - threshold_triggered
+        List of anomalies matching filters
     """
     # Get all anomalies from repository
     if run_id:
@@ -47,11 +35,11 @@ async def get_anomalies(
     else:
         # For now, get all anomalies (last run)
         anomalies = anomaly_repo.get_all()
-
+    
     # Apply additional filters
     if anomaly_type:
         anomalies = [a for a in anomalies if a.anomaly_type == anomaly_type]
-
+    
     # Convert to response format
     return {
         "anomalies": [
