@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+
+{% block title %}Anomaly Table - Anomaly Detection{% endblock %}
+
+{% set active_page = 'table' %}
+
+{% block content %}
+<div class="table-page">
+    <h1>Anomaly Table</h1>
+    
+    <!-- Filters -->
+    <section class="card">
+        <h2>Filters</h2>
+        <div class="filters-row">
+            <div class="form-group">
+                <label for="filter-type">Anomaly Type:</label>
+                <select id="filter-type" class="form-control">
+                    <option value="">All Types</option>
+                    <option value="SPIKE">SPIKE</option>
+                    <option value="TREND_BREAK">TREND_BREAK</option>
+                    <option value="ZERO_NEG">ZERO_NEG</option>
+                    <option value="MISSING">MISSING</option>
+                    <option value="RATIO">RATIO</option>
+                    <option value="MISSING_DATA">MISSING_DATA</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="filter-period">Period:</label>
+                <input type="month" id="filter-period" class="form-control">
+            </div>
+            
+            <div class="form-group">
+                <label for="filter-product">Product:</label>
+                <input type="text" id="filter-product" class="form-control" placeholder="Filter by product name">
+            </div>
+            
+            <button id="apply-filters-btn" class="btn btn-primary">Apply Filters</button>
+            <button id="clear-filters-btn" class="btn btn-secondary">Clear</button>
+        </div>
+        <p class="help-text">Note: Static UI demo - filters are non-functional</p>
+    </section>
+    
+    <!-- Anomaly Table -->
+    <section class="card">
+        <h2>Anomalies (5 found)</h2>
+        <div class="table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th class="sortable" data-sort="type">Type ⬍</th>
+                        <th>Register</th>
+                        <th>Dimensions</th>
+                        <th class="sortable" data-sort="period">Period ⬍</th>
+                        <th class="sortable" data-sort="current_value">Current Value ⬍</th>
+                        <th class="sortable" data-sort="previous_value">Previous Value ⬍</th>
+                        <th class="sortable" data-sort="pct_change">% Change ⬍</th>
+                        <th class="sortable" data-sort="zscore">Z-Score ⬍</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Row 1: SPIKE -->
+                    <tr class="anomaly-row" data-href="/drilldown?product=Product+A">
+                        <td><span class="badge badge-spike">SPIKE</span></td>
+                        <td>ПартииТоваровНаСкладахПоПроизводителям</td>
+                        <td>
+                            <small>Продукт A</small><br>
+                            <small>Центральный / ООО Компания</small>
+                        </td>
+                        <td>2026-02-28</td>
+                        <td>1240.0</td>
+                        <td>500.0</td>
+                        <td class="value-high">+148.0%</td>
+                        <td class="value-high">3.5</td>
+                    </tr>
+                    
+                    <!-- Row 2: ZERO_NEG -->
+                    <tr class="anomaly-row" data-href="/drilldown?product=Product+B">
+                        <td><span class="badge badge-zero-neg">ZERO_NEG</span></td>
+                        <td>ПартииТоваровНаСкладахПоПроизводителям</td>
+                        <td>
+                            <small>Продукт B</small><br>
+                            <small>Центральный / ООО Компания</small>
+                        </td>
+                        <td>2026-01-31</td>
+                        <td class="value-negative">-100.0</td>
+                        <td>1600.0</td>
+                        <td class="value-high">N/A</td>
+                        <td>N/A</td>
+                    </tr>
+                    
+                    <!-- Row 3: TREND_BREAK -->
+                    <tr class="anomaly-row" data-href="/drilldown?product=Product+C">
+                        <td><span class="badge badge-trend-break">TREND_BREAK</span></td>
+                        <td>ПартииТоваровНаСкладахПоПроизводителям</td>
+                        <td>
+                            <small>Продукт C</small><br>
+                            <small>Центральный / ООО Компания</small>
+                        </td>
+                        <td>2026-03-31</td>
+                        <td>450.0</td>
+                        <td>550.0</td>
+                        <td class="value-high">-18.2%</td>
+                        <td>2.1</td>
+                    </tr>
+                    
+                    <!-- Row 4: MISSING -->
+                    <tr class="anomaly-row" data-href="/drilldown?product=Product+D">
+                        <td><span class="badge badge-missing">MISSING</span></td>
+                        <td>ПартииТоваровНаСкладахПоПроизводителям</td>
+                        <td>
+                            <small>Продукт D</small><br>
+                            <small>Центральный / ООО Компания</small>
+                        </td>
+                        <td>2026-02-28</td>
+                        <td>N/A</td>
+                        <td>900.0</td>
+                        <td>N/A</td>
+                        <td>N/A</td>
+                    </tr>
+                    
+                    <!-- Row 5: Another SPIKE -->
+                    <tr class="anomaly-row" data-href="/drilldown?product=Product+A">
+                        <td><span class="badge badge-spike">SPIKE</span></td>
+                        <td>ПартииТоваровНаСкладахПоПроизводителям</td>
+                        <td>
+                            <small>Продукт A</small><br>
+                            <small>Склад Северный / ООО Компания</small>
+                        </td>
+                        <td>2026-02-28</td>
+                        <td>980.0</td>
+                        <td>400.0</td>
+                        <td class="value-high">+145.0%</td>
+                        <td>3.2</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+    
+    <p class="help-text">Note: Static UI demo - sorting and row clicks are non-functional</p>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+// Static UI - mock sorting
+document.querySelectorAll('.sortable').forEach(function(header) {
+    header.addEventListener('click', function() {
+        alert('Static UI Demo: Sorting will be implemented in Phase 4 (US3)');
+    });
+});
+
+// Mock row navigation
+document.querySelectorAll('.anomaly-row').forEach(function(row) {
+    row.addEventListener('click', function() {
+        const href = this.getAttribute('data-href');
+        alert('Static UI Demo: Would navigate to ' + href);
+        // window.location.href = href; // Uncomment in Phase 2
+    });
+});
+</script>
+{% endblock %}
