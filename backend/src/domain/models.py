@@ -106,7 +106,9 @@ class DataPoint:
         if self.raw_qty != 0:
             expected_value = self.raw_sum / self.raw_qty
             if abs(self.value - expected_value) > 0.0001:
-                raise ValueError(f"value must equal raw_sum/raw_qty: {self.value} != {expected_value}")
+                raise ValueError(
+                    f"value must equal raw_sum/raw_qty: {self.value} != {expected_value}"
+                )
 
 
 @dataclass

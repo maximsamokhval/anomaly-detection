@@ -30,6 +30,7 @@ def format_date_filter(value: object) -> str:
     if value is None:
         return "Н/Д"
     from datetime import date, datetime
+
     if isinstance(value, datetime):
         return value.strftime("%Y-%m-%d %H:%M")
     elif isinstance(value, date):
@@ -44,10 +45,10 @@ def anomaly_color_filter(anomaly_type: str) -> str:
     """Get color code for anomaly type."""
     colors = {
         "ZERO_NEG": "#DC2626",  # Red - highest priority
-        "SPIKE": "#F59E0B",     # Orange - high priority
-        "RATIO": "#8B5CF6",     # Purple - medium priority
+        "SPIKE": "#F59E0B",  # Orange - high priority
+        "RATIO": "#8B5CF6",  # Purple - medium priority
         "TREND_BREAK": "#3B82F6",  # Blue - low priority
-        "MISSING": "#6B7280",   # Gray - low priority
+        "MISSING": "#6B7280",  # Gray - low priority
         "MISSING_DATA": "#9CA3AF",  # Light gray
     }
     return colors.get(anomaly_type, "#6B7280")

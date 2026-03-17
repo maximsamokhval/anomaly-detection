@@ -189,9 +189,7 @@ async def fetch_1c_data_mock(
     # Apply filters
     filtered_data = data
     if organization:
-        filtered_data = [
-            d for d in filtered_data if d.get("Организация") == organization
-        ]
+        filtered_data = [d for d in filtered_data if d.get("Организация") == organization]
     if warehouse:
         filtered_data = [d for d in filtered_data if d.get("Склад") == warehouse]
 

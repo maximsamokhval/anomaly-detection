@@ -49,9 +49,7 @@ class AnalysisRunRepository(ABC):
         pass
 
     @abstractmethod
-    def update_status(
-        self, id: str, status: str, error_message: str | None = None
-    ) -> None:
+    def update_status(self, id: str, status: str, error_message: str | None = None) -> None:
         """Update the status of an analysis run."""
         pass
 

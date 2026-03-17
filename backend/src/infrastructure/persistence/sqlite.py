@@ -294,9 +294,7 @@ class SQLiteAnalysisRunRepository(AnalysisRunRepository):
         conn.close()
         return self._row_to_run(row) if row else None
 
-    def update_status(
-        self, id: str, status: str, error_message: str | None = None
-    ) -> None:
+    def update_status(self, id: str, status: str, error_message: str | None = None) -> None:
         """Update the status of an analysis run."""
         conn = sqlite3.connect(str(self.db_path))
         cursor = conn.cursor()
@@ -381,18 +379,10 @@ class SQLiteAnomalyRepository(AnomalyRepository):
             )
         """
         )
-        cursor.execute(
-            "CREATE INDEX IF NOT EXISTS idx_anomalies_run ON anomalies(run_id)"
-        )
-        cursor.execute(
-            "CREATE INDEX IF NOT EXISTS idx_anomalies_source ON anomalies(source_id)"
-        )
-        cursor.execute(
-            "CREATE INDEX IF NOT EXISTS idx_anomalies_type ON anomalies(anomaly_type)"
-        )
-        cursor.execute(
-            "CREATE INDEX IF NOT EXISTS idx_anomalies_period ON anomalies(period)"
-        )
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_anomalies_run ON anomalies(run_id)")
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_anomalies_source ON anomalies(source_id)")
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_anomalies_type ON anomalies(anomaly_type)")
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_anomalies_period ON anomalies(period)")
         conn.commit()
         conn.close()
 
@@ -431,9 +421,7 @@ class SQLiteAnomalyRepository(AnomalyRepository):
         """Get all anomalies for a specific run."""
         conn = sqlite3.connect(str(self.db_path))
         cursor = conn.cursor()
-        cursor.execute(
-            "SELECT * FROM anomalies WHERE run_id = ? ORDER BY period DESC", (run_id,)
-        )
+        cursor.execute("SELECT * FROM anomalies WHERE run_id = ? ORDER BY period DESC", (run_id,))
         rows = cursor.fetchall()
         conn.close()
         return [self._row_to_anomaly(row) for row in rows]
@@ -485,9 +473,7 @@ class SQLiteAnomalyRepository(AnomalyRepository):
         """Count anomalies for a specific run."""
         conn = sqlite3.connect(str(self.db_path))
         cursor = conn.cursor()
-        cursor.execute(
-            "SELECT COUNT(*) FROM anomalies WHERE run_id = ?", (run_id,)
-        )
+        cursor.execute("SELECT COUNT(*) FROM anomalies WHERE run_id = ?", (run_id,))
         result = cursor.fetchone()
         conn.close()
         return int(result[0]) if result else 0
@@ -505,7 +491,5 @@ class SQLiteAnomalyRepository(AnomalyRepository):
             previous_value=row[7],
             pct_change=row[8],
             zscore=row[9],
-            threshold_triggered=_deserialize_threshold_triggered(row[10])
-            if row[10]
-            else {},
+            threshold_triggered=_deserialize_threshold_triggered(row[10]) if row[10] else {},
         )
