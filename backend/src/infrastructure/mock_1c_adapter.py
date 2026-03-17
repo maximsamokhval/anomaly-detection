@@ -3,7 +3,7 @@
 Returns hardcoded test data with known anomaly patterns for testing.
 """
 
-from datetime import date, timedelta
+from datetime import date
 
 
 async def fetch_1c_data_mock(
