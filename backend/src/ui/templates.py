@@ -8,7 +8,7 @@ templates_path = Path(__file__).parent / "templates"
 templates_path.mkdir(parents=True, exist_ok=True)
 
 # Jinja2 templates with autoescape enabled for security
-templates = Jinja2Templates(directory=str/templates_path))
+templates = Jinja2Templates(directory=str(templates_path))
 
 # Custom Jinja2 filters
 @templates.env.filter("to_json")
