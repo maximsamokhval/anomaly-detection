@@ -4,7 +4,7 @@ import pytest
 from httpx import AsyncClient, ASGITransport
 
 
-@pytest.mark.anyio
+@pytest.mark.asyncio
 async def test_post_analysis_run_success(app):
     """Test successful analysis run request."""
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
@@ -23,7 +23,7 @@ async def test_post_analysis_run_success(app):
     assert data["status"] in ["pending", "running", "completed"]
 
 
-@pytest.mark.anyio
+@pytest.mark.asyncio
 async def test_post_analysis_run_invalid_source(app):
     """Test analysis run with non-existent source."""
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
@@ -41,7 +41,7 @@ async def test_post_analysis_run_invalid_source(app):
     assert data["error"] == "invalid_source"
 
 
-@pytest.mark.anyio
+@pytest.mark.asyncio
 async def test_post_analysis_run_invalid_date_range(app):
     """Test analysis run with invalid date range (from > to)."""
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
@@ -56,7 +56,7 @@ async def test_post_analysis_run_invalid_date_range(app):
     assert response.status_code == 422
 
 
-@pytest.mark.anyio
+@pytest.mark.asyncio
 async def test_post_analysis_run_missing_fields(app):
     """Test analysis run with missing required fields."""
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
@@ -70,7 +70,7 @@ async def test_post_analysis_run_missing_fields(app):
     assert response.status_code == 422
 
 
-@pytest.mark.anyio
+@pytest.mark.asyncio
 async def test_post_analysis_run_response_structure(app):
     """Test analysis run response has correct structure."""
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:

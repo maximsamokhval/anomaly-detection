@@ -4,7 +4,7 @@ import pytest
 from httpx import AsyncClient, ASGITransport
 
 
-@pytest.mark.anyio
+@pytest.mark.asyncio
 async def test_get_sources_success(app):
     """Test successful sources list retrieval."""
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
@@ -15,7 +15,7 @@ async def test_get_sources_success(app):
     assert isinstance(data["sources"], list)
 
 
-@pytest.mark.anyio
+@pytest.mark.asyncio
 async def test_get_sources_response_structure(app):
     """Test sources response has correct structure."""
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
@@ -31,7 +31,7 @@ async def test_get_sources_response_structure(app):
         assert "enabled" in source
 
 
-@pytest.mark.anyio
+@pytest.mark.asyncio
 async def test_post_sources_success(app):
     """Test successful source creation."""
     source_data = {
@@ -49,7 +49,7 @@ async def test_post_sources_success(app):
     assert response.status_code in [200, 201, 409]  # 409 if already exists
 
 
-@pytest.mark.anyio
+@pytest.mark.asyncio
 async def test_post_sources_duplicate(app):
     """Test source creation with duplicate ID."""
     source_data = {
@@ -70,7 +70,7 @@ async def test_post_sources_duplicate(app):
     assert response2.status_code == 409  # Conflict
 
 
-@pytest.mark.anyio
+@pytest.mark.asyncio
 async def test_post_sources_missing_fields(app):
     """Test source creation with missing required fields."""
     source_data = {
@@ -82,7 +82,7 @@ async def test_post_sources_missing_fields(app):
     assert response.status_code == 422
 
 
-@pytest.mark.anyio
+@pytest.mark.asyncio
 async def test_put_sources_success(app):
     """Test successful source update."""
     source_data = {
@@ -100,7 +100,7 @@ async def test_put_sources_success(app):
     assert response.status_code in [200, 201, 404]
 
 
-@pytest.mark.anyio
+@pytest.mark.asyncio
 async def test_delete_sources_success(app):
     """Test successful source deletion."""
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
@@ -109,7 +109,7 @@ async def test_delete_sources_success(app):
     assert response.status_code in [204, 404]
 
 
-@pytest.mark.anyio
+@pytest.mark.asyncio
 async def test_post_sources_test_connection(app):
     """Test source connection test endpoint."""
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
@@ -120,7 +120,7 @@ async def test_post_sources_test_connection(app):
         assert "status" in data
 
 
-@pytest.mark.anyio
+@pytest.mark.asyncio
 async def test_get_sources_preview(app):
     """Test source data preview endpoint."""
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
