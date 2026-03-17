@@ -7,6 +7,7 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
+from fastapi.templating import TemplateResponse
 
 from src.api.routes import analysis, anomalies, heatmap, sources, timeseries
 from src.ui.templates import templates
@@ -75,38 +76,38 @@ async def internal_error_handler(request: Request, exc: Exception) -> JSONRespon
 
 # UI Routes (Server-Rendered)
 @app.get("/")
-async def dashboard(request: Request):
+async def dashboard(request: Request) -> TemplateResponse:
     """Dashboard - main landing page."""
     return templates.TemplateResponse("dashboard.html", {"request": request})
 
 
 @app.get("/heatmap")
-async def heatmap_page(request: Request):
+async def heatmap_page(request: Request) -> TemplateResponse:
     """Heat Map visualization page."""
     return templates.TemplateResponse("heatmap.html", {"request": request})
 
 
 @app.get("/table")
-async def table_page(request: Request):
+async def table_page(request: Request) -> TemplateResponse:
     """Anomaly Table page."""
     return templates.TemplateResponse("table.html", {"request": request})
 
 
 @app.get("/drilldown")
-async def drilldown_page(request: Request):
+async def drilldown_page(request: Request) -> TemplateResponse:
     """Drill-down detail page."""
     return templates.TemplateResponse("drilldown.html", {"request": request})
 
 
 @app.get("/sources")
-async def sources_page(request: Request):
+async def sources_page(request: Request) -> TemplateResponse:
     """Data Sources configuration page."""
     return templates.TemplateResponse("sources.html", {"request": request})
 
 
 # Health check
 @app.get("/health")
-async def health_check():
+async def health_check() -> dict:
     """Health check endpoint."""
     return {"status": "ok"}
 
