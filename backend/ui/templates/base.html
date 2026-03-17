@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Financial Anomaly Detection{% endblock %}</title>
+    
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    
+    <!-- Custom styles -->
+    <link rel="stylesheet" href="/static/styles.css">
+    
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="brand">🔍 Anomaly Detection</a>
+            <ul class="nav-links">
+                <li><a href="/" class="{% if active_page == 'dashboard' %}active{% endif %}">Dashboard</a></li>
+                <li><a href="/heatmap" class="{% if active_page == 'heatmap' %}active{% endif %}">Heat Map</a></li>
+                <li><a href="/table" class="{% if active_page == 'table' %}active{% endif %}">Table</a></li>
+                <li><a href="/sources" class="{% if active_page == 'sources' %}active{% endif %}">Sources</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main content -->
+    <main class="container">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>Financial Anomaly Detection Service MVP &copy; 2026</p>
+        </div>
+    </footer>
+
+    <!-- Chart.js initialization -->
+    <script src="/static/chart.js"></script>
+    
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>
