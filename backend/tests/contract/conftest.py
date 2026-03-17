@@ -9,24 +9,14 @@ from src.main import app
 
 @pytest.fixture
 def client():
-    """
-    Create a TestClient bound to the FastAPI app for synchronous tests.
-    
-    Returns:
-        test_client (TestClient): A test client instance configured for the application; yielded for use in tests.
-    """
+    """Create test client for synchronous tests."""
     with TestClient(app) as test_client:
         yield test_client
 
 
 @pytest.fixture
 async def async_client():
-    """
-    Provide an AsyncClient connected to the FastAPI app for asynchronous tests.
-    
-    Returns:
-        AsyncClient: An httpx AsyncClient using ASGITransport bound to the test app with base_url "http://test".
-    """
+    """Create async client for asynchronous tests."""
     async with AsyncClient(
         transport=ASGITransport(app=app), base_url="http://test"
     ) as client:
@@ -35,10 +25,5 @@ async def async_client():
 
 @pytest.fixture
 def app():
-    """
-    Provide the FastAPI application instance for tests.
-    
-    Returns:
-        FastAPI: The application instance used by test fixtures.
-    """
+    """Provide the FastAPI app for testing."""
     return app
