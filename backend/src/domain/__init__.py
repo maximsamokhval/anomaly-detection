@@ -1,8 +1,8 @@
 """Domain layer - pure business logic."""
 
 from .models import (
-    Anomaly,
     AnalysisRun,
+    Anomaly,
     AuthConfig,
     DataPoint,
     DataSource,
