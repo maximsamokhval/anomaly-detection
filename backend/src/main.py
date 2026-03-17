@@ -11,6 +11,7 @@ from fastapi.staticfiles import StaticFiles
 from starlette.responses import Response as StarletteResponse
 
 from src.api.routes import analysis, anomalies, heatmap, sources, timeseries
+from src.infrastructure.logging import logger
 from src.ui.templates import templates
 
 
@@ -20,11 +21,12 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     # Startup: initialize database if needed
     db_path = Path(__file__).parent.parent / "data" / "anomaly_detection.db"
     db_path.parent.mkdir(parents=True, exist_ok=True)
-    print("🚀 Starting Financial Anomaly Detection Service")
-    print(f"📊 Database: {db_path}")
+    logger.info("🚀 Starting Financial Anomaly Detection Service")
+    logger.info(f"📊 Database: {db_path}")
+    logger.debug("Debug mode enabled - loguru logging active")
     yield
     # Shutdown: cleanup if needed
-    print("👋 Shutting down Financial Anomaly Detection Service")
+    logger.info("👋 Shutting down Financial Anomaly Detection Service")
 
 
 app = FastAPI(
