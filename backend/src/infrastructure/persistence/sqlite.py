@@ -171,8 +171,8 @@ class SQLiteDataSourceRepository(DataSourceRepository):
         cursor = conn.cursor()
         cursor.execute(
             """
-            INSERT OR REPLACE INTO data_sources 
-            (id, name, endpoint, register_name, dimensions, metric_fields, 
+            INSERT OR REPLACE INTO data_sources
+            (id, name, endpoint, register_name, dimensions, metric_fields,
              threshold_rules, auth_config, enabled, created_at, updated_at)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """,
@@ -264,8 +264,8 @@ class SQLiteAnalysisRunRepository(AnalysisRunRepository):
         cursor = conn.cursor()
         cursor.execute(
             """
-            INSERT INTO analysis_runs 
-            (id, source_id, date_from, date_to, triggered_by, started_at, 
+            INSERT INTO analysis_runs
+            (id, source_id, date_from, date_to, triggered_by, started_at,
              completed_at, status, anomaly_count, error_message)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """,
@@ -302,7 +302,7 @@ class SQLiteAnalysisRunRepository(AnalysisRunRepository):
         cursor = conn.cursor()
         cursor.execute(
             """
-            UPDATE analysis_runs 
+            UPDATE analysis_runs
             SET status = ?, error_message = ?, completed_at = ?
             WHERE id = ?
         """,
@@ -322,9 +322,9 @@ class SQLiteAnalysisRunRepository(AnalysisRunRepository):
         cursor = conn.cursor()
         cursor.execute(
             """
-            SELECT * FROM analysis_runs 
-            WHERE source_id = ? 
-            ORDER BY started_at DESC 
+            SELECT * FROM analysis_runs
+            WHERE source_id = ?
+            ORDER BY started_at DESC
             LIMIT 1
         """,
             (source_id,),
@@ -403,7 +403,7 @@ class SQLiteAnomalyRepository(AnomalyRepository):
         for anomaly in anomalies:
             cursor.execute(
                 """
-                INSERT INTO anomalies 
+                INSERT INTO anomalies
                 (id, run_id, source_id, dimensions, period, anomaly_type,
                  current_value, previous_value, pct_change, zscore, threshold_triggered)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
