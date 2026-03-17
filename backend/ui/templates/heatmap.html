@@ -1,131 +1,131 @@
 {% extends "base.html" %}
 
-{% block title %}Heat Map - Anomaly Detection{% endblock %}
+{% block title %}Теплова карта - Виявлення Аномалій{% endblock %}
 
 {% set active_page = 'heatmap' %}
 
 {% block content %}
-<div class="heatmap-page">
-    <h1>Heat Map</h1>
-    
+<div class="space-y-6">
+    <h1 class="text-3xl font-bold text-gray-900">Теплова карта</h1>
+
     <!-- Controls -->
-    <section class="card">
-        <div class="controls-row">
-            <div class="form-group">
-                <label for="analysis-select">Analysis Run:</label>
-                <select id="analysis-select" class="form-control">
-                    <option value="run-001">Run #001 - 2026-03-17</option>
+    <section class="bg-white rounded-xl shadow-md p-6">
+        <div class="flex flex-col sm:flex-row gap-4 items-end">
+            <div class="flex-1 w-full">
+                <label for="analysis-select" class="block text-sm font-medium text-gray-700 mb-1">Запуск аналізу:</label>
+                <select id="analysis-select" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                    <option value="run-001">Запуск #001 - 2026-03-17</option>
                 </select>
             </div>
-            <a href="/drilldown" class="btn btn-secondary">View Drill-down</a>
+            <a href="/drilldown" class="w-full sm:w-auto px-6 py-2.5 bg-gray-600 text-white font-medium rounded-lg hover:bg-gray-700 transition-colors text-center">Переглянути деталі</a>
         </div>
     </section>
-    
+
     <!-- Heat Map -->
-    <section class="card">
-        <h2>Anomaly Heat Map</h2>
-        <div class="heatmap-container">
-            <table class="heatmap-table">
+    <section class="bg-white rounded-xl shadow-md p-6">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">Теплова карта аномалій</h2>
+        <div class="overflow-x-auto">
+            <table class="w-full border-collapse">
                 <thead>
                     <tr>
-                        <th class="row-header">Product / Warehouse / Org</th>
-                        <th>2026-01-31</th>
-                        <th>2026-02-28</th>
-                        <th>2026-03-31</th>
+                        <th class="px-4 py-3 text-left border bg-gray-50 font-semibold text-gray-700">Товар / Склад / Орг</th>
+                        <th class="px-4 py-3 text-center border bg-gray-50 font-semibold text-gray-700">2026-01-31</th>
+                        <th class="px-4 py-3 text-center border bg-gray-50 font-semibold text-gray-700">2026-02-28</th>
+                        <th class="px-4 py-3 text-center border bg-gray-50 font-semibold text-gray-700">2026-03-31</th>
                     </tr>
                 </thead>
                 <tbody>
                     <!-- Row 1: Product A - SPIKE in February -->
-                    <tr class="heatmap-row" data-href="/drilldown?product=Product+A">
-                        <td class="row-label">
+                    <tr class="heatmap-row hover:bg-gray-50 cursor-pointer" data-href="/drilldown?product=Product+A">
+                        <td class="px-4 py-3 border">
                             <strong>Продукт A</strong><br>
-                            <small>Центральный / ООО Компания</small>
+                            <small class="text-gray-500">Центральний / ТОВ Компанія</small>
                         </td>
-                        <td class="cell cell-normal" title="No anomaly">500.0</td>
-                        <td class="cell cell-spike" title="SPIKE: 148% increase">1240.0 🔴</td>
-                        <td class="cell cell-normal" title="No anomaly">420.0</td>
+                        <td class="px-4 py-3 border text-center bg-white" title="Без аномалій">500.0</td>
+                        <td class="px-4 py-3 border text-center bg-amber-500 text-white" title="SPIKE: збільшення на 148%">1240.0 🔴</td>
+                        <td class="px-4 py-3 border text-center bg-white" title="Без аномалій">420.0</td>
                     </tr>
-                    
+
                     <!-- Row 2: Product B - ZERO_NEG in January -->
-                    <tr class="heatmap-row" data-href="/drilldown?product=Product+B">
-                        <td class="row-label">
+                    <tr class="heatmap-row hover:bg-gray-50 cursor-pointer" data-href="/drilldown?product=Product+B">
+                        <td class="px-4 py-3 border">
                             <strong>Продукт B</strong><br>
-                            <small>Центральный / ООО Компания</small>
+                            <small class="text-gray-500">Центральний / ТОВ Компанія</small>
                         </td>
-                        <td class="cell cell-zero-neg" title="ZERO_NEG: -100.0">-100.0 🔴</td>
-                        <td class="cell cell-normal" title="No anomaly">1600.0</td>
-                        <td class="cell cell-normal" title="No anomaly">1640.0</td>
+                        <td class="px-4 py-3 border text-center bg-red-600 text-white" title="ZERO_NEG: -100.0">-100.0 🔴</td>
+                        <td class="px-4 py-3 border text-center bg-white" title="Без аномалій">1600.0</td>
+                        <td class="px-4 py-3 border text-center bg-white" title="Без аномалій">1640.0</td>
                     </tr>
-                    
+
                     <!-- Row 3: Product C - TREND_BREAK in March -->
-                    <tr class="heatmap-row" data-href="/drilldown?product=Product+C">
-                        <td class="row-label">
+                    <tr class="heatmap-row hover:bg-gray-50 cursor-pointer" data-href="/drilldown?product=Product+C">
+                        <td class="px-4 py-3 border">
                             <strong>Продукт C</strong><br>
-                            <small>Центральный / ООО Компания</small>
+                            <small class="text-gray-500">Центральний / ТОВ Компанія</small>
                         </td>
-                        <td class="cell cell-normal" title="No anomaly">500.0</td>
-                        <td class="cell cell-normal" title="No anomaly">550.0</td>
-                        <td class="cell cell-trend-break" title="TREND_BREAK: -18% reversal">450.0 🔵</td>
+                        <td class="px-4 py-3 border text-center bg-white" title="Без аномалій">500.0</td>
+                        <td class="px-4 py-3 border text-center bg-white" title="Без аномалій">550.0</td>
+                        <td class="px-4 py-3 border text-center bg-blue-500 text-white" title="TREND_BREAK: розворот -18%">450.0 🔵</td>
                     </tr>
-                    
+
                     <!-- Row 4: Product D - MISSING February -->
-                    <tr class="heatmap-row" data-href="/drilldown?product=Product+D">
-                        <td class="row-label">
+                    <tr class="heatmap-row hover:bg-gray-50 cursor-pointer" data-href="/drilldown?product=Product+D">
+                        <td class="px-4 py-3 border">
                             <strong>Продукт D</strong><br>
-                            <small>Центральный / ООО Компания</small>
+                            <small class="text-gray-500">Центральний / ТОВ Компанія</small>
                         </td>
-                        <td class="cell cell-normal" title="No anomaly">900.0</td>
-                        <td class="cell cell-missing" title="MISSING: No data">N/A ⚫</td>
-                        <td class="cell cell-normal" title="No anomaly">920.0</td>
+                        <td class="px-4 py-3 border text-center bg-white" title="Без аномалій">900.0</td>
+                        <td class="px-4 py-3 border text-center bg-gray-500 text-white" title="MISSING: немає даних">Н/Д ⚫</td>
+                        <td class="px-4 py-3 border text-center bg-white" title="Без аномалій">920.0</td>
                     </tr>
-                    
+
                     <!-- Row 5: Product E - Normal -->
-                    <tr class="heatmap-row" data-href="/drilldown?product=Product+E">
-                        <td class="row-label">
+                    <tr class="heatmap-row hover:bg-gray-50 cursor-pointer" data-href="/drilldown?product=Product+E">
+                        <td class="px-4 py-3 border">
                             <strong>Продукт E</strong><br>
-                            <small>Центральный / ООО Компания</small>
+                            <small class="text-gray-500">Центральний / ТОВ Компанія</small>
                         </td>
-                        <td class="cell cell-normal" title="No anomaly">1000.0</td>
-                        <td class="cell cell-normal" title="No anomaly">1020.0</td>
-                        <td class="cell cell-normal" title="No anomaly">1040.0</td>
+                        <td class="px-4 py-3 border text-center bg-white" title="Без аномалій">1000.0</td>
+                        <td class="px-4 py-3 border text-center bg-white" title="Без аномалій">1020.0</td>
+                        <td class="px-4 py-3 border text-center bg-white" title="Без аномалій">1040.0</td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </section>
-    
+
     <!-- Legend -->
-    <section class="card">
-        <h2>Legend</h2>
-        <div class="legend">
-            <div class="legend-item">
-                <span class="legend-color" style="background-color: #DC2626;"></span>
-                <span>Zero/Negative (Highest Priority)</span>
+    <section class="bg-white rounded-xl shadow-md p-6">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">Легенда</h2>
+        <div class="flex flex-wrap gap-4">
+            <div class="flex items-center gap-2">
+                <span class="w-5 h-5 rounded bg-red-600"></span>
+                <span class="text-sm text-gray-700">Нуль/Негативне (Найвищий пріоритет)</span>
             </div>
-            <div class="legend-item">
-                <span class="legend-color" style="background-color: #F59E0B;"></span>
-                <span>Spike (High Priority)</span>
+            <div class="flex items-center gap-2">
+                <span class="w-5 h-5 rounded bg-amber-500"></span>
+                <span class="text-sm text-gray-700">Спалах (Високий пріоритет)</span>
             </div>
-            <div class="legend-item">
-                <span class="legend-color" style="background-color: #8B5CF6;"></span>
-                <span>Ratio (Medium Priority)</span>
+            <div class="flex items-center gap-2">
+                <span class="w-5 h-5 rounded bg-violet-500"></span>
+                <span class="text-sm text-gray-700">Відношення (Середній пріоритет)</span>
             </div>
-            <div class="legend-item">
-                <span class="legend-color" style="background-color: #3B82F6;"></span>
-                <span>Trend Break (Low Priority)</span>
+            <div class="flex items-center gap-2">
+                <span class="w-5 h-5 rounded bg-blue-500"></span>
+                <span class="text-sm text-gray-700">Розрив тренду (Низький пріоритет)</span>
             </div>
-            <div class="legend-item">
-                <span class="legend-color" style="background-color: #6B7280;"></span>
-                <span>Missing (Low Priority)</span>
+            <div class="flex items-center gap-2">
+                <span class="w-5 h-5 rounded bg-gray-500"></span>
+                <span class="text-sm text-gray-700">Відсутні (Низький пріоритет)</span>
             </div>
-            <div class="legend-item">
-                <span class="legend-color" style="background-color: #ffffff; border: 1px solid #ddd;"></span>
-                <span>Normal</span>
+            <div class="flex items-center gap-2">
+                <span class="w-5 h-5 rounded bg-white border border-gray-300"></span>
+                <span class="text-sm text-gray-700">Норма</span>
             </div>
         </div>
     </section>
-    
-    <p class="help-text">Note: Static UI demo - click on cells to navigate to drill-down (mock navigation)</p>
+
+    <p class="text-sm text-gray-500 italic">Примітка: Статичний UI демо - клік по клітинках для переходу до деталей (імітація)</p>
 </div>
 {% endblock %}
 
@@ -135,7 +135,7 @@
 document.querySelectorAll('.heatmap-row').forEach(function(row) {
     row.addEventListener('click', function() {
         const href = this.getAttribute('data-href');
-        alert('Static UI Demo: Would navigate to ' + href);
+        alert('Статичний UI Демо: Перехід до ' + href);
         // window.location.href = href; // Uncomment in Phase 2
     });
 });
