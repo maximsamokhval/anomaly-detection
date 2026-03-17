@@ -8,8 +8,8 @@ from loguru import logger
 # Remove default handler
 logger.remove()
 
-# Logs directory
-logs_dir = Path(__file__).parent.parent / "logs"
+# Logs directory - at backend/logs (sibling of src/)
+logs_dir = Path(__file__).parent.parent.parent / "logs"
 logs_dir.mkdir(parents=True, exist_ok=True)
 
 # Add console handler with debug level
