@@ -6,66 +6,134 @@
 
 {% block content %}
 <div class="space-y-6">
-    <h1 class="text-3xl font-bold text-gray-900">Джерела даних</h1>
-
-    <!-- Add New Source Button -->
-    <button id="add-source-btn" class="w-full sm:w-auto px-6 py-2.5 bg-blue-900 text-white font-medium rounded-lg hover:bg-blue-800 transition-colors shadow-sm">+ Додати нове джерело</button>
+    <!-- Page Header -->
+    <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-primary-600">
+        <div class="flex justify-between items-center">
+            <h1 class="text-2xl font-semibold text-gray-800 flex items-center gap-3">
+                <span class="material-icons text-primary-600">storage</span>
+                Джерела даних
+            </h1>
+            <button id="add-source-btn" class="px-6 py-3 bg-primary-600 text-white font-medium rounded-lg hover:bg-primary-700 transition-colors shadow-md flex items-center gap-2">
+                <span class="material-icons text-sm">add</span>
+                Додати нове джерело
+            </button>
+        </div>
+    </div>
 
     <!-- Source List -->
     <section class="bg-white rounded-xl shadow-md p-6">
-        <h2 class="text-xl font-semibold text-gray-800 mb-4">Налаштовані джерела</h2>
+        <h2 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+            <span class="material-icons text-primary-600">list</span>
+            Налаштовані джерела
+        </h2>
         <div class="space-y-4">
             <!-- Source 1 -->
-            <div class="border border-gray-200 rounded-lg p-4 bg-white hover:shadow-md transition-shadow">
-                <div class="flex justify-between items-center mb-3">
-                    <h3 class="text-lg font-semibold text-gray-900">ПартіїТоварівНаСкладахПоВиробниках</h3>
-                    <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-green-600 text-white">Увімкнено</span>
-                </div>
-                <div class="space-y-2 mb-3">
-                    <div class="flex gap-2">
-                        <span class="text-sm font-medium text-gray-700 min-w-[120px]">Endpoint:</span>
-                        <span class="text-sm text-gray-600">http://1c-server/base/hs/analytics/v1</span>
-                    </div>
-                    <div class="flex gap-2">
-                        <span class="text-sm font-medium text-gray-700 min-w-[120px]">Виміри:</span>
-                        <span class="text-sm text-gray-600">Період, Номенклатура, Склад, Організація, Виробник</span>
-                    </div>
-                    <div class="flex gap-2">
-                        <span class="text-sm font-medium text-gray-700 min-w-[120px]">Останній аналіз:</span>
-                        <span class="text-sm text-gray-600">2026-03-17 10:00:00 (5 аномалій)</span>
+            <div class="border border-gray-200 rounded-xl p-5 bg-white hover:shadow-lg transition-shadow">
+                <div class="flex justify-between items-start mb-3">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-primary-100 flex items-center justify-center">
+                            <span class="material-icons text-primary-600">database</span>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900">ПартіїТоварівНаСкладахПоВиробниках</h3>
+                            <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-green-500 text-white">
+                                <span class="material-icons text-xs">check_circle</span>
+                                Увімкнено
+                            </span>
+                        </div>
                     </div>
                 </div>
-                <div class="flex gap-2">
-                    <button class="edit-source-btn px-4 py-2 bg-gray-600 text-white text-sm font-medium rounded-lg hover:bg-gray-700 transition-colors">Редагувати</button>
-                    <button class="test-connection-btn px-4 py-2 bg-gray-600 text-white text-sm font-medium rounded-lg hover:bg-gray-700 transition-colors">Тест з'єднання</button>
-                    <button class="delete-source-btn px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-red-700 transition-colors">Видалити</button>
+                <div class="space-y-2 mb-4 ml-13">
+                    <div class="flex gap-3 text-sm">
+                        <span class="font-medium text-gray-700 min-w-[120px] flex items-center gap-2">
+                            <span class="material-icons text-sm text-gray-400">link</span>
+                            Endpoint:
+                        </span>
+                        <span class="text-gray-600">http://1c-server/base/hs/analytics/v1</span>
+                    </div>
+                    <div class="flex gap-3 text-sm">
+                        <span class="font-medium text-gray-700 min-w-[120px] flex items-center gap-2">
+                            <span class="material-icons text-sm text-gray-400">category</span>
+                            Виміри:
+                        </span>
+                        <span class="text-gray-600">Період, Номенклатура, Склад, Організація, Виробник</span>
+                    </div>
+                    <div class="flex gap-3 text-sm">
+                        <span class="font-medium text-gray-700 min-w-[120px] flex items-center gap-2">
+                            <span class="material-icons text-sm text-gray-400">history</span>
+                            Останній аналіз:
+                        </span>
+                        <span class="text-gray-600">2026-03-17 10:00:00 (5 аномалій)</span>
+                    </div>
+                </div>
+                <div class="flex gap-2 ml-13">
+                    <button class="edit-source-btn px-4 py-2 bg-gray-600 text-white text-sm font-medium rounded-lg hover:bg-gray-700 transition-colors flex items-center gap-1">
+                        <span class="material-icons text-sm">edit</span>
+                        Редагувати
+                    </button>
+                    <button class="test-connection-btn px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-1">
+                        <span class="material-icons text-sm">sync</span>
+                        Тест з'єднання
+                    </button>
+                    <button class="delete-source-btn px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-red-700 transition-colors flex items-center gap-1">
+                        <span class="material-icons text-sm">delete</span>
+                        Видалити
+                    </button>
                 </div>
             </div>
 
             <!-- Source 2 -->
-            <div class="border border-gray-200 rounded-lg p-4 bg-white hover:shadow-md transition-shadow">
-                <div class="flex justify-between items-center mb-3">
-                    <h3 class="text-lg font-semibold text-gray-900">Собівартість виробництва</h3>
-                    <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-green-600 text-white">Увімкнено</span>
-                </div>
-                <div class="space-y-2 mb-3">
-                    <div class="flex gap-2">
-                        <span class="text-sm font-medium text-gray-700 min-w-[120px]">Endpoint:</span>
-                        <span class="text-sm text-gray-600">http://1c-server/base/hs/analytics/v1</span>
-                    </div>
-                    <div class="flex gap-2">
-                        <span class="text-sm font-medium text-gray-700 min-w-[120px]">Виміри:</span>
-                        <span class="text-sm text-gray-600">Період, Стаття, Підрозділ</span>
-                    </div>
-                    <div class="flex gap-2">
-                        <span class="text-sm font-medium text-gray-700 min-w-[120px]">Останній аналіз:</span>
-                        <span class="text-sm text-gray-600">Ніколи</span>
+            <div class="border border-gray-200 rounded-xl p-5 bg-white hover:shadow-lg transition-shadow">
+                <div class="flex justify-between items-start mb-3">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-primary-100 flex items-center justify-center">
+                            <span class="material-icons text-primary-600">database</span>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900">Собівартість виробництва</h3>
+                            <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-green-500 text-white">
+                                <span class="material-icons text-xs">check_circle</span>
+                                Увімкнено
+                            </span>
+                        </div>
                     </div>
                 </div>
-                <div class="flex gap-2">
-                    <button class="edit-source-btn px-4 py-2 bg-gray-600 text-white text-sm font-medium rounded-lg hover:bg-gray-700 transition-colors">Редагувати</button>
-                    <button class="test-connection-btn px-4 py-2 bg-gray-600 text-white text-sm font-medium rounded-lg hover:bg-gray-700 transition-colors">Тест з'єднання</button>
-                    <button class="delete-source-btn px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-red-700 transition-colors">Видалити</button>
+                <div class="space-y-2 mb-4 ml-13">
+                    <div class="flex gap-3 text-sm">
+                        <span class="font-medium text-gray-700 min-w-[120px] flex items-center gap-2">
+                            <span class="material-icons text-sm text-gray-400">link</span>
+                            Endpoint:
+                        </span>
+                        <span class="text-gray-600">http://1c-server/base/hs/analytics/v1</span>
+                    </div>
+                    <div class="flex gap-3 text-sm">
+                        <span class="font-medium text-gray-700 min-w-[120px] flex items-center gap-2">
+                            <span class="material-icons text-sm text-gray-400">category</span>
+                            Виміри:
+                        </span>
+                        <span class="text-gray-600">Період, Стаття, Підрозділ</span>
+                    </div>
+                    <div class="flex gap-3 text-sm">
+                        <span class="font-medium text-gray-700 min-w-[120px] flex items-center gap-2">
+                            <span class="material-icons text-sm text-gray-400">history</span>
+                            Останній аналіз:
+                        </span>
+                        <span class="text-gray-600">Ніколи</span>
+                    </div>
+                </div>
+                <div class="flex gap-2 ml-13">
+                    <button class="edit-source-btn px-4 py-2 bg-gray-600 text-white text-sm font-medium rounded-lg hover:bg-gray-700 transition-colors flex items-center gap-1">
+                        <span class="material-icons text-sm">edit</span>
+                        Редагувати
+                    </button>
+                    <button class="test-connection-btn px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-1">
+                        <span class="material-icons text-sm">sync</span>
+                        Тест з'єднання
+                    </button>
+                    <button class="delete-source-btn px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-red-700 transition-colors flex items-center gap-1">
+                        <span class="material-icons text-sm">delete</span>
+                        Видалити
+                    </button>
                 </div>
             </div>
         </div>
@@ -73,164 +141,225 @@
 
     <!-- Add/Edit Source Form (hidden by default) -->
     <section class="bg-white rounded-xl shadow-md p-6" id="source-form-card" style="display: none;">
-        <h2 class="text-xl font-semibold text-gray-800 mb-4" id="form-title">Додати нове джерело</h2>
-        <form id="source-form" class="space-y-6">
+        <h2 class="text-lg font-semibold text-gray-800 mb-6 flex items-center gap-2" id="form-title">
+            <span class="material-icons text-primary-600">add_circle</span>
+            Додати нове джерело
+        </h2>
+        <form id="source-form" class="space-y-8">
+            <!-- Basic Information -->
             <div class="space-y-4 pb-6 border-b border-gray-200">
-                <h3 class="text-lg font-medium text-gray-800">Основна інформація</h3>
+                <h3 class="text-base font-medium text-gray-800 flex items-center gap-2">
+                    <span class="material-icons text-primary-600 text-sm">info</span>
+                    Основна інформація
+                </h3>
 
-                <div>
-                    <label for="source-id" class="block text-sm font-medium text-gray-700 mb-1">ID джерела:</label>
-                    <input type="text" id="source-id" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" placeholder="напр., partii_tovarov" pattern="[a-zA-Z0-9_]+" required>
-                    <small class="text-sm text-gray-500">Тільки латиниця, цифри та підкреслення, макс. 50 символів</small>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="source-id" class="block text-sm font-medium text-gray-700 mb-2">ID джерела:</label>
+                        <input type="text" id="source-id" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors" placeholder="напр., partii_tovarov" pattern="[a-zA-Z0-9_]+" required>
+                        <small class="text-xs text-gray-500 flex items-center gap-1 mt-1">
+                            <span class="material-icons text-xs">lightbulb</span>
+                            Тільки латиниця, цифри та підкреслення
+                        </small>
+                    </div>
+
+                    <div>
+                        <label for="source-name" class="block text-sm font-medium text-gray-700 mb-2">Відображувана назва:</label>
+                        <input type="text" id="source-name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors" placeholder="напр., ПартіїТоварівНаСкладахПоВиробниках" required>
+                    </div>
                 </div>
 
                 <div>
-                    <label for="source-name" class="block text-sm font-medium text-gray-700 mb-1">Відображувана назва:</label>
-                    <input type="text" id="source-name" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" placeholder="напр., ПартіїТоварівНаСкладахПоВиробниках" required>
+                    <label for="source-endpoint" class="block text-sm font-medium text-gray-700 mb-2">1C Endpoint URL:</label>
+                    <input type="url" id="source-endpoint" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors" placeholder="http://1c-server/base/hs/analytics/v1" required>
                 </div>
 
                 <div>
-                    <label for="source-endpoint" class="block text-sm font-medium text-gray-700 mb-1">1C Endpoint URL:</label>
-                    <input type="url" id="source-endpoint" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" placeholder="http://1c-server/base/hs/analytics/v1" required>
-                </div>
-
-                <div>
-                    <label for="source-register" class="block text-sm font-medium text-gray-700 mb-1">Назва регістра:</label>
-                    <input type="text" id="source-register" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" placeholder="напр., ПартіїТоварівНаСкладахПоВиробниках" required>
+                    <label for="source-register" class="block text-sm font-medium text-gray-700 mb-2">Назва регістра:</label>
+                    <input type="text" id="source-register" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors" placeholder="напр., ПартіїТоварівНаСкладахПоВиробниках" required>
                 </div>
             </div>
 
+            <!-- Dimensions -->
             <div class="space-y-4 pb-6 border-b border-gray-200">
-                <h3 class="text-lg font-medium text-gray-800">Виміри</h3>
+                <h3 class="text-base font-medium text-gray-800 flex items-center gap-2">
+                    <span class="material-icons text-primary-600 text-sm">category</span>
+                    Виміри
+                </h3>
                 <div id="dimensions-container" class="space-y-2">
-                    <div class="flex gap-2">
-                        <input type="text" class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors dimension-input" placeholder="Назва виміру (напр., Період)" value="Період">
-                        <button type="button" class="remove-dimension px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-red-700 transition-colors">Видалити</button>
+                    <div class="flex gap-2 items-center">
+                        <input type="text" class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors dimension-input" placeholder="Назва виміру (напр., Період)" value="Період">
+                        <button type="button" class="remove-dimension p-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors" title="Видалити">
+                            <span class="material-icons text-sm">delete</span>
+                        </button>
                     </div>
-                    <div class="flex gap-2">
-                        <input type="text" class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors dimension-input" placeholder="Назва виміру" value="Номенклатура">
-                        <button type="button" class="remove-dimension px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-red-700 transition-colors">Видалити</button>
+                    <div class="flex gap-2 items-center">
+                        <input type="text" class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors dimension-input" placeholder="Назва виміру" value="Номенклатура">
+                        <button type="button" class="remove-dimension p-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors" title="Видалити">
+                            <span class="material-icons text-sm">delete</span>
+                        </button>
                     </div>
-                    <div class="flex gap-2">
-                        <input type="text" class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors dimension-input" placeholder="Назва виміру" value="Склад">
-                        <button type="button" class="remove-dimension px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-red-700 transition-colors">Видалити</button>
+                    <div class="flex gap-2 items-center">
+                        <input type="text" class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors dimension-input" placeholder="Назва виміру" value="Склад">
+                        <button type="button" class="remove-dimension p-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors" title="Видалити">
+                            <span class="material-icons text-sm">delete</span>
+                        </button>
                     </div>
-                    <div class="flex gap-2">
-                        <input type="text" class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors dimension-input" placeholder="Назва виміру" value="Організація">
-                        <button type="button" class="remove-dimension px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-red-700 transition-colors">Видалити</button>
+                    <div class="flex gap-2 items-center">
+                        <input type="text" class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors dimension-input" placeholder="Назва виміру" value="Організація">
+                        <button type="button" class="remove-dimension p-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors" title="Видалити">
+                            <span class="material-icons text-sm">delete</span>
+                        </button>
                     </div>
-                    <div class="flex gap-2">
-                        <input type="text" class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors dimension-input" placeholder="Назва виміру" value="Виробник">
-                        <button type="button" class="remove-dimension px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-red-700 transition-colors">Видалити</button>
+                    <div class="flex gap-2 items-center">
+                        <input type="text" class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors dimension-input" placeholder="Назва виміру" value="Виробник">
+                        <button type="button" class="remove-dimension p-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors" title="Видалити">
+                            <span class="material-icons text-sm">delete</span>
+                        </button>
                     </div>
                 </div>
-                <button type="button" id="add-dimension-btn" class="px-4 py-2 bg-gray-600 text-white text-sm font-medium rounded-lg hover:bg-gray-700 transition-colors">+ Додати вимір</button>
+                <button type="button" id="add-dimension-btn" class="px-4 py-2 bg-gray-600 text-white text-sm font-medium rounded-lg hover:bg-gray-700 transition-colors flex items-center gap-2">
+                    <span class="material-icons text-sm">add</span>
+                    Додати вимір
+                </button>
             </div>
 
+            <!-- Metric Fields -->
             <div class="space-y-4 pb-6 border-b border-gray-200">
-                <h3 class="text-lg font-medium text-gray-800">Поля метрик</h3>
+                <h3 class="text-base font-medium text-gray-800 flex items-center gap-2">
+                    <span class="material-icons text-primary-600 text-sm">calculate</span>
+                    Поля метрик
+                </h3>
 
-                <div>
-                    <label for="sum-field" class="block text-sm font-medium text-gray-700 mb-1">Назва поля Сума:</label>
-                    <input type="text" id="sum-field" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" placeholder="напр., Сума" value="Сума" required>
-                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="sum-field" class="block text-sm font-medium text-gray-700 mb-2">Назва поля Сума:</label>
+                        <input type="text" id="sum-field" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors" placeholder="напр., Сума" value="Сума" required>
+                    </div>
 
-                <div>
-                    <label for="qty-field" class="block text-sm font-medium text-gray-700 mb-1">Назва поля Кількість:</label>
-                    <input type="text" id="qty-field" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" placeholder="напр., Кількість" value="Кількість" required>
+                    <div>
+                        <label for="qty-field" class="block text-sm font-medium text-gray-700 mb-2">Назва поля Кількість:</label>
+                        <input type="text" id="qty-field" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors" placeholder="напр., Кількість" value="Кількість" required>
+                    </div>
                 </div>
             </div>
 
+            <!-- Authentication -->
             <div class="space-y-4 pb-6 border-b border-gray-200">
-                <h3 class="text-lg font-medium text-gray-800">Аутентифікація</h3>
+                <h3 class="text-base font-medium text-gray-800 flex items-center gap-2">
+                    <span class="material-icons text-primary-600 text-sm">lock</span>
+                    Аутентифікація
+                </h3>
 
                 <div>
-                    <label for="auth-type" class="block text-sm font-medium text-gray-700 mb-1">Тип аутентифікації:</label>
-                    <select id="auth-type" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                    <label for="auth-type" class="block text-sm font-medium text-gray-700 mb-2">Тип аутентифікації:</label>
+                    <select id="auth-type" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors bg-white">
                         <option value="none">Без аутентифікації</option>
                         <option value="basic">Basic Auth</option>
                     </select>
                 </div>
 
-                <div id="basic-auth-fields" class="space-y-3" style="display: none;">
+                <div id="basic-auth-fields" class="space-y-4 p-4 bg-gray-50 rounded-lg border border-gray-200" style="display: none;">
                     <div>
-                        <label for="auth-user" class="block text-sm font-medium text-gray-700 mb-1">Ім'я користувача:</label>
-                        <input type="text" id="auth-user" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                        <label for="auth-user" class="block text-sm font-medium text-gray-700 mb-2">Ім'я користувача:</label>
+                        <input type="text" id="auth-user" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors">
                     </div>
 
                     <div>
-                        <label for="auth-pass" class="block text-sm font-medium text-gray-700 mb-1">Пароль:</label>
-                        <input type="password" id="auth-pass" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                        <label for="auth-pass" class="block text-sm font-medium text-gray-700 mb-2">Пароль:</label>
+                        <input type="password" id="auth-pass" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors">
                     </div>
                 </div>
             </div>
 
+            <!-- Threshold Rules -->
             <div class="space-y-4">
-                <h3 class="text-lg font-medium text-gray-800">Правила порогів</h3>
+                <h3 class="text-base font-medium text-gray-800 flex items-center gap-2">
+                    <span class="material-icons text-primary-600 text-sm">rule</span>
+                    Правила порогів
+                </h3>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label for="spike-pct" class="block text-sm font-medium text-gray-700 mb-1">Поріг спалаху %:</label>
-                        <input type="number" id="spike-pct" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" value="20.0" step="0.1">
+                        <label for="spike-pct" class="block text-sm font-medium text-gray-700 mb-2">Поріг спалаху %:</label>
+                        <input type="number" id="spike-pct" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors" value="20.0" step="0.1">
                     </div>
 
                     <div>
-                        <label for="spike-zscore" class="block text-sm font-medium text-gray-700 mb-1">Z-оцінка спалаху:</label>
-                        <input type="number" id="spike-zscore" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" value="3.0" step="0.1">
+                        <label for="spike-zscore" class="block text-sm font-medium text-gray-700 mb-2">Z-оцінка спалаху:</label>
+                        <input type="number" id="spike-zscore" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors" value="3.0" step="0.1">
                     </div>
                 </div>
 
                 <div>
-                    <label for="spike-logic" class="block text-sm font-medium text-gray-700 mb-1">Логіка спалаху:</label>
-                    <select id="spike-logic" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                    <label for="spike-logic" class="block text-sm font-medium text-gray-700 mb-2">Логіка спалаху:</label>
+                    <select id="spike-logic" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors bg-white">
                         <option value="OR">OR (або %, або z-оцінка)</option>
                         <option value="AND">AND (обидва потрібні)</option>
                     </select>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label for="moving-avg-window" class="block text-sm font-medium text-gray-700 mb-1">Вікно ковзного середнього:</label>
-                        <input type="number" id="moving-avg-window" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" value="6">
+                        <label for="moving-avg-window" class="block text-sm font-medium text-gray-700 mb-2">Вікно ковзного середнього:</label>
+                        <input type="number" id="moving-avg-window" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors" value="6">
                     </div>
 
                     <div>
-                        <label for="trend-window" class="block text-sm font-medium text-gray-700 mb-1">Вікно тренду:</label>
-                        <input type="number" id="trend-window" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" value="3">
+                        <label for="trend-window" class="block text-sm font-medium text-gray-700 mb-2">Вікно тренду:</label>
+                        <input type="number" id="trend-window" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors" value="3">
                     </div>
                 </div>
 
-                <div>
-                    <label class="flex items-center gap-2 cursor-pointer">
-                        <input type="checkbox" id="zero-neg-enabled" checked class="w-4 h-4 text-blue-900 border-gray-300 rounded focus:ring-blue-500">
-                        <span class="text-sm font-medium text-gray-700">Увімкнути виявлення ZERO_NEG</span>
+                <div class="space-y-3 pt-4 border-t border-gray-200">
+                    <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                        <input type="checkbox" id="zero-neg-enabled" checked class="w-5 h-5 text-primary-600 border-gray-300 rounded focus:ring-primary-500">
+                        <span class="text-sm font-medium text-gray-700 flex items-center gap-2">
+                            <span class="material-icons text-sm text-red-500">error</span>
+                            Увімкнути виявлення ZERO_NEG
+                        </span>
                     </label>
-                </div>
 
-                <div>
-                    <label class="flex items-center gap-2 cursor-pointer">
-                        <input type="checkbox" id="missing-enabled" checked class="w-4 h-4 text-blue-900 border-gray-300 rounded focus:ring-blue-500">
-                        <span class="text-sm font-medium text-gray-700">Увімкнути виявлення MISSING</span>
+                    <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                        <input type="checkbox" id="missing-enabled" checked class="w-5 h-5 text-primary-600 border-gray-300 rounded focus:ring-primary-500">
+                        <span class="text-sm font-medium text-gray-700 flex items-center gap-2">
+                            <span class="material-icons text-sm text-gray-500">block</span>
+                            Увімкнути виявлення MISSING
+                        </span>
                     </label>
-                </div>
 
-                <div>
-                    <label class="flex items-center gap-2 cursor-pointer">
-                        <input type="checkbox" id="ratio-enabled" class="w-4 h-4 text-blue-900 border-gray-300 rounded focus:ring-blue-500">
-                        <span class="text-sm font-medium text-gray-700">Увімкнути виявлення RATIO (потрібен мін/макс)</span>
+                    <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                        <input type="checkbox" id="ratio-enabled" class="w-5 h-5 text-primary-600 border-gray-300 rounded focus:ring-primary-500">
+                        <span class="text-sm font-medium text-gray-700 flex items-center gap-2">
+                            <span class="material-icons text-sm text-violet-500">balance</span>
+                            Увімкнути виявлення RATIO (потрібен мін/макс)
+                        </span>
                     </label>
                 </div>
             </div>
 
-            <div class="flex flex-wrap gap-2 pt-4 border-t border-gray-200">
-                <button type="submit" class="px-6 py-2.5 bg-blue-900 text-white font-medium rounded-lg hover:bg-blue-800 transition-colors shadow-sm">Зберегти джерело</button>
-                <button type="button" id="test-connection-btn" class="px-6 py-2.5 bg-gray-600 text-white font-medium rounded-lg hover:bg-gray-700 transition-colors shadow-sm">Тест з'єднання</button>
-                <button type="button" id="cancel-form-btn" class="px-6 py-2.5 bg-gray-600 text-white font-medium rounded-lg hover:bg-gray-700 transition-colors shadow-sm">Скасувати</button>
+            <!-- Form Actions -->
+            <div class="flex flex-wrap gap-3 pt-6 border-t border-gray-200">
+                <button type="submit" class="px-6 py-3 bg-primary-600 text-white font-medium rounded-lg hover:bg-primary-700 transition-colors shadow-md flex items-center gap-2">
+                    <span class="material-icons text-sm">save</span>
+                    Зберегти джерело
+                </button>
+                <button type="button" id="test-connection-btn" class="px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors shadow-md flex items-center gap-2">
+                    <span class="material-icons text-sm">sync</span>
+                    Тест з'єднання
+                </button>
+                <button type="button" id="cancel-form-btn" class="px-6 py-3 bg-gray-600 text-white font-medium rounded-lg hover:bg-gray-700 transition-colors shadow-md flex items-center gap-2">
+                    <span class="material-icons text-sm">close</span>
+                    Скасувати
+                </button>
             </div>
         </form>
     </section>
 
-    <p class="text-sm text-gray-500 italic">Примітка: Статичний UI демо - подання форми та тест з'єднання не функціональні</p>
+    <p class="text-sm text-gray-500 italic bg-gray-50 px-4 py-3 rounded-lg border border-gray-200 flex items-center gap-2">
+        <span class="material-icons text-sm">info</span>
+        Статичний UI демо - подання форми та тест з'єднання не функціональні
+    </p>
 </div>
 {% endblock %}
 
@@ -239,7 +368,8 @@
 // Static UI - Show/hide form
 document.getElementById('add-source-btn').addEventListener('click', function() {
     document.getElementById('source-form-card').style.display = 'block';
-    document.getElementById('form-title').textContent = 'Додати нове джерело';
+    document.getElementById('form-title').innerHTML = '<span class="material-icons text-primary-600">edit</span> Редагувати джерело';
+    window.scrollTo({ top: document.getElementById('source-form-card').offsetTop - 20, behavior: 'smooth' });
 });
 
 document.getElementById('cancel-form-btn').addEventListener('click', function() {
@@ -260,7 +390,7 @@ document.getElementById('source-form').addEventListener('submit', function(e) {
 
 // Test connection (mock)
 document.getElementById('test-connection-btn').addEventListener('click', function() {
-    alert('Статичний UI Демо: Тест з'єднання викличе POST /api/v1/sources/{id}/test у Фазі 2');
+    alert('Статичний UI Демо: Тест з\'єднання викличе POST /api/v1/sources/{id}/test у Фазі 2');
 });
 
 // Dimension management (mock)
@@ -288,11 +418,13 @@ document.querySelectorAll('.delete-source-btn').forEach(function(btn) {
     });
 });
 
-// Test connection buttons
+// Test connection buttons (in source list)
 document.querySelectorAll('.test-connection-btn').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-        alert('Статичний UI Демо: Тест з'єднання буде реалізований у Фазі 2');
-    });
+    if (!btn.id) {
+        btn.addEventListener('click', function() {
+            alert('Статичний UI Демо: Тест з\'єднання буде реалізований у Фазі 2');
+        });
+    }
 });
 </script>
 {% endblock %}
