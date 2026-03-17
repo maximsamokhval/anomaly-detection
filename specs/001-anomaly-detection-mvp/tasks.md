@@ -25,11 +25,11 @@
 
 **Purpose**: Project initialization and basic structure
 
-- [ ] T001 Create project structure: `backend/src/`, `backend/tests/`, `backend/ui/templates/`, `backend/ui/static/`
-- [ ] T002 Initialize Python 3.12 project with `uv init` and create `pyproject.toml` with FastAPI, Jinja2, httpx, pandas, scipy dependencies
-- [ ] T003 [P] Configure ruff linting in `ruff.toml`
-- [ ] T004 [P] Configure mypy type checking in `mypy.ini`
-- [ ] T005 [P] Configure pytest with pytest-cov, pytest-asyncio in `pytest.ini`
+- [x] T001 Create project structure: `backend/src/`, `backend/tests/`, `backend/ui/templates/`, `backend/ui/static/`
+- [x] T002 Initialize Python 3.12 project with `uv init` and create `pyproject.toml` with FastAPI, Jinja2, httpx, pandas, scipy dependencies
+- [x] T003 [P] Configure ruff linting in `ruff.toml`
+- [x] T004 [P] Configure mypy type checking in `mypy.ini`
+- [x] T005 [P] Configure pytest with pytest-cov, pytest-asyncio in `pytest.ini`
 
 ---
 
@@ -39,14 +39,14 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T006 [P] Create domain entities in `backend/src/domain/models.py`: DataSource, AnalysisRun, Anomaly, DataPoint, ThresholdRules, AuthConfig
-- [ ] T007 [P] Create repository base interfaces in `backend/src/infrastructure/persistence/base.py`: DataSourceRepository, AnalysisRunRepository, AnomalyRepository
-- [ ] T008 [P] Implement SQLite repositories in `backend/src/infrastructure/persistence/sqlite.py` with schema from data-model.md
-- [ ] T009 [P] Create database migration script in `backend/scripts/init_db.py` to create tables: data_sources, analysis_runs, anomalies, data_points
-- [ ] T010 [P] Create Pydantic schemas in `backend/src/api/schemas.py` for all API request/response models
-- [ ] T011 [P] Setup FastAPI app structure in `backend/src/main.py` with CORS, exception handlers
-- [ ] T012 [P] Configure Jinja2 templates in `backend/src/ui/templates.py` with StaticFiles for `/static`
-- [ ] T013 [P] Create mock 1C adapter in `backend/src/infrastructure/mock_1c_adapter.py` returning hardcoded test data
+- [x] T006 [P] Create domain entities in `backend/src/domain/models.py`: DataSource, AnalysisRun, Anomaly, DataPoint, ThresholdRules, AuthConfig
+- [x] T007 [P] Create repository base interfaces in `backend/src/infrastructure/persistence/base.py`: DataSourceRepository, AnalysisRunRepository, AnomalyRepository
+- [x] T008 [P] Implement SQLite repositories in `backend/src/infrastructure/persistence/sqlite.py` with schema from data-model.md
+- [x] T009 [P] Create database migration script in `backend/scripts/init_db.py` to create tables: data_sources, analysis_runs, anomalies, data_points
+- [x] T010 [P] Create Pydantic schemas in `backend/src/api/schemas.py` for all API request/response models
+- [x] T011 [P] Setup FastAPI app structure in `backend/src/main.py` with CORS, exception handlers
+- [x] T012 [P] Configure Jinja2 templates in `backend/src/ui/templates.py` with StaticFiles for `/static`
+- [x] T013 [P] Create mock 1C adapter in `backend/src/infrastructure/mock_1c_adapter.py` returning hardcoded test data
 
 **Checkpoint**: Foundation ready - user story work can now begin in parallel
 
@@ -60,16 +60,24 @@
 
 ### Implementation for Static UI
 
-- [ ] T014 [P] [US1] Create base Jinja2 template in `backend/ui/templates/base.html` with navigation menu (Dashboard, Heat Map, Table, Sources)
-- [ ] T015 [P] [US1] Create Dashboard template in `backend/ui/templates/dashboard.html` with static source list and "Run Analysis" button (non-functional)
-- [ ] T016 [P] [US1] Create Heat Map template in `backend/ui/templates/heatmap.html` with hardcoded mock anomaly data (3-5 rows, 3 columns)
-- [ ] T017 [P] [US1] Create Drill-down template in `backend/ui/templates/drilldown.html` with Chart.js line chart rendering mock time series data
-- [ ] T018 [P] [US1] Create Anomaly Table template in `backend/ui/templates/table.html` with static rows, sortable headers (non-functional), filter dropdowns (non-functional)
-- [ ] T019 [P] [US2] Create Sources template in `backend/ui/templates/sources.html` with form fields: ID, Name, Endpoint, Register Name, Dimensions (multi-input), Sum/QTY fields, Auth config, Threshold rules
-- [ ] T020 [P] [US1] Add Chart.js CDN in `backend/ui/templates/base.html` and initialize chart in `backend/ui/static/chart.js` with basic line chart config
-- [ ] T021 [US1] Add navigation routing in `backend/src/main.py`: GET `/`, `/heatmap`, `/table`, `/drilldown`, `/sources` returning TemplateResponse
+- [x] T014 [P] [US1] Create base Jinja2 template in `backend/ui/templates/base.html` with navigation menu (Dashboard, Heat Map, Table, Sources)
+- [x] T015 [P] [US1] Create Dashboard template in `backend/ui/templates/dashboard.html` with static source list and "Run Analysis" button (non-functional)
+- [x] T016 [P] [US1] Create Heat Map template in `backend/ui/templates/heatmap.html` with hardcoded mock anomaly data (3-5 rows, 3 columns)
+- [x] T017 [P] [US1] Create Drill-down template in `backend/ui/templates/drilldown.html` with Chart.js line chart rendering mock time series data
+- [x] T018 [P] [US1] Create Anomaly Table template in `backend/ui/templates/table.html` with static rows, sortable headers (non-functional), filter dropdowns (non-functional)
+- [x] T019 [P] [US2] Create Sources template in `backend/ui/templates/sources.html` with form fields: ID, Name, Endpoint, Register Name, Dimensions (multi-input), Sum/QTY fields, Auth config, Threshold rules
+- [x] T020 [P] [US1] Add Chart.js CDN in `backend/ui/templates/base.html` and initialize chart in `backend/ui/static/chart.js` with basic line chart config
+- [x] T021 [US1] Add navigation routing in `backend/src/main.py`: GET `/`, `/heatmap`, `/table`, `/drilldown`, `/sources` returning TemplateResponse
 
 **Checkpoint**: Static UI complete - clickable prototype ready for user demo
+
+**✅ VERIFIED**: 
+- `ruff check src/` - All checks passed
+- `mypy src/` - Success: no issues found
+- `uv run uvicorn src.main:app` - Server starts successfully
+- Loguru debug logging active in `backend/logs/debug.log`
+- All UI pages render: /, /heatmap, /table, /drilldown, /sources
+- API endpoints respond: /health, /api/v1/sources, /api/v1/analysis/run
 
 ---
 
