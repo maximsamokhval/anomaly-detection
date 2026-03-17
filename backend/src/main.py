@@ -17,8 +17,8 @@ from src.ui.templates import templates
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     """Application lifespan handler."""
-    # Startup: Initialize database if needed
-    db_path = Path("backend/data/anomaly_detection.db")
+    # Startup: initialize database if needed
+    db_path = Path(__file__).parent.parent / "data" / "anomaly_detection.db"
     db_path.parent.mkdir(parents=True, exist_ok=True)
     print("🚀 Starting Financial Anomaly Detection Service")
     print(f"📊 Database: {db_path}")
