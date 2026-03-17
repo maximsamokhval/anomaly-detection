@@ -2,7 +2,6 @@
 
 from abc import ABC, abstractmethod
 from datetime import date
-from typing import Optional
 
 from src.domain.models import AnalysisRun, Anomaly, DataSource
 
@@ -16,7 +15,7 @@ class DataSourceRepository(ABC):
         pass
 
     @abstractmethod
-    def get_by_id(self, id: str) -> Optional[DataSource]:
+    def get_by_id(self, id: str) -> DataSource | None:
         """Retrieve a single data source by ID."""
         pass
 
@@ -45,7 +44,7 @@ class AnalysisRunRepository(ABC):
         pass
 
     @abstractmethod
-    def get_by_id(self, id: str) -> Optional[AnalysisRun]:
+    def get_by_id(self, id: str) -> AnalysisRun | None:
         """Retrieve an analysis run by ID."""
         pass
 
@@ -57,7 +56,7 @@ class AnalysisRunRepository(ABC):
         pass
 
     @abstractmethod
-    def get_latest(self, source_id: str) -> Optional[AnalysisRun]:
+    def get_latest(self, source_id: str) -> AnalysisRun | None:
         """Get the most recent analysis run for a source."""
         pass
 
