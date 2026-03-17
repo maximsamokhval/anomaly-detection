@@ -1,0 +1,277 @@
+{% extends "base.html" %}
+
+{% block title %}Data Sources - Anomaly Detection{% endblock %}
+
+{% set active_page = 'sources' %}
+
+{% block content %}
+<div class="sources-page">
+    <h1>Data Sources</h1>
+    
+    <!-- Add New Source Button -->
+    <button id="add-source-btn" class="btn btn-primary mb-4">+ Add New Source</button>
+    
+    <!-- Source List -->
+    <section class="card">
+        <h2>Configured Sources</h2>
+        <div class="source-list">
+            <!-- Source 1 -->
+            <div class="source-item">
+                <div class="source-header">
+                    <h3>ПартииТоваровНаСкладахПоПроизводителям</h3>
+                    <span class="badge badge-enabled">Enabled</span>
+                </div>
+                <div class="source-details">
+                    <div class="detail-row">
+                        <span class="label">Endpoint:</span>
+                        <span class="value">http://1c-server/base/hs/analytics/v1</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="label">Dimensions:</span>
+                        <span class="value">Период, Номенклатура, Склад, Организация, Производитель</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="label">Last Analysis:</span>
+                        <span class="value">2026-03-17 10:00:00 (5 anomalies)</span>
+                    </div>
+                </div>
+                <div class="source-actions">
+                    <button class="btn btn-secondary btn-sm">Edit</button>
+                    <button class="btn btn-secondary btn-sm">Test Connection</button>
+                    <button class="btn btn-danger btn-sm">Delete</button>
+                </div>
+            </div>
+            
+            <!-- Source 2 -->
+            <div class="source-item">
+                <div class="source-header">
+                    <h3>Себестоимость производства</h3>
+                    <span class="badge badge-enabled">Enabled</span>
+                </div>
+                <div class="source-details">
+                    <div class="detail-row">
+                        <span class="label">Endpoint:</span>
+                        <span class="value">http://1c-server/base/hs/analytics/v1</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="label">Dimensions:</span>
+                        <span class="value">Период, Статья, Подразделение</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="label">Last Analysis:</span>
+                        <span class="value">Never</span>
+                    </div>
+                </div>
+                <div class="source-actions">
+                    <button class="btn btn-secondary btn-sm">Edit</button>
+                    <button class="btn btn-secondary btn-sm">Test Connection</button>
+                    <button class="btn btn-danger btn-sm">Delete</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Add/Edit Source Form (hidden by default) -->
+    <section class="card" id="source-form-card" style="display: none;">
+        <h2 id="form-title">Add New Source</h2>
+        <form id="source-form">
+            <div class="form-section">
+                <h3>Basic Information</h3>
+                
+                <div class="form-group">
+                    <label for="source-id">Source ID:</label>
+                    <input type="text" id="source-id" class="form-control" placeholder="e.g., partii_tovarov" pattern="[a-zA-Z0-9_]+" required>
+                    <small class="help-text">Alphanumeric and underscores only, max 50 chars</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="source-name">Display Name:</label>
+                    <input type="text" id="source-name" class="form-control" placeholder="e.g., ПартииТоваровНаСкладахПоПроизводителям" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="source-endpoint">1C Endpoint URL:</label>
+                    <input type="url" id="source-endpoint" class="form-control" placeholder="http://1c-server/base/hs/analytics/v1" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="source-register">Register Name:</label>
+                    <input type="text" id="source-register" class="form-control" placeholder="e.g., ПартииТоваровНаСкладахПоПроизводителям" required>
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <h3>Dimensions</h3>
+                <div id="dimensions-container">
+                    <div class="dimension-input-group">
+                        <input type="text" class="form-control dimension-input" placeholder="Dimension name (e.g., Период)" value="Период">
+                        <button type="button" class="btn btn-danger btn-sm remove-dimension">Remove</button>
+                    </div>
+                    <div class="dimension-input-group">
+                        <input type="text" class="form-control dimension-input" placeholder="Dimension name" value="Номенклатура">
+                        <button type="button" class="btn btn-danger btn-sm remove-dimension">Remove</button>
+                    </div>
+                    <div class="dimension-input-group">
+                        <input type="text" class="form-control dimension-input" placeholder="Dimension name" value="Склад">
+                        <button type="button" class="btn btn-danger btn-sm remove-dimension">Remove</button>
+                    </div>
+                    <div class="dimension-input-group">
+                        <input type="text" class="form-control dimension-input" placeholder="Dimension name" value="Организация">
+                        <button type="button" class="btn btn-danger btn-sm remove-dimension">Remove</button>
+                    </div>
+                    <div class="dimension-input-group">
+                        <input type="text" class="form-control dimension-input" placeholder="Dimension name" value="Производитель">
+                        <button type="button" class="btn btn-danger btn-sm remove-dimension">Remove</button>
+                    </div>
+                </div>
+                <button type="button" id="add-dimension-btn" class="btn btn-secondary btn-sm">+ Add Dimension</button>
+            </div>
+            
+            <div class="form-section">
+                <h3>Metric Fields</h3>
+                
+                <div class="form-group">
+                    <label for="sum-field">Sum Field Name:</label>
+                    <input type="text" id="sum-field" class="form-control" placeholder="e.g., Сумма" value="Сумма" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="qty-field">Quantity Field Name:</label>
+                    <input type="text" id="qty-field" class="form-control" placeholder="e.g., Количество" value="Количество" required>
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <h3>Authentication</h3>
+                
+                <div class="form-group">
+                    <label for="auth-type">Auth Type:</label>
+                    <select id="auth-type" class="form-control">
+                        <option value="none">No Authentication</option>
+                        <option value="basic">Basic Auth</option>
+                    </select>
+                </div>
+                
+                <div id="basic-auth-fields" style="display: none;">
+                    <div class="form-group">
+                        <label for="auth-user">Username:</label>
+                        <input type="text" id="auth-user" class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="auth-pass">Password:</label>
+                        <input type="password" id="auth-pass" class="form-control">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <h3>Threshold Rules</h3>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="spike-pct">Spike % Threshold:</label>
+                        <input type="number" id="spike-pct" class="form-control" value="20.0" step="0.1">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="spike-zscore">Spike Z-Score:</label>
+                        <input type="number" id="spike-zscore" class="form-control" value="3.0" step="0.1">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="spike-logic">Spike Logic:</label>
+                    <select id="spike-logic" class="form-control">
+                        <option value="OR">OR (either % or z-score)</option>
+                        <option value="AND">AND (both required)</option>
+                    </select>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="moving-avg-window">Moving Avg Window:</label>
+                        <input type="number" id="moving-avg-window" class="form-control" value="6">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="trend-window">Trend Window:</label>
+                        <input type="number" id="trend-window" class="form-control" value="3">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="zero-neg-enabled" checked>
+                        Enable ZERO_NEG detection
+                    </label>
+                </div>
+                
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="missing-enabled" checked>
+                        Enable MISSING detection
+                    </label>
+                </div>
+                
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="ratio-enabled">
+                        Enable RATIO detection (requires min/max)
+                    </label>
+                </div>
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Save Source</button>
+                <button type="button" id="test-connection-btn" class="btn btn-secondary">Test Connection</button>
+                <button type="button" id="cancel-form-btn" class="btn btn-secondary">Cancel</button>
+            </div>
+        </form>
+    </section>
+    
+    <p class="help-text">Note: Static UI demo - form submission and test connection are non-functional</p>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+// Static UI - Show/hide form
+document.getElementById('add-source-btn').addEventListener('click', function() {
+    document.getElementById('source-form-card').style.display = 'block';
+    document.getElementById('form-title').textContent = 'Add New Source';
+});
+
+document.getElementById('cancel-form-btn').addEventListener('click', function() {
+    document.getElementById('source-form-card').style.display = 'none';
+});
+
+// Show/hide basic auth fields
+document.getElementById('auth-type').addEventListener('change', function() {
+    const basicAuthFields = document.getElementById('basic-auth-fields');
+    basicAuthFields.style.display = this.value === 'basic' ? 'block' : 'none';
+});
+
+// Form submission (mock)
+document.getElementById('source-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    alert('Static UI Demo: Form submission will be implemented in Phase 2');
+});
+
+// Test connection (mock)
+document.getElementById('test-connection-btn').addEventListener('click', function() {
+    alert('Static UI Demo: Test Connection will call POST /api/v1/sources/{id}/test in Phase 2');
+});
+
+// Dimension management (mock)
+document.querySelectorAll('.remove-dimension').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+        alert('Static UI Demo: Dimension removal will be implemented in Phase 2');
+    });
+});
+
+document.getElementById('add-dimension-btn').addEventListener('click', function() {
+    alert('Static UI Demo: Adding dimensions will be implemented in Phase 2');
+});
+</script>
+{% endblock %}
