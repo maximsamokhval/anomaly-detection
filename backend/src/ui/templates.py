@@ -4,8 +4,8 @@ from pathlib import Path
 
 from fastapi.templating import Jinja2Templates
 
-# Templates directory
-templates_path = Path(__file__).parent / "templates"
+# Templates directory - located at backend/ui/templates (sibling of src/)
+templates_path = Path(__file__).parent.parent.parent / "ui" / "templates"
 templates_path.mkdir(parents=True, exist_ok=True)
 
 # Jinja2 templates with autoescape enabled for security
