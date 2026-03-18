@@ -40,5 +40,5 @@ htmlcov/
 Thumbs.db
 
 # Project specific
-backend/data/*.db
+data/*.db
 backend/ui/static/*.min.js
