@@ -64,8 +64,38 @@ async def list_sources() -> DataSourceListResponse:
     """List all data sources."""
     sources = data_source_repo.get_all()
     return DataSourceListResponse(
-        sources=[DataSourceShortResponse(id=s.id, name=s.name, enabled=s.enabled) for s in sources]
+        sources=[
+            DataSourceShortResponse(
+                id=s.id,
+                name=s.name,
+                enabled=s.enabled,
+                endpoint=s.endpoint,
+                register_name=s.register_name,
+                dimensions=s.dimensions,
+            )
+            for s in sources
+        ]
     )
+
+
+@router.get(
+    "/{source_id}",
+    response_model=DataSourceResponse,
+    summary="Get data source",
+    description="Return full configuration for a single data source by ID.",
+    responses={
+        404: {"model": dict, "description": "Data source not found"},
+    },
+)
+async def get_source(source_id: str) -> DataSourceResponse:
+    """Get a single data source by ID."""
+    source = data_source_repo.get_by_id(source_id)
+    if not source:
+        raise HTTPException(
+            status_code=404,
+            detail={"error": "not_found", "message": f"Data source '{source_id}' not found"},
+        )
+    return _source_to_response(source)
 
 
 @router.post(

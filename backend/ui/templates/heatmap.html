@@ -47,8 +47,10 @@
         <!-- Error state -->
         <div id="heatmap-error" class="hidden bg-red-50 border border-red-200 rounded-lg p-4 text-red-700"></div>
         <!-- Content -->
-        <div id="heatmap-container" class="overflow-x-auto">
+        <div id="heatmap-container" class="overflow-hidden">
+            <div id="heatmap-table-wrapper" class="overflow-x-auto overflow-y-auto max-h-[600px]">
             <p class="text-gray-400 italic text-sm py-4">Вкажіть ID запуску або запустіть аналіз на <a href="/" class="text-primary-600 underline">головній сторінці</a>.</p>
+            </div>
         </div>
     </section>
 
@@ -98,6 +100,7 @@ const TYPE_CONFIG = {
     'MISSING':      { bg: '#6B7280', label: 'Відсутні' },
     'MISSING_DATA': { bg: '#111827', label: 'Немає записів' },
 };
+const ANOMALY_COLORS = TYPE_CONFIG;
 
 function getRunId() {
     const params = new URLSearchParams(window.location.search);
@@ -106,7 +109,7 @@ function getRunId() {
 
 function setLoading(on) {
     document.getElementById('heatmap-loading').classList.toggle('hidden', !on);
-    document.getElementById('heatmap-container').classList.toggle('hidden', on);
+    if (on) document.getElementById('heatmap-container').classList.add('hidden');
     document.getElementById('heatmap-error').classList.add('hidden');
 }
 
@@ -120,7 +123,7 @@ function showError(msg) {
 
 async function loadHeatmap(runId) {
     if (!runId) {
-        document.getElementById('heatmap-container').innerHTML =
+        document.getElementById('heatmap-table-wrapper').innerHTML =
             '<p class="text-gray-400 italic text-sm py-4">Вкажіть ID запуску або запустіть аналіз на <a href="/" class="text-primary-600 underline">головній сторінці</a>.</p>';
         document.getElementById('heatmap-container').classList.remove('hidden');
         return;
@@ -143,8 +146,8 @@ async function loadHeatmap(runId) {
 
 function renderHeatmap(data) {
     const { rows, columns, cells, row_dimensions, run_id } = data;
-    const container = document.getElementById('heatmap-container');
-    container.classList.remove('hidden');
+    document.getElementById('heatmap-container').classList.remove('hidden');
+    const container = document.getElementById('heatmap-table-wrapper');
 
     if (!rows || rows.length === 0) {
         container.innerHTML = '<p class="text-gray-400 italic text-sm py-4">Аномалій не виявлено для цього запуску.</p>';
@@ -177,9 +180,13 @@ function renderHeatmap(data) {
             if (cell) {
                 const cfg = TYPE_CONFIG[cell.type] || { bg: '#9CA3AF', label: cell.type };
                 const alpha = Math.round((0.5 + cell.intensity * 0.5) * 255).toString(16).padStart(2, '0');
+                const tooltipParts = [`${cell.type}: ${cfg.label}`];
+                if (cell.current_value != null) tooltipParts.push(`Поточне: ${cell.current_value.toFixed(2)}`);
+                if (cell.previous_value != null) tooltipParts.push(`Попереднє: ${cell.previous_value.toFixed(2)}`);
+                if (cell.pct_change != null) tooltipParts.push(`Відхилення: ${cell.pct_change.toFixed(1)}%`);
                 html += `<td class="px-3 py-3 border-b border-gray-100 text-center cursor-pointer"
                              style="background-color:${cfg.bg}${alpha}"
-                             title="${cell.type}: ${cfg.label}">
+                             title="${tooltipParts.join('\n')}">
                             <span class="font-bold text-white text-xs">${cell.type}</span>
                          </td>`;
             } else {

@@ -1,9 +1,11 @@
 """Heat map routes - GET /api/v1/heatmap."""
 
+from datetime import date
 from pathlib import Path
 
 from fastapi import APIRouter, HTTPException, Query
 
+from src.api.schemas import HeatMapCell, HeatMapColumn, HeatMapLegend, HeatMapResponse, HeatMapRow
 from src.infrastructure.persistence.sqlite import (
     SQLiteAnalysisRunRepository,
     SQLiteAnomalyRepository,
@@ -26,18 +28,27 @@ _TYPE_PRIORITY: dict[str, int] = {
     "MISSING_DATA": 6,
 }
 
-_LEGEND = {
-    "ZERO_NEG": {"color": "#DC2626", "label": "Zero/Negative", "priority": 1},
-    "SPIKE": {"color": "#F59E0B", "label": "Spike", "priority": 2},
-    "RATIO": {"color": "#8B5CF6", "label": "Ratio", "priority": 3},
-    "TREND_BREAK": {"color": "#3B82F6", "label": "Trend Break", "priority": 4},
-    "MISSING": {"color": "#6B7280", "label": "Missing", "priority": 5},
-    "MISSING_DATA": {"color": "#111827", "label": "Missing Data", "priority": 6},
+_LEGEND: dict[str, tuple[str, str, int]] = {
+    # key: (color, label, priority)
+    "ZERO_NEG": ("#DC2626", "Zero/Negative", 1),
+    "SPIKE": ("#F59E0B", "Spike", 2),
+    "RATIO": ("#8B5CF6", "Ratio", 3),
+    "TREND_BREAK": ("#3B82F6", "Trend Break", 4),
+    "MISSING": ("#6B7280", "Missing", 5),
+    "MISSING_DATA": ("#111827", "Missing Data", 6),
 }
+
+
+def _build_legend() -> dict[str, HeatMapLegend]:
+    return {
+        k: HeatMapLegend(color=color, label=label, priority=priority)
+        for k, (color, label, priority) in _LEGEND.items()
+    }
 
 
 @router.get(
     "",
+    response_model=HeatMapResponse,
     summary="Get heat map data",
     description=(
         "Returns rows (dimension combinations), columns (periods), and cells "
@@ -50,7 +61,7 @@ _LEGEND = {
 )
 async def get_heatmap(
     run_id: str = Query(..., description="Analysis run ID"),
-) -> dict:
+) -> HeatMapResponse:
     """Build heat map data from persisted anomalies for the given run."""
     run = _run_repo.get_by_id(run_id)
     if not run:
@@ -62,14 +73,14 @@ async def get_heatmap(
     anomalies = _anomaly_repo.get_by_run_id(run_id)
 
     if not anomalies:
-        return {
-            "run_id": run_id,
-            "row_dimensions": [],
-            "rows": [],
-            "columns": [],
-            "cells": [],
-            "legend": _LEGEND,
-        }
+        return HeatMapResponse(
+            run_id=run_id,
+            row_dimensions=[],
+            rows=[],
+            columns=[],
+            cells=[],
+            legend=_build_legend(),
+        )
 
     # Collect unique dimension combinations (rows) and periods (columns)
     dim_key_to_values: dict[str, dict[str, str]] = {}
@@ -113,24 +124,45 @@ async def get_heatmap(
                 "type": atype,
                 "intensity": round(intensity, 3),
                 "anomaly_id": anomaly.id,
+                "pct_change": anomaly.pct_change,
+                "current_value": anomaly.current_value,
+                "previous_value": anomaly.previous_value,
                 "_priority": priority,
             }
 
-    # Strip internal _priority field
-    cells = [{k: v for k, v in cell.items() if k != "_priority"} for cell in cell_map.values()]
+    # Build typed cells (strip _priority)
+    cells = [
+        HeatMapCell(
+            row_idx=cell["row_idx"],
+            col_idx=cell["col_idx"],
+            type=cell["type"],
+            intensity=cell["intensity"],
+            anomaly_id=cell["anomaly_id"],
+            pct_change=cell["pct_change"],
+            current_value=cell["current_value"],
+            previous_value=cell["previous_value"],
+        )
+        for cell in cell_map.values()
+    ]
+    cells.sort(key=lambda c: (c.row_idx, c.col_idx))
 
     # Determine row_dimensions from first combination's keys
     first_dims = dim_key_to_values[sorted_dim_keys[0]] if sorted_dim_keys else {}
     row_dimensions = sorted(first_dims.keys())
 
-    rows = [{"idx": i, "values": dim_key_to_values[key]} for i, key in enumerate(sorted_dim_keys)]
-    columns = [{"idx": i, "period": period} for i, period in enumerate(sorted_periods)]
+    rows = [
+        HeatMapRow(idx=i, values=dim_key_to_values[key]) for i, key in enumerate(sorted_dim_keys)
+    ]
+    columns = [
+        HeatMapColumn(idx=i, period=date.fromisoformat(period))
+        for i, period in enumerate(sorted_periods)
+    ]
 
-    return {
-        "run_id": run_id,
-        "row_dimensions": row_dimensions,
-        "rows": rows,
-        "columns": columns,
-        "cells": sorted(cells, key=lambda c: (c["row_idx"], c["col_idx"])),
-        "legend": _LEGEND,
-    }
+    return HeatMapResponse(
+        run_id=run_id,
+        row_dimensions=row_dimensions,
+        rows=rows,
+        columns=columns,
+        cells=cells,
+        legend=_build_legend(),
+    )

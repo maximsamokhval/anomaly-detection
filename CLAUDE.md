@@ -1,4 +1,4 @@
-# CLAUDE.md
+﻿# CLAUDE.md
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
@@ -108,3 +108,27 @@ All MVP phases complete (Phases 1–8):
 ### Specifications
 
 Detailed specs, API contracts, and phase plans live in `specs/001-anomaly-detection-mvp/`. The `contracts/api.md` is the authoritative API specification.
+
+## Type Safety — MANDATORY
+
+**Pydantic v2 + OpenAPI strict typing is non-negotiable** across all layers:
+
+- **Domain models** (`domain/models.py`): All entities must be `BaseModel` subclasses with explicit field types. No `Any`, no bare `dict`. Use `model_validator` / `field_validator` for invariants.
+- **API schemas** (`api/schemas.py`): Every request body, query param, and response must have a dedicated Pydantic schema. Route functions must carry full return type annotations matching the schema. FastAPI generates OpenAPI from these — keep them accurate.
+- **No implicit coercion bypass**: Do not use `model_config = ConfigDict(arbitrary_types_allowed=True)` unless strictly required for a third-party type; document why.
+- **Type checking gates**: `pyright` (standard) and `mypy` (strict) must both pass cleanly before merging. Fix errors — do not add `# type: ignore` without a comment explaining the unavoidable reason.
+- **Enums over strings**: Anomaly types, statuses, and other closed sets must be `StrEnum` / `Enum` — never raw strings in domain or schema code.
+
+## Git Flow & Branching Model
+
+Branch naming: `{issue-number}-{short-kebab-description}` (e.g. `002-ui-charts-export-filters`).
+
+```
+main          ← production-ready, protected; merges via PR only
+  └─ {NNN}-feature-or-fix   ← one branch per ticket/feature
+```
+
+- **Never commit directly to `main`.**
+- PRs must pass all tests (`pytest`) and type checks (`pyright`, `mypy`) before merge.
+- Keep commits atomic and descriptive; prefer small focused commits over large squashes.
+- Delete feature branches after merge.

@@ -50,9 +50,9 @@
         </div>
         <!-- Error -->
         <div id="chart-error" class="hidden bg-red-50 border border-red-200 rounded-lg p-4 text-red-700"></div>
-        <!-- Chart canvas -->
-        <div id="chart-wrapper" class="hidden relative h-96 bg-gray-50 rounded-lg border border-gray-200 p-4">
-            <canvas id="timeseries-chart"></canvas>
+        <!-- Plotly chart container -->
+        <div id="chart-wrapper" class="hidden">
+            <div id="timeseries-chart" style="height:420px;"></div>
         </div>
     </section>
 
@@ -70,12 +70,13 @@
 {% block extra_scripts %}
 <script>
 const ANOMALY_COLORS = {
-    'ZERO_NEG':     '#DC2626',
-    'SPIKE':        '#F59E0B',
-    'RATIO':        '#8B5CF6',
-    'TREND_BREAK':  '#3B82F6',
-    'MISSING':      '#6B7280',
-    'MISSING_DATA': '#111827',
+    'SPIKE':        { color: '#F59E0B', label: 'Стрибок (Spike)' },
+    'TREND_BREAK':  { color: '#3B82F6', label: 'Зрив тренду' },
+    'ZERO_NEG':     { color: '#DC2626', label: 'Нульове/від\'ємне значення' },
+    'MISSING':      { color: '#6B7280', label: 'Відсутній період' },
+    'RATIO':        { color: '#8B5CF6', label: 'Аномальне співвідношення' },
+    'MISSING_DATA': { color: '#111827', label: 'Відсутні дані' },
+    'NORMAL':       { color: '#22C55E', label: 'Норма' },
 };
 
 function getParams() {
@@ -91,7 +92,6 @@ function getParams() {
 
 function renderDimensions(dimensions) {
     const container = document.getElementById('dimensions-container');
-    const icons = { default: 'label' };
     const entries = Object.entries(dimensions);
     if (!entries.length) {
         container.innerHTML = '<div class="col-span-full text-gray-400 italic text-sm">Виміри не вказані</div>';
@@ -108,106 +108,114 @@ function renderDimensions(dimensions) {
     `).join('');
 }
 
-let chartInstance = null;
-
 function renderChart(data) {
     const { dimensions: dims, data: series } = data;
 
     renderDimensions(dims);
 
-    const labels = series.map(p => p.period);
-    const values = series.map(p => p.value);
-    const pointColors = series.map(p => {
-        if (p.anomaly_type) return ANOMALY_COLORS[p.anomaly_type] || '#EF4444';
-        return 'rgb(33, 150, 243)';
+    // Separate normal and anomaly points per type
+    const normalX = [], normalY = [];
+    const anomalyGroups = {}; // type -> { x, y, customdata }
+
+    for (const pt of series) {
+        if (!pt.anomaly_type) {
+            normalX.push(pt.period);
+            normalY.push(pt.value);
+        } else {
+            if (!anomalyGroups[pt.anomaly_type]) {
+                anomalyGroups[pt.anomaly_type] = { x: [], y: [], customdata: [] };
+            }
+            anomalyGroups[pt.anomaly_type].x.push(pt.period);
+            anomalyGroups[pt.anomaly_type].y.push(pt.value);
+            anomalyGroups[pt.anomaly_type].customdata.push({
+                pct_change: pt.pct_change,
+                zscore: pt.zscore,
+            });
+        }
+    }
+
+    const normalCfg = ANOMALY_COLORS['NORMAL'];
+    const traces = [];
+
+    // Normal trace: lines + markers
+    traces.push({
+        type: 'scatter',
+        mode: 'lines+markers',
+        name: normalCfg.label,
+        x: normalX,
+        y: normalY,
+        marker: { color: normalCfg.color, size: 6 },
+        line: { color: normalCfg.color, width: 1.5 },
+        hovertemplate: 'Період: %{x}<br>Значення: %{y:.2f}<extra></extra>',
     });
-    const pointRadii = series.map(p => p.anomaly_type ? 9 : 5);
+
+    // One trace per anomaly type
+    for (const [atype, group] of Object.entries(anomalyGroups)) {
+        const cfg = ANOMALY_COLORS[atype] || { color: '#9CA3AF', label: atype };
+        traces.push({
+            type: 'scatter',
+            mode: 'markers',
+            name: cfg.label,
+            x: group.x,
+            y: group.y,
+            customdata: group.customdata,
+            marker: { color: cfg.color, size: 10, symbol: 'circle' },
+            hovertemplate:
+                'Тип: ' + cfg.label +
+                '<br>Значення: %{y:.2f}' +
+                '<br>Відхилення: %{customdata.pct_change:.1f}%' +
+                '<extra></extra>',
+        });
+    }
+
+    const layout = {
+        xaxis: { title: 'Період', tickangle: -30 },
+        yaxis: { title: 'Значення' },
+        legend: { orientation: 'v', x: 1.02, xanchor: 'left', y: 1 },
+        margin: { l: 60, r: 160, t: 30, b: 60 },
+        hovermode: 'closest',
+        paper_bgcolor: 'rgba(0,0,0,0)',
+        plot_bgcolor: '#F9FAFB',
+    };
+
+    const config = { responsive: true, displayModeBar: true, displaylogo: false };
+
+    Plotly.newPlot('timeseries-chart', traces, layout, config);
 
     // Anomaly summary
     const anomalies = series.filter(p => p.anomaly_type);
     if (anomalies.length > 0) {
         const summaryEl = document.getElementById('anomaly-summary');
         summaryEl.classList.remove('hidden');
-        document.getElementById('anomaly-list').innerHTML = anomalies.map(p => `
-            <div class="flex items-center gap-2 px-4 py-2 rounded-lg border"
-                 style="background-color:${ANOMALY_COLORS[p.anomaly_type] || '#9CA3AF'}22;
-                        border-color:${ANOMALY_COLORS[p.anomaly_type] || '#9CA3AF'}66">
-                <span class="font-bold text-sm" style="color:${ANOMALY_COLORS[p.anomaly_type] || '#374151'}">${p.anomaly_type}</span>
+        document.getElementById('anomaly-list').innerHTML = anomalies.map(p => {
+            const cfg = ANOMALY_COLORS[p.anomaly_type] || { color: '#9CA3AF', label: p.anomaly_type };
+            return `<div class="flex items-center gap-2 px-4 py-2 rounded-lg border"
+                 style="background-color:${cfg.color}22; border-color:${cfg.color}66">
+                <span class="font-bold text-sm" style="color:${cfg.color}">${p.anomaly_type}</span>
                 <span class="text-gray-600 text-sm">${p.period}</span>
                 <span class="text-gray-700 font-mono text-sm">${p.value !== null ? p.value.toFixed(2) : 'Н/Д'}</span>
-            </div>
-        `).join('');
+            </div>`;
+        }).join('');
     }
 
     document.getElementById('chart-wrapper').classList.remove('hidden');
-
-    if (chartInstance) chartInstance.destroy();
-
-    const ctx = document.getElementById('timeseries-chart').getContext('2d');
-    chartInstance = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels,
-            datasets: [{
-                label: 'Значення (Сума/Кіл-сть)',
-                data: values,
-                borderColor: 'rgb(33, 150, 243)',
-                backgroundColor: 'rgba(33, 150, 243, 0.1)',
-                tension: 0.1,
-                pointRadius: pointRadii,
-                pointHoverRadius: 10,
-                pointBackgroundColor: pointColors,
-                pointBorderColor: '#fff',
-                pointBorderWidth: 2,
-            }],
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: true,
-            plugins: {
-                legend: { display: true, position: 'top' },
-                tooltip: {
-                    backgroundColor: 'rgba(0,0,0,0.8)',
-                    padding: 12,
-                    cornerRadius: 8,
-                    callbacks: {
-                        afterLabel: function(ctx) {
-                            const pt = series[ctx.dataIndex];
-                            const lines = [];
-                            if (pt.raw_sum !== null) lines.push(`Сума: ${pt.raw_sum}`);
-                            if (pt.raw_qty !== null) lines.push(`Кількість: ${pt.raw_qty}`);
-                            if (pt.anomaly_type) lines.push(`⚠ ${pt.anomaly_type}`);
-                            return lines;
-                        },
-                    },
-                },
-            },
-            scales: {
-                y: {
-                    title: { display: true, text: 'Значення' },
-                    grid: { color: 'rgba(0,0,0,0.05)' },
-                },
-                x: {
-                    title: { display: true, text: 'Період' },
-                    grid: { color: 'rgba(0,0,0,0.05)' },
-                },
-            },
-        },
-    });
 }
 
 async function loadTimeseries() {
     const { runId, dimensions } = getParams();
+
+    // T011b: run_id guard
     if (!runId) {
         document.getElementById('chart-loading').classList.add('hidden');
-        document.getElementById('chart-error').classList.remove('hidden');
-        document.getElementById('chart-error').textContent = 'run_id не вказано. Поверніться на головну сторінку та запустіть аналіз.';
+        const errEl = document.getElementById('chart-error');
+        errEl.classList.remove('hidden');
+        errEl.innerHTML = 'Параметр <code>run_id</code> не вказано. <a href="/" class="underline text-red-600">Поверніться на головну сторінку</a> та запустіть аналіз.';
+        renderDimensions(dimensions);
         return;
     }
 
     // Update back link with run_id
-    const hmLink = document.getElementById('back-heatmap');
-    hmLink.href = `/heatmap?run_id=${encodeURIComponent(runId)}`;
+    document.getElementById('back-heatmap').href = `/heatmap?run_id=${encodeURIComponent(runId)}`;
 
     renderDimensions(dimensions);
 
@@ -217,16 +225,18 @@ async function loadTimeseries() {
         const data = await resp.json();
         if (!resp.ok) {
             document.getElementById('chart-loading').classList.add('hidden');
-            document.getElementById('chart-error').classList.remove('hidden');
-            document.getElementById('chart-error').textContent = `Помилка ${resp.status}: ${data.message || 'Невідома помилка'}`;
+            const errEl = document.getElementById('chart-error');
+            errEl.classList.remove('hidden');
+            errEl.textContent = `Помилка ${resp.status}: ${data.message || 'Невідома помилка'}`;
             return;
         }
         document.getElementById('chart-loading').classList.add('hidden');
         renderChart(data);
     } catch (e) {
         document.getElementById('chart-loading').classList.add('hidden');
-        document.getElementById('chart-error').classList.remove('hidden');
-        document.getElementById('chart-error').textContent = `Мережева помилка: ${e.message}`;
+        const errEl = document.getElementById('chart-error');
+        errEl.classList.remove('hidden');
+        errEl.textContent = `Мережева помилка: ${e.message}`;
     }
 }
 
