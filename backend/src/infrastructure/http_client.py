@@ -51,7 +51,7 @@ async def fetch_1c_data(
         "date_from": date_from.isoformat(),
         "date_to": date_to.isoformat(),
     }
-    url = f"{endpoint.rstrip('/')}/data"
+    url = endpoint.rstrip("/")
 
     logger.debug(
         "1C fetch → GET {url} | params={params} | auth={auth_type} | timeout={timeout}s",
@@ -119,7 +119,7 @@ async def test_connection(
     Never raises — all errors are captured and returned as status="error".
     """
     auth = _build_auth(auth_type, auth_user, auth_password)
-    url = f"{endpoint.rstrip('/')}/data"
+    url = endpoint.rstrip("/")
     params: dict[str, str] = {"register_name": register_name}
 
     logger.debug(

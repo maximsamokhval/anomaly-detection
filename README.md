@@ -203,7 +203,7 @@ curl -X POST http://localhost:8000/api/v1/analysis/run \
 
 ## Контракт 1С HTTP
 
-Сервис отправляет один GET-запрос на `{endpoint}/data` с тремя query-параметрами:
+Сервис отправляет один GET-запрос на `{endpoint}` (URL берётся из настроек источника **как есть**) с тремя query-параметрами:
 
 | Параметр | Тип | Описание |
 |----------|-----|----------|
@@ -414,17 +414,20 @@ rows = response.json()["data"]
 | Кто | Метод | URL | Описание |
 |-----|-------|-----|----------|
 | UI / клиент → наш сервис | `POST` | `/api/v1/sources/{id}/test` | Запрос на проверку соединения |
-| Наш сервис → 1С | `GET` | `{endpoint}/data?register_name=...` | Фактический запрос к 1С |
+| Наш сервис → 1С | `GET` | `{endpoint}?register_name=...` | Фактический запрос к 1С (URL из настроек как есть) |
 
 Когда пользователь нажимает «Тест з'єднання», наш сервис принимает `POST` и внутри делает `GET`-запрос к 1С **без дат** — только с `register_name`. В 1С **один эндпоинт** `GET /data`, который обслуживает и тестовые пинги, и реальные запросы данных.
 
 ```
-# тест (без дат):
-GET {endpoint}/data?register_name=SalesByProduct
+# тест (без дат) — endpoint из настроек источника, например:
+GET http://localhost/conso-dev/hs/mcp/v1/data?register_name=SalesByProduct
 
 # реальный запрос (с датами):
-GET {endpoint}/data?register_name=SalesByProduct&date_from=2026-01-01&date_to=2026-03-31
+GET http://localhost/conso-dev/hs/mcp/v1/data?register_name=SalesByProduct&date_from=2026-01-01&date_to=2026-03-31
 ```
+
+> **Endpoint указывается полностью** в настройках источника — сервис использует его как есть,
+> без добавления каких-либо суффиксов. Пример значения поля: `http://1c-server/base/hs/mcp/v1/data`
 
 **Как 1С должна реагировать:**
 
