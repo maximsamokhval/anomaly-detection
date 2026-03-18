@@ -5,6 +5,7 @@ from pathlib import Path
 
 import httpx
 from fastapi import APIRouter, HTTPException
+from loguru import logger
 
 from src.api.schemas import AnalysisRunRequest, AnalysisRunShortResponse
 from src.domain.detector import detect_anomalies
@@ -67,6 +68,17 @@ async def run_analysis(request: AnalysisRunRequest) -> AnalysisRunShortResponse:
         triggered_by="user",
     )
 
+    logger.info(
+        "[{rid}] Analysis start | source={src} | register={reg} | endpoint={ep} | {dfrom} → {dto} | auth={auth}",
+        rid=run.id[:8],
+        src=source.id,
+        reg=source.register_name,
+        ep=source.endpoint,
+        dfrom=request.date_from,
+        dto=request.date_to,
+        auth=source.auth.type,
+    )
+
     # Fetch raw data from 1C HTTP service
     try:
         raw_rows = await fetch_1c_data(
@@ -79,6 +91,13 @@ async def run_analysis(request: AnalysisRunRequest) -> AnalysisRunShortResponse:
             auth_password=source.auth.password,
         )
     except httpx.HTTPStatusError as exc:
+        logger.error(
+            "[{rid}] 1C HTTP error {status} | url={url} | body={body}",
+            rid=run.id[:8],
+            status=exc.response.status_code,
+            url=str(exc.request.url),
+            body=exc.response.text[:500],
+        )
         raise HTTPException(
             status_code=502,
             detail={
@@ -87,6 +106,7 @@ async def run_analysis(request: AnalysisRunRequest) -> AnalysisRunShortResponse:
             },
         ) from exc
     except (httpx.TimeoutException, httpx.ConnectError) as exc:
+        logger.error("[{rid}] 1C unavailable | {exc}", rid=run.id[:8], exc=exc)
         raise HTTPException(
             status_code=504,
             detail={
@@ -95,10 +115,20 @@ async def run_analysis(request: AnalysisRunRequest) -> AnalysisRunShortResponse:
             },
         ) from exc
 
+    logger.debug("[{rid}] 1C raw rows={n} | metric_fields={mf} | dimensions={dims}",
+        rid=run.id[:8],
+        n=len(raw_rows),
+        mf=source.metric_fields,
+        dims=source.dimensions,
+    )
+    if raw_rows:
+        logger.debug("[{rid}] First row sample: {row}", rid=run.id[:8], row=raw_rows[0])
+
     # Transform raw rows into DataPoints (computes value = sum / qty)
     data_points = transform_raw_data(raw_rows, source, run_id=run.id)
+    logger.debug("[{rid}] data_points={n}", rid=run.id[:8], n=len(data_points))
 
-    # Detect anomalies using real detector with source threshold rules (T055, T056)
+    # Detect anomalies using real detector with source threshold rules
     anomalies = detect_anomalies(
         data_points=data_points,
         threshold_rules=source.threshold_rules,
@@ -107,6 +137,7 @@ async def run_analysis(request: AnalysisRunRequest) -> AnalysisRunShortResponse:
         date_from=request.date_from,
         date_to=request.date_to,
     )
+    logger.info("[{rid}] anomalies={n}", rid=run.id[:8], n=len(anomalies))
 
     run.mark_completed(anomaly_count=len(anomalies))
 
@@ -118,6 +149,7 @@ async def run_analysis(request: AnalysisRunRequest) -> AnalysisRunShortResponse:
         anomaly_repo.save_batch(anomalies)
 
     duration_ms = int((time.time() - start_time) * 1000)
+    logger.info("[{rid}] Analysis done | {ms}ms | anomalies={n}", rid=run.id[:8], ms=duration_ms, n=len(anomalies))
 
     return AnalysisRunShortResponse(
         analysis_id=run.id,
