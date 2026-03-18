@@ -203,21 +203,44 @@ curl -X POST http://localhost:8000/api/v1/analysis/run \
 
 ## Контракт 1С HTTP
 
-Сервис отправляет один GET-запрос на `{endpoint}/data` с параметрами:
+Сервис отправляет один GET-запрос на `{endpoint}/data` с тремя query-параметрами:
 
-```
-register_name, date_from, date_to
-```
+| Параметр | Тип | Описание |
+|----------|-----|----------|
+| `register_name` | `string` | Имя регистра накопления из конфигурации источника |
+| `date_from` | `YYYY-MM-DD` | Начало периода (включительно) |
+| `date_to` | `YYYY-MM-DD` | Конец периода (включительно) |
 
-**Пример запроса (curl):**
+### Пример запроса (curl)
+
 ```bash
-curl -X GET "http://1c-server/base/hs/analytics/v1/data" \
-  --get \
+curl -G "http://1c-server/base/hs/analytics/v1/data" \
   --data-urlencode "register_name=SalesByProduct" \
   --data-urlencode "date_from=2026-01-01" \
   --data-urlencode "date_to=2026-03-31" \
   -u "user:password"          # только если auth.type = "basic"
 ```
+
+### Пример запроса (Python)
+
+```python
+import requests
+
+response = requests.get(
+    "http://1c-server/base/hs/analytics/v1/data",
+    params={
+        "register_name": "SalesByProduct",
+        "date_from": "2026-01-01",
+        "date_to": "2026-03-31",
+    },
+    auth=("user", "password"),  # убрать если auth.type = "none"
+    timeout=30,
+)
+response.raise_for_status()
+rows = response.json()["data"]
+```
+
+### Ожидаемый ответ
 
 1С **должна** возвращать JSON с полным массивом данных за период:
 
@@ -235,10 +258,13 @@ curl -X GET "http://1c-server/base/hs/analytics/v1/data" \
 }
 ```
 
+### Требования к ответу
+
 - `"Период"` — обязательное поле, дата в формате `YYYY-MM-DD` или `YYYY-MM-DDTHH:MM:SS`.
-- Имена полей измерений и метрик соответствуют `dimensions` и `metric_fields` конфигурации источника.
+- Имена полей измерений и метрик должны совпадать со значениями в `dimensions` и `metric_fields` конфигурации источника.
 - 1С возвращает **весь массив за период** за один запрос — пагинация не используется.
-- Если 1С требует авторизацию — настройте `auth.type: "basic"` в источнике данных.
+- Если 1С недоступна или не отвечает за 10 секунд — сервис возвращает `504 Gateway Timeout`.
+- Если 1С требует авторизацию — настройте `auth.type: "basic"` и укажите `auth.user` / `auth.password` в источнике данных.
 
 Подробный контракт: `specs/001-anomaly-detection-mvp/contracts/1c-http.md`.
 
