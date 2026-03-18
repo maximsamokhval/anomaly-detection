@@ -10,6 +10,7 @@ from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 from starlette.responses import Response as StarletteResponse
 
+from src.api.middleware import LoggingMiddleware
 from src.api.routes import analysis, anomalies, heatmap, sources, timeseries
 from src.infrastructure.logging import logger
 from src.ui.templates import templates
@@ -82,6 +83,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Request/response logging (outermost layer – runs first on request, last on response)
+app.add_middleware(LoggingMiddleware)
 
 # Static files
 static_path = Path(__file__).parent.parent / "ui" / "static"

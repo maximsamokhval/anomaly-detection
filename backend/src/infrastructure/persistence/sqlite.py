@@ -6,10 +6,18 @@ from datetime import date, datetime
 from pathlib import Path
 from typing import Any
 
-from src.domain.models import AnalysisRun, Anomaly, AuthConfig, DataSource, ThresholdRules
+from src.domain.models import (
+    AnalysisRun,
+    Anomaly,
+    AuthConfig,
+    DataPoint,
+    DataSource,
+    ThresholdRules,
+)
 from src.infrastructure.persistence.base import (
     AnalysisRunRepository,
     AnomalyRepository,
+    DataPointRepository,
     DataSourceRepository,
 )
 
@@ -344,6 +352,105 @@ class SQLiteAnalysisRunRepository(AnalysisRunRepository):
             status=row[7],
             anomaly_count=row[8] or 0,
             error_message=row[9],
+        )
+
+
+class SQLiteDataPointRepository(DataPointRepository):
+    """SQLite implementation of DataPointRepository."""
+
+    def __init__(self, db_path: str | Path) -> None:
+        self.db_path = Path(db_path)
+        self._init_db()
+
+    def _init_db(self) -> None:
+        """Initialize database schema."""
+        conn = sqlite3.connect(str(self.db_path))
+        cursor = conn.cursor()
+        cursor.execute(
+            """
+            CREATE TABLE IF NOT EXISTS data_points (
+                id TEXT PRIMARY KEY,
+                run_id TEXT NOT NULL,
+                source_id TEXT NOT NULL,
+                dimensions TEXT NOT NULL,
+                period DATE NOT NULL,
+                value REAL NOT NULL,
+                raw_sum REAL NOT NULL,
+                raw_qty REAL NOT NULL,
+                FOREIGN KEY (run_id) REFERENCES analysis_runs(id)
+            )
+        """
+        )
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_data_points_run ON data_points(run_id)")
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_data_points_period ON data_points(period)")
+        conn.commit()
+        conn.close()
+
+    def save_batch(self, data_points: list[DataPoint]) -> None:
+        """Save multiple data points at once."""
+        if not data_points:
+            return
+        conn = sqlite3.connect(str(self.db_path))
+        cursor = conn.cursor()
+        for dp in data_points:
+            cursor.execute(
+                """
+                INSERT OR IGNORE INTO data_points
+                (id, run_id, source_id, dimensions, period, value, raw_sum, raw_qty)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+                (
+                    dp.id,
+                    dp.run_id,
+                    dp.source_id,
+                    _serialize_dimensions_dict(dp.dimensions),
+                    dp.period.isoformat(),
+                    dp.value,
+                    dp.raw_sum,
+                    dp.raw_qty,
+                ),
+            )
+        conn.commit()
+        conn.close()
+
+    def get_by_run_id(self, run_id: str) -> list[DataPoint]:
+        """Get all data points for a specific run, sorted by period."""
+        conn = sqlite3.connect(str(self.db_path))
+        cursor = conn.cursor()
+        cursor.execute(
+            "SELECT * FROM data_points WHERE run_id = ? ORDER BY period ASC",
+            (run_id,),
+        )
+        rows = cursor.fetchall()
+        conn.close()
+        return [self._row_to_point(row) for row in rows]
+
+    def get_by_run_and_dimensions(self, run_id: str, dimensions: dict[str, str]) -> list[DataPoint]:
+        """Get data points for a run filtered to a specific dimension combination."""
+        query = "SELECT * FROM data_points WHERE run_id = ?"
+        params: list[Any] = [run_id]
+        for key, value in dimensions.items():
+            query += f" AND json_extract(dimensions, '$.{key}') = ?"
+            params.append(value)
+        query += " ORDER BY period ASC"
+        conn = sqlite3.connect(str(self.db_path))
+        cursor = conn.cursor()
+        cursor.execute(query, params)
+        rows = cursor.fetchall()
+        conn.close()
+        return [self._row_to_point(row) for row in rows]
+
+    def _row_to_point(self, row: tuple[Any, ...]) -> DataPoint:
+        """Convert database row to DataPoint."""
+        return DataPoint(
+            id=row[0],
+            run_id=row[1],
+            source_id=row[2],
+            dimensions=_deserialize_dimensions_dict(row[3]),
+            period=_parse_date(row[4]),
+            value=row[5],
+            raw_sum=row[6],
+            raw_qty=row[7],
         )
 
 

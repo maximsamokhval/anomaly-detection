@@ -3,7 +3,7 @@
 from abc import ABC, abstractmethod
 from datetime import date
 
-from src.domain.models import AnalysisRun, Anomaly, DataSource
+from src.domain.models import AnalysisRun, Anomaly, DataPoint, DataSource
 
 
 class DataSourceRepository(ABC):
@@ -56,6 +56,25 @@ class AnalysisRunRepository(ABC):
     @abstractmethod
     def get_latest(self, source_id: str) -> AnalysisRun | None:
         """Get the most recent analysis run for a source."""
+        pass
+
+
+class DataPointRepository(ABC):
+    """Abstract repository for DataPoint persistence (Constitution V)."""
+
+    @abstractmethod
+    def save_batch(self, data_points: list[DataPoint]) -> None:
+        """Save multiple data points at once."""
+        pass
+
+    @abstractmethod
+    def get_by_run_id(self, run_id: str) -> list[DataPoint]:
+        """Get all data points for a specific run."""
+        pass
+
+    @abstractmethod
+    def get_by_run_and_dimensions(self, run_id: str, dimensions: dict[str, str]) -> list[DataPoint]:
+        """Get data points for a run filtered to a specific dimension combination."""
         pass
 
 

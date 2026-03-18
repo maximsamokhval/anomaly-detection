@@ -16,6 +16,7 @@ from src.api.schemas import (
     ThresholdRulesResponse,
 )
 from src.domain.models import AuthConfig, DataSource, ThresholdRules
+from src.infrastructure.http_client import test_connection as _test_1c_connection
 from src.infrastructure.persistence.sqlite import SQLiteDataSourceRepository
 
 router = APIRouter()
@@ -63,10 +64,7 @@ async def list_sources() -> DataSourceListResponse:
     """List all data sources."""
     sources = data_source_repo.get_all()
     return DataSourceListResponse(
-        sources=[
-            DataSourceShortResponse(id=s.id, name=s.name, enabled=s.enabled)
-            for s in sources
-        ]
+        sources=[DataSourceShortResponse(id=s.id, name=s.name, enabled=s.enabled) for s in sources]
     )
 
 
@@ -125,9 +123,7 @@ async def create_source(request: DataSourceCreateRequest) -> DataSourceResponse:
         422: {"model": dict, "description": "Validation error"},
     },
 )
-async def update_source(
-    source_id: str, request: DataSourceUpdateRequest
-) -> DataSourceResponse:
+async def update_source(source_id: str, request: DataSourceUpdateRequest) -> DataSourceResponse:
     """Update an existing data source."""
     existing = data_source_repo.get_by_id(source_id)
     if not existing:
@@ -200,11 +196,17 @@ async def test_connection(source_id: str) -> TestConnectionResponse:
             detail={"error": "not_found", "message": f"Data source '{source_id}' not found"},
         )
 
-    # Phase 2: mock connection test (real HTTP call added in Phase 4)
+    result = await _test_1c_connection(
+        endpoint=source.endpoint,
+        register_name=source.register_name,
+        auth_type=source.auth.type,
+        auth_user=source.auth.user,
+        auth_password=source.auth.password,
+    )
     return TestConnectionResponse(
-        status="ok",
-        message=f"Mock connection to '{source.endpoint}' succeeded",
-        response_time_ms=0,
+        status=result["status"],
+        message=result["message"],
+        response_time_ms=result["response_time_ms"],
     )
 
 

@@ -42,3 +42,5 @@ Thumbs.db
 # Project specific
 data/*.db
 backend/ui/static/*.min.js
+
+

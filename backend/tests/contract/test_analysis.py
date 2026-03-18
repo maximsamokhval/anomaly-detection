@@ -1,7 +1,7 @@
 """Contract tests for POST /api/v1/analysis/run endpoint."""
 
 import pytest
-from httpx import AsyncClient, ASGITransport
+from httpx import ASGITransport, AsyncClient
 
 
 @pytest.mark.asyncio

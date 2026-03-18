@@ -1,7 +1,7 @@
 """Contract tests for /api/v1/sources CRUD endpoints."""
 
 import pytest
-from httpx import AsyncClient, ASGITransport
+from httpx import ASGITransport, AsyncClient
 
 
 @pytest.mark.asyncio

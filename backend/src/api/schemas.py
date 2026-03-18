@@ -271,9 +271,7 @@ class AnomalyListResponse(BaseModel):
     )
 
     anomalies: list[AnomalyResponse] = Field(description="List of anomaly records")
-    pagination: dict[str, Any] = Field(
-        description="Pagination metadata: total, page, page_size"
-    )
+    pagination: dict[str, Any] = Field(description="Pagination metadata: total, page, page_size")
 
 
 class ThresholdRulesResponse(BaseModel):
@@ -357,7 +355,11 @@ class DataSourceListResponse(BaseModel):
     """Response containing a list of data sources."""
 
     model_config = ConfigDict(
-        json_schema_extra={"example": {"sources": [{"id": "sales_by_product", "name": "Sales by Product", "enabled": True}]}}
+        json_schema_extra={
+            "example": {
+                "sources": [{"id": "sales_by_product", "name": "Sales by Product", "enabled": True}]
+            }
+        }
     )
 
     sources: list[DataSourceShortResponse] = Field(description="List of data sources")
@@ -367,10 +369,14 @@ class TestConnectionResponse(BaseModel):
     """Response for a connection test request."""
 
     model_config = ConfigDict(
-        json_schema_extra={"example": {"status": "ok", "message": "Connected successfully", "response_time_ms": 45}}
+        json_schema_extra={
+            "example": {"status": "ok", "message": "Connected successfully", "response_time_ms": 45}
+        }
     )
 
-    status: Literal["ok", "error"] = Field(description="'ok' if connection succeeded, 'error' otherwise")
+    status: Literal["ok", "error"] = Field(
+        description="'ok' if connection succeeded, 'error' otherwise"
+    )
     message: str = Field(description="Human-readable result message")
     response_time_ms: int | None = Field(
         default=None,
