@@ -4,13 +4,35 @@ import pytest
 from fastapi.testclient import TestClient
 from httpx import ASGITransport, AsyncClient
 
-from src.main import app
+from src.domain.models import AuthConfig, DataSource, ThresholdRules
+from src.infrastructure.persistence.sqlite import SQLiteDataSourceRepository
+from src.main import app as fastapi_app
+
+_DB_PATH = "data/anomaly_detection.db"
+
+
+@pytest.fixture(autouse=True, scope="session")
+def seed_test_source() -> None:
+    """Ensure a 'test_source' data source exists for analysis contract tests."""
+    repo = SQLiteDataSourceRepository(_DB_PATH)
+    if not repo.exists("test_source"):
+        source = DataSource(
+            id="test_source",
+            name="Test Source",
+            endpoint="http://localhost/hs/analytics/v1",
+            register_name="TestRegister",
+            dimensions=["Period", "Product"],
+            metric_fields={"sum": "AmountTurnover", "qty": "QuantityTurnover"},
+            threshold_rules=ThresholdRules(),
+            auth=AuthConfig(),
+        )
+        repo.save(source)
 
 
 @pytest.fixture
 def client():
     """Create test client for synchronous tests."""
-    with TestClient(app) as test_client:
+    with TestClient(fastapi_app) as test_client:
         yield test_client
 
 
@@ -18,7 +40,7 @@ def client():
 async def async_client():
     """Create async client for asynchronous tests."""
     async with AsyncClient(
-        transport=ASGITransport(app=app), base_url="http://test"
+        transport=ASGITransport(app=fastapi_app), base_url="http://test"
     ) as client:
         yield client
 
@@ -26,4 +48,4 @@ async def async_client():
 @pytest.fixture
 def app():
     """Provide the FastAPI app for testing."""
-    return app
+    return fastapi_app

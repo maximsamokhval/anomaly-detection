@@ -1,0 +1,41 @@
+{
+  "pythonVersion": "3.12",
+  "pythonPlatform": "Linux",
+
+  "include": ["src"],
+  "exclude": ["**/__pycache__", "**/.venv"],
+
+  "venvPath": ".",
+  "venv": ".venv",
+
+  "typeCheckingMode": "standard",
+
+  "reportMissingImports": true,
+  "reportMissingTypeStubs": false,
+
+  "reportUnusedImport": "warning",
+  "reportUnusedVariable": "warning",
+  "reportUnusedClass": "warning",
+  "reportUnusedFunction": "warning",
+
+  "reportReturnType": "error",
+  "reportArgumentType": "error",
+  "reportOperatorIssue": "error",
+  "reportIndexIssue": "error",
+  "reportAttributeAccessIssue": "error",
+  "reportCallIssue": "error",
+  "reportGeneralTypeIssues": "error",
+
+  "reportUntypedFunctionDecorator": "warning",
+  "reportUntypedClassDecorator": "warning",
+  "reportUntypedBaseClass": "warning",
+  "reportUntypedNamedTuple": "warning",
+
+  "reportPrivateUsage": "information",
+  "reportConstantRedefinition": "error",
+  "reportDuplicateImport": "warning",
+  "reportWildcardImportFromLibrary": "warning",
+
+  "useLibraryCodeForTypes": true,
+  "enableTypeIgnoreComments": true
+}

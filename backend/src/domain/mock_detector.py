@@ -3,10 +3,10 @@
 Returns pre-canned anomalies for testing without real detection algorithms.
 """
 
-from datetime import date, datetime
+from datetime import date
 from uuid import uuid4
 
-from domain.models import Anomaly, DataPoint, ThresholdRules
+from src.domain.models import Anomaly, DataPoint, ThresholdRules
 
 
 def detect_anomalies_mock(
