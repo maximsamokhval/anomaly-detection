@@ -289,7 +289,9 @@ class Anomaly(BaseModel):
         description="Period in which the anomaly was detected",
         examples=["2026-03-01"],
     )
-    anomaly_type: Literal["SPIKE", "TREND_BREAK", "ZERO_NEG", "MISSING", "RATIO", "MISSING_DATA"] = Field(
+    anomaly_type: Literal[
+        "SPIKE", "TREND_BREAK", "ZERO_NEG", "MISSING", "RATIO", "MISSING_DATA"
+    ] = Field(
         description="Category of the detected anomaly",
         examples=["SPIKE"],
     )

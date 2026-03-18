@@ -91,32 +91,32 @@
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T022 [P] [US1] Contract test for POST /api/v1/analysis/run in `backend/tests/contract/test_analysis.py`
-- [ ] T023 [P] [US1] Contract test for GET /api/v1/anomalies in `backend/tests/contract/test_anomalies.py`
-- [ ] T024 [P] [US2] Contract test for CRUD /api/v1/sources endpoints in `backend/tests/contract/test_sources.py`
+- [x] T022 [P] [US1] Contract test for POST /api/v1/analysis/run in `backend/tests/contract/test_analysis.py`
+- [x] T023 [P] [US1] Contract test for GET /api/v1/anomalies in `backend/tests/contract/test_anomalies.py`
+- [x] T024 [P] [US2] Contract test for CRUD /api/v1/sources endpoints in `backend/tests/contract/test_sources.py`
 
 ### Implementation for Live API - User Story 1 (Detect Anomalies)
 
-- [ ] T025 [P] [US1] Create mock detector in `backend/src/domain/mock_detector.py` returning pre-canned anomalies for test data
-- [ ] T026 [P] [US1] Implement POST /api/v1/analysis/run endpoint in `backend/src/api/routes/analysis.py` calling mock detector
-- [ ] T027 [P] [US1] Implement GET /api/v1/analysis/{id} endpoint in `backend/src/api/routes/analysis.py`
-- [ ] T028 [P] [US1] Implement GET /api/v1/anomalies endpoint in `backend/src/api/routes/anomalies.py` with filtering by run_id
-- [ ] T029 [P] [US1] Implement GET /api/v1/heatmap endpoint in `backend/src/api/routes/heatmap.py` transforming anomalies to heat map format
-- [ ] T030 [P] [US1] Implement GET /api/v1/timeseries endpoint in `backend/src/api/routes/timeseries.py` for drill-down data
-- [ ] T031 [US1] Update Dashboard template to call real API for source list and last analysis status
-- [ ] T032 [US1] Update Heat Map template to fetch data from GET /api/v1/heatmap and render dynamically
-- [ ] T033 [US1] Update Drill-down template to fetch time series from GET /api/v1/timeseries and update Chart.js data
+- [x] T025 [P] [US1] Create mock detector in `backend/src/domain/mock_detector.py` returning pre-canned anomalies for test data
+- [x] T026 [P] [US1] Implement POST /api/v1/analysis/run endpoint in `backend/src/api/routes/analysis.py` calling mock detector
+- [x] T027 [P] [US1] Implement GET /api/v1/analysis/{id} endpoint in `backend/src/api/routes/analysis.py`
+- [x] T028 [P] [US1] Implement GET /api/v1/anomalies endpoint in `backend/src/api/routes/anomalies.py` with filtering by run_id
+- [x] T029 [P] [US1] Implement GET /api/v1/heatmap endpoint in `backend/src/api/routes/heatmap.py` transforming anomalies to heat map format
+- [x] T030 [P] [US1] Implement GET /api/v1/timeseries endpoint in `backend/src/api/routes/timeseries.py` for drill-down data
+- [x] T031 [US1] Update Dashboard template to call real API for source list and last analysis status
+- [x] T032 [US1] Update Heat Map template to fetch data from GET /api/v1/heatmap and render dynamically
+- [x] T033 [US1] Update Drill-down template to fetch time series from GET /api/v1/timeseries and update Chart.js data
 
 ### Implementation for Live API - User Story 2 (Configure Sources)
 
-- [ ] T034 [P] [US2] Implement GET /api/v1/sources endpoint in `backend/src/api/routes/sources.py`
-- [ ] T035 [P] [US2] Implement POST /api/v1/sources endpoint in `backend/src/api/routes/sources.py` with validation
-- [ ] T036 [P] [US2] Implement PUT /api/v1/sources/{id} endpoint in `backend/src/api/routes/sources.py`
-- [ ] T037 [P] [US2] Implement DELETE /api/v1/sources/{id} endpoint in `backend/src/api/routes/sources.py`
-- [ ] T038 [P] [US2] Implement POST /api/v1/sources/{id}/test endpoint in `backend/src/api/routes/sources.py` calling mock 1C adapter
-- [ ] T039 [P] [US2] Implement GET /api/v1/sources/{id}/preview endpoint in `backend/src/api/routes/sources.py` returning mock data preview
-- [ ] T040 [US2] Update Sources template to POST form data to /api/v1/sources and handle success/error responses
-- [ ] T041 [US2] Add "Test Connection" button in Sources template calling POST /api/v1/sources/{id}/test via JavaScript
+- [x] T034 [P] [US2] Implement GET /api/v1/sources endpoint in `backend/src/api/routes/sources.py`
+- [x] T035 [P] [US2] Implement POST /api/v1/sources endpoint in `backend/src/api/routes/sources.py` with validation
+- [x] T036 [P] [US2] Implement PUT /api/v1/sources/{id} endpoint in `backend/src/api/routes/sources.py`
+- [x] T037 [P] [US2] Implement DELETE /api/v1/sources/{id} endpoint in `backend/src/api/routes/sources.py`
+- [x] T038 [P] [US2] Implement POST /api/v1/sources/{id}/test endpoint in `backend/src/api/routes/sources.py` calling mock 1C adapter
+- [x] T039 [P] [US2] Implement GET /api/v1/sources/{id}/preview endpoint in `backend/src/api/routes/sources.py` returning mock data preview
+- [x] T040 [US2] Update Sources template to POST form data to /api/v1/sources and handle success/error responses
+- [x] T041 [US2] Add "Test Connection" button in Sources template calling POST /api/v1/sources/{id}/test via JavaScript
 
 **Checkpoint**: Live API complete - end-to-end flow works with mock detector
 
@@ -132,26 +132,42 @@
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T042 [P] [US1] Unit test for SPIKE detection (% change + z-score) in `backend/tests/unit/test_detector_spike.py`
-- [ ] T043 [P] [US1] Unit test for TREND_BREAK detection in `backend/tests/unit/test_detector_trend.py`
-- [ ] T044 [P] [US1] Unit test for ZERO_NEG detection in `backend/tests/unit/test_detector_zero_neg.py`
-- [ ] T045 [P] [US1] Unit test for MISSING detection in `backend/tests/unit/test_detector_missing.py`
-- [ ] T046 [P] [US1] Unit test for MISSING_DATA guard (qty=0) in `backend/tests/unit/test_detector_missing_data.py`
-- [ ] T047 [P] [US1] Unit test for transformer (value = sum/qty) in `backend/tests/unit/test_transformer.py`
+- [x] T042 [P] [US1] Unit test for SPIKE detection (% change + z-score) in `backend/tests/unit/test_detector_spike.py`
+- [x] T043 [P] [US1] Unit test for TREND_BREAK detection in `backend/tests/unit/test_detector_trend.py`
+- [x] T044 [P] [US1] Unit test for ZERO_NEG detection in `backend/tests/unit/test_detector_zero_neg.py`
+- [x] T045 [P] [US1] Unit test for MISSING detection in `backend/tests/unit/test_detector_missing.py`
+- [x] T046 [P] [US1] Unit test for MISSING_DATA guard (qty=0) in `backend/tests/unit/test_detector_missing_data.py`
+- [x] T047 [P] [US1] Unit test for transformer (value = sum/qty) in `backend/tests/unit/test_transformer.py`
 
 ### Implementation for Real Detector - User Story 1
 
-- [ ] T048 [P] [US1] Implement DataPoint transformer in `backend/src/domain/transformer.py` computing value = raw_sum / raw_qty with qty=0 guard
-- [ ] T049 [P] [US1] Implement SPIKE detection in `backend/src/domain/detector.py` with % change calculation and z-score (moving window)
-- [ ] T050 [P] [US1] Implement TREND_BREAK detection in `backend/src/domain/detector.py` with trend reversal logic
-- [ ] T051 [P] [US1] Implement ZERO_NEG detection in `backend/src/domain/detector.py`
-- [ ] T052 [P] [US1] Implement MISSING detection in `backend/src/domain/detector.py` for gaps in period sequence
-- [ ] T053 [P] [US1] Implement MISSING_DATA detection in `backend/src/domain/detector.py` for qty=0 cases
-- [ ] T054 [P] [US1] Implement RATIO detection in `backend/src/domain/detector.py` (disabled by default, requires ratio_min/max)
-- [ ] T055 [US1] Replace mock detector call in POST /api/v1/analysis/run with real detector from `backend/src/domain/detector.py`
-- [ ] T056 [US1] Add threshold rule application from DataSource.threshold_rules to detector execution
+- [x] T048 [P] [US1] Implement DataPoint transformer in `backend/src/domain/transformer.py` computing value = raw_sum / raw_qty with qty=0 guard
+- [x] T049 [P] [US1] Implement SPIKE detection in `backend/src/domain/detector.py` with % change calculation and z-score (moving window)
+- [x] T050 [P] [US1] Implement TREND_BREAK detection in `backend/src/domain/detector.py` with trend reversal logic
+- [x] T051 [P] [US1] Implement ZERO_NEG detection in `backend/src/domain/detector.py`
+- [x] T052 [P] [US1] Implement MISSING detection in `backend/src/domain/detector.py` for gaps in period sequence
+- [x] T053 [P] [US1] Implement MISSING_DATA detection in `backend/src/domain/detector.py` for qty=0 cases
+- [x] T054 [P] [US1] Implement RATIO detection in `backend/src/domain/detector.py` (disabled by default, requires ratio_min/max)
+- [x] T055 [US1] Replace mock detector call in POST /api/v1/analysis/run with real detector from `backend/src/domain/detector.py`
+- [x] T056 [US1] Add threshold rule application from DataSource.threshold_rules to detector execution
 
 **Checkpoint**: Real detector complete - all anomaly types functional
+
+---
+
+## Phase 5b: DataPoint Persistence + Heat Map / Time Series (Gap Closure)
+
+**Purpose**: Close C1/C2 gaps identified in speckit-analyze. Constitution V requires DataPointRepository; FR-013 requires persisting raw data points; FR-002/FR-005 require working heat map and drill-down endpoints.
+
+- [x] T079 [P] Add `DataPointRepository` abstract interface to `backend/src/infrastructure/persistence/base.py`
+- [x] T080 [P] Implement `SQLiteDataPointRepository` in `backend/src/infrastructure/persistence/sqlite.py` with `data_points` table, save_batch, get_by_run_id, get_by_run_and_dimensions
+- [x] T081 [US1] Save DataPoints in `backend/src/api/routes/analysis.py` after transform_raw_data (FR-013)
+- [x] T082 [US1] Implement GET /api/v1/heatmap in `backend/src/api/routes/heatmap.py`: query anomalies by run_id, build rows/columns/cells with type priority logic per contracts/api.md
+- [x] T083 [US1] Implement GET /api/v1/timeseries in `backend/src/api/routes/timeseries.py`: query data_points by run_id + dimensions, join anomaly markers per period
+- [x] T032 (moved) Update Heat Map template to fetch data from GET /api/v1/heatmap and render dynamically
+- [x] T033 (moved) Update Drill-down template to fetch time series from GET /api/v1/timeseries and update Chart.js data
+
+**Checkpoint**: FR-002, FR-005, FR-013, Constitution V all satisfied
 
 ---
 
@@ -170,12 +186,12 @@
 
 ### Implementation for 1C Integration - User Story 1 & 2
 
-- [ ] T059 [P] [US1] Implement real 1C HTTP client in `backend/src/infrastructure/http_client.py` with async httpx
-- [ ] T060 [P] [US1] Implement pagination handling in `backend/src/infrastructure/http_client.py` for large datasets
-- [ ] T061 [P] [US1] Implement error handling in `backend/src/infrastructure/http_client.py` for 401, 404, 500 responses
-- [ ] T062 [P] [US1] Add Basic Auth support in `backend/src/infrastructure/http_client.py` from DataSource.auth config
-- [ ] T063 [US1] Replace mock 1C adapter call in analysis endpoint with real HTTP client
-- [ ] T064 [US2] Update POST /api/v1/sources/{id}/test to call real 1C HTTP client and validate response
+- [x] T059 [P] [US1] Implement real 1C HTTP client in `backend/src/infrastructure/http_client.py` with async httpx
+- [x] T060 [P] [US1] Implement pagination handling in `backend/src/infrastructure/http_client.py` for large datasets
+- [x] T061 [P] [US1] Implement error handling in `backend/src/infrastructure/http_client.py` for 401, 404, 500 responses
+- [x] T062 [P] [US1] Add Basic Auth support in `backend/src/infrastructure/http_client.py` from DataSource.auth config
+- [x] T063 [US1] Replace mock 1C adapter call in analysis endpoint with real HTTP client
+- [x] T064 [US2] Update POST /api/v1/sources/{id}/test to call real 1C HTTP client and validate response
 
 **Checkpoint**: 1C integration complete - end-to-end with real data
 
@@ -189,12 +205,12 @@
 
 ### Implementation for User Story 3
 
-- [ ] T065 [P] [US3] Implement query parameter parsing in GET /api/v1/anomalies for filters: type, period_from, period_to, dimension.{name}
-- [ ] T066 [P] [US3] Implement sorting in GET /api/v1/anomalies for sort_by (pct_change, zscore, period) and sort_order (asc, desc)
-- [ ] T067 [P] [US3] Implement pagination in GET /api/v1/anomalies with page, page_size, total_count, has_next
-- [ ] T068 [P] [US3] Update Anomaly Table template to call API with filter params from dropdown inputs
-- [ ] T069 [P] [US3] Add JavaScript for sortable column headers in Anomaly Table template (toggle asc/desc)
-- [ ] T070 [US3] Add row click handler in Anomaly Table template to navigate to /drilldown with dimension params
+- [x] T065 [P] [US3] Implement query parameter parsing in GET /api/v1/anomalies for filters: type, period_from, period_to, dimension.{name}
+- [x] T066 [P] [US3] Implement sorting in GET /api/v1/anomalies for sort_by (pct_change, zscore, period) and sort_order (asc, desc)
+- [x] T067 [P] [US3] Implement pagination in GET /api/v1/anomalies with page, page_size, total_count, has_next
+- [x] T068 [P] [US3] Update Anomaly Table template to call API with filter params from dropdown inputs
+- [x] T069 [P] [US3] Add JavaScript for sortable column headers in Anomaly Table template (toggle asc/desc)
+- [x] T070 [US3] Add row click handler in Anomaly Table template to navigate to /drilldown with dimension params
 
 **Checkpoint**: All user stories complete
 
@@ -204,14 +220,14 @@
 
 **Purpose**: Improvements that affect multiple user stories
 
-- [ ] T071 [P] Add structured logging with loguru in `backend/src/infrastructure/logging.py` for debug mode
-- [ ] T072 [P] Add request/response logging middleware in `backend/src/api/middleware.py`
-- [ ] T073 [P] Create Dockerfile in `backend/Dockerfile` for containerized deployment
-- [ ] T074 [P] Create docker-compose.yml in project root with backend service and volume for SQLite
-- [ ] T075 [P] Validate quickstart.md by following all steps end-to-end
-- [ ] T076 [P] Add error boundary handling in UI templates for 500 errors
-- [ ] T077 [P] Add loading states in UI templates during API calls
-- [ ] T078 [P] Run full test suite: `pytest --cov=backend/src` and verify coverage >80%
+- [x] T071 [P] Add structured logging with loguru in `backend/src/infrastructure/logging.py` for debug mode
+- [x] T072 [P] Add request/response logging middleware in `backend/src/api/middleware.py`
+- [x] T073 [P] Create Dockerfile in `backend/Dockerfile` for containerized deployment
+- [x] T074 [P] Create docker-compose.yml in project root with backend service and volume for SQLite
+- [x] T075 [P] Validate quickstart.md by following all steps end-to-end
+- [x] T076 [P] Add error boundary handling in UI templates for 500 errors
+- [x] T077 [P] Add loading states in UI templates during API calls
+- [x] T078 [P] Run full test suite: `pytest --cov=backend/src` and verify coverage >80%
 
 ---
 

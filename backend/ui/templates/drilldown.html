@@ -15,10 +15,16 @@
     </div>
 
     <!-- Back button -->
-    <a href="/heatmap" class="inline-flex items-center gap-2 px-6 py-3 bg-gray-600 text-white font-medium rounded-lg hover:bg-gray-700 transition-colors shadow-md">
-        <span class="material-icons text-sm">arrow_back</span>
-        Назад до теплової карти
-    </a>
+    <div id="back-links" class="flex gap-3">
+        <a href="/heatmap" id="back-heatmap" class="inline-flex items-center gap-2 px-6 py-3 bg-gray-600 text-white font-medium rounded-lg hover:bg-gray-700 transition-colors shadow-md">
+            <span class="material-icons text-sm">arrow_back</span>
+            Теплова карта
+        </a>
+        <a href="/table" id="back-table" class="inline-flex items-center gap-2 px-6 py-3 bg-gray-500 text-white font-medium rounded-lg hover:bg-gray-600 transition-colors shadow-md">
+            <span class="material-icons text-sm">table_chart</span>
+            Таблиця
+        </a>
+    </div>
 
     <!-- Dimension Info -->
     <section class="bg-white rounded-xl shadow-md p-6">
@@ -26,35 +32,8 @@
             <span class="material-icons text-primary-600">category</span>
             Виміри
         </h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
-                <div class="flex items-center gap-2 mb-1">
-                    <span class="material-icons text-gray-500 text-sm">label</span>
-                    <span class="text-sm text-gray-600">Номенклатура</span>
-                </div>
-                <span class="text-base font-semibold text-gray-900">Продукт A</span>
-            </div>
-            <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
-                <div class="flex items-center gap-2 mb-1">
-                    <span class="material-icons text-gray-500 text-sm">location_on</span>
-                    <span class="text-sm text-gray-600">Склад</span>
-                </div>
-                <span class="text-base font-semibold text-gray-900">Центральний</span>
-            </div>
-            <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
-                <div class="flex items-center gap-2 mb-1">
-                    <span class="material-icons text-gray-500 text-sm">business</span>
-                    <span class="text-sm text-gray-600">Організація</span>
-                </div>
-                <span class="text-base font-semibold text-gray-900">ТОВ Компанія</span>
-            </div>
-            <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
-                <div class="flex items-center gap-2 mb-1">
-                    <span class="material-icons text-gray-500 text-sm">factory</span>
-                    <span class="text-sm text-gray-600">Виробник</span>
-                </div>
-                <span class="text-base font-semibold text-gray-900">Завод №1</span>
-            </div>
+        <div id="dimensions-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="col-span-full text-gray-400 italic text-sm">Завантаження...</div>
         </div>
     </section>
 
@@ -64,166 +43,193 @@
             <span class="material-icons text-primary-600">show_chart</span>
             Часовий ряд
         </h2>
-        <div class="relative h-96 bg-gray-50 rounded-lg border border-gray-200 p-4">
+        <!-- Loading -->
+        <div id="chart-loading" class="flex items-center gap-3 py-8 text-gray-500">
+            <span class="material-icons animate-spin">refresh</span>
+            Завантаження даних...
+        </div>
+        <!-- Error -->
+        <div id="chart-error" class="hidden bg-red-50 border border-red-200 rounded-lg p-4 text-red-700"></div>
+        <!-- Chart canvas -->
+        <div id="chart-wrapper" class="hidden relative h-96 bg-gray-50 rounded-lg border border-gray-200 p-4">
             <canvas id="timeseries-chart"></canvas>
         </div>
     </section>
 
-    <!-- Anomaly Metadata -->
-    <section class="bg-white rounded-xl shadow-md p-6">
+    <!-- Anomaly Summary -->
+    <section id="anomaly-summary" class="hidden bg-white rounded-xl shadow-md p-6">
         <h2 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
             <span class="material-icons text-primary-600">info</span>
-            Деталі аномалії
+            Аномалії в часовому ряді
         </h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            <div class="bg-amber-50 rounded-lg p-4 border border-amber-200">
-                <div class="flex items-center gap-2 mb-1">
-                    <span class="material-icons text-amber-600 text-sm">warning</span>
-                    <span class="text-sm text-gray-600">Тип аномалії</span>
-                </div>
-                <span class="text-lg font-bold text-amber-700">SPIKE</span>
-            </div>
-            <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
-                <div class="flex items-center gap-2 mb-1">
-                    <span class="material-icons text-gray-500 text-sm">trending_up</span>
-                    <span class="text-sm text-gray-600">Поточне значення</span>
-                </div>
-                <span class="text-lg font-bold text-gray-900">1240.0</span>
-            </div>
-            <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
-                <div class="flex items-center gap-2 mb-1">
-                    <span class="material-icons text-gray-500 text-sm">trending_flat</span>
-                    <span class="text-sm text-gray-600">Попереднє значення</span>
-                </div>
-                <span class="text-lg font-bold text-gray-900">500.0</span>
-            </div>
-            <div class="bg-red-50 rounded-lg p-4 border border-red-200">
-                <div class="flex items-center gap-2 mb-1">
-                    <span class="material-icons text-red-600 text-sm">arrow_upward</span>
-                    <span class="text-sm text-gray-600">% зміни</span>
-                </div>
-                <span class="text-lg font-bold text-red-700">+148.0%</span>
-            </div>
-            <div class="bg-red-50 rounded-lg p-4 border border-red-200">
-                <div class="flex items-center gap-2 mb-1">
-                    <span class="material-icons text-red-600 text-sm">assessment</span>
-                    <span class="text-sm text-gray-600">Z-оцінка</span>
-                </div>
-                <span class="text-lg font-bold text-red-700">3.5</span>
-            </div>
-            <div class="bg-blue-50 rounded-lg p-4 border border-blue-200">
-                <div class="flex items-center gap-2 mb-1">
-                    <span class="material-icons text-blue-600 text-sm">rule</span>
-                    <span class="text-sm text-gray-600">Вопрацьовані пороги</span>
-                </div>
-                <span class="text-sm font-semibold text-blue-700">spike_pct (20%), spike_zscore (3.0)</span>
-            </div>
-        </div>
+        <div id="anomaly-list" class="flex flex-wrap gap-3"></div>
     </section>
-
-    <p class="text-sm text-gray-500 italic bg-gray-50 px-4 py-3 rounded-lg border border-gray-200">
-        <span class="material-icons text-sm align-middle">info</span>
-        Статичний UI демо - графік показує тестові дані
-    </p>
 </div>
 {% endblock %}
 
 {% block extra_scripts %}
 <script>
-// Static UI - Mock time series data
-const mockData = {
-    labels: ['2026-01-31', '2026-02-28', '2026-03-31'],
-    datasets: [{
-        label: 'Значення (Сума/Кіл-сть)',
-        data: [500.0, 1240.0, 420.0],
-        borderColor: 'rgb(33, 150, 243)',
-        backgroundColor: 'rgba(33, 150, 243, 0.1)',
-        tension: 0.1,
-        pointRadius: 6,
-        pointHoverRadius: 8,
-        pointBackgroundColor: 'rgb(33, 150, 243)',
-        pointBorderColor: '#fff',
-        pointBorderWidth: 2,
-    }]
+const ANOMALY_COLORS = {
+    'ZERO_NEG':     '#DC2626',
+    'SPIKE':        '#F59E0B',
+    'RATIO':        '#8B5CF6',
+    'TREND_BREAK':  '#3B82F6',
+    'MISSING':      '#6B7280',
+    'MISSING_DATA': '#111827',
 };
 
-// Add anomaly markers
-const anomalyPoints = [
-    { index: 1, type: 'SPIKE', color: 'rgb(245, 158, 11)' }
-];
+function getParams() {
+    const p = new URLSearchParams(window.location.search);
+    const runId = p.get('run_id') || localStorage.getItem('lastRunId') || '';
+    let dimensions = {};
+    try {
+        const raw = p.get('dimensions');
+        if (raw) dimensions = JSON.parse(decodeURIComponent(raw));
+    } catch (_) {}
+    return { runId, dimensions };
+}
 
-// Initialize Chart.js with Material Design styling
-const ctx = document.getElementById('timeseries-chart').getContext('2d');
-const chart = new Chart(ctx, {
-    type: 'line',
-    data: mockData,
-    options: {
-        responsive: true,
-        maintainAspectRatio: true,
-        plugins: {
-            legend: {
-                display: true,
-                position: 'top',
-                labels: {
-                    font: {
-                        family: "'Roboto', sans-serif",
-                        size: 14
-                    },
-                    usePointStyle: true,
-                    padding: 20
-                }
-            },
-            tooltip: {
-                backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                titleFont: {
-                    family: "'Roboto', sans-serif",
-                    size: 14
-                },
-                bodyFont: {
-                    family: "'Roboto', sans-serif",
-                    size: 13
-                },
-                padding: 12,
-                cornerRadius: 8,
-                callbacks: {
-                    label: function(context) {
-                        return context.dataset.label + ': ' + context.parsed.y.toFixed(2);
-                    }
-                }
-            }
-        },
-        scales: {
-            y: {
-                beginAtZero: true,
-                title: {
-                    display: true,
-                    text: 'Значення',
-                    font: {
-                        family: "'Roboto', sans-serif",
-                        size: 13,
-                        weight: 'bold'
-                    }
-                },
-                grid: {
-                    color: 'rgba(0, 0, 0, 0.05)'
-                }
-            },
-            x: {
-                title: {
-                    display: true,
-                    text: 'Період',
-                    font: {
-                        family: "'Roboto', sans-serif",
-                        size: 13,
-                        weight: 'bold'
-                    }
-                },
-                grid: {
-                    color: 'rgba(0, 0, 0, 0.05)'
-                }
-            }
-        }
+function renderDimensions(dimensions) {
+    const container = document.getElementById('dimensions-container');
+    const icons = { default: 'label' };
+    const entries = Object.entries(dimensions);
+    if (!entries.length) {
+        container.innerHTML = '<div class="col-span-full text-gray-400 italic text-sm">Виміри не вказані</div>';
+        return;
     }
-});
+    container.innerHTML = entries.map(([k, v]) => `
+        <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+            <div class="flex items-center gap-2 mb-1">
+                <span class="material-icons text-gray-500 text-sm">label</span>
+                <span class="text-sm text-gray-600">${k}</span>
+            </div>
+            <span class="text-base font-semibold text-gray-900">${v}</span>
+        </div>
+    `).join('');
+}
+
+let chartInstance = null;
+
+function renderChart(data) {
+    const { dimensions: dims, data: series } = data;
+
+    renderDimensions(dims);
+
+    const labels = series.map(p => p.period);
+    const values = series.map(p => p.value);
+    const pointColors = series.map(p => {
+        if (p.anomaly_type) return ANOMALY_COLORS[p.anomaly_type] || '#EF4444';
+        return 'rgb(33, 150, 243)';
+    });
+    const pointRadii = series.map(p => p.anomaly_type ? 9 : 5);
+
+    // Anomaly summary
+    const anomalies = series.filter(p => p.anomaly_type);
+    if (anomalies.length > 0) {
+        const summaryEl = document.getElementById('anomaly-summary');
+        summaryEl.classList.remove('hidden');
+        document.getElementById('anomaly-list').innerHTML = anomalies.map(p => `
+            <div class="flex items-center gap-2 px-4 py-2 rounded-lg border"
+                 style="background-color:${ANOMALY_COLORS[p.anomaly_type] || '#9CA3AF'}22;
+                        border-color:${ANOMALY_COLORS[p.anomaly_type] || '#9CA3AF'}66">
+                <span class="font-bold text-sm" style="color:${ANOMALY_COLORS[p.anomaly_type] || '#374151'}">${p.anomaly_type}</span>
+                <span class="text-gray-600 text-sm">${p.period}</span>
+                <span class="text-gray-700 font-mono text-sm">${p.value !== null ? p.value.toFixed(2) : 'Н/Д'}</span>
+            </div>
+        `).join('');
+    }
+
+    document.getElementById('chart-wrapper').classList.remove('hidden');
+
+    if (chartInstance) chartInstance.destroy();
+
+    const ctx = document.getElementById('timeseries-chart').getContext('2d');
+    chartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels,
+            datasets: [{
+                label: 'Значення (Сума/Кіл-сть)',
+                data: values,
+                borderColor: 'rgb(33, 150, 243)',
+                backgroundColor: 'rgba(33, 150, 243, 0.1)',
+                tension: 0.1,
+                pointRadius: pointRadii,
+                pointHoverRadius: 10,
+                pointBackgroundColor: pointColors,
+                pointBorderColor: '#fff',
+                pointBorderWidth: 2,
+            }],
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: { display: true, position: 'top' },
+                tooltip: {
+                    backgroundColor: 'rgba(0,0,0,0.8)',
+                    padding: 12,
+                    cornerRadius: 8,
+                    callbacks: {
+                        afterLabel: function(ctx) {
+                            const pt = series[ctx.dataIndex];
+                            const lines = [];
+                            if (pt.raw_sum !== null) lines.push(`Сума: ${pt.raw_sum}`);
+                            if (pt.raw_qty !== null) lines.push(`Кількість: ${pt.raw_qty}`);
+                            if (pt.anomaly_type) lines.push(`⚠ ${pt.anomaly_type}`);
+                            return lines;
+                        },
+                    },
+                },
+            },
+            scales: {
+                y: {
+                    title: { display: true, text: 'Значення' },
+                    grid: { color: 'rgba(0,0,0,0.05)' },
+                },
+                x: {
+                    title: { display: true, text: 'Період' },
+                    grid: { color: 'rgba(0,0,0,0.05)' },
+                },
+            },
+        },
+    });
+}
+
+async function loadTimeseries() {
+    const { runId, dimensions } = getParams();
+    if (!runId) {
+        document.getElementById('chart-loading').classList.add('hidden');
+        document.getElementById('chart-error').classList.remove('hidden');
+        document.getElementById('chart-error').textContent = 'run_id не вказано. Поверніться на головну сторінку та запустіть аналіз.';
+        return;
+    }
+
+    // Update back link with run_id
+    const hmLink = document.getElementById('back-heatmap');
+    hmLink.href = `/heatmap?run_id=${encodeURIComponent(runId)}`;
+
+    renderDimensions(dimensions);
+
+    try {
+        const dimsParam = encodeURIComponent(JSON.stringify(dimensions));
+        const resp = await fetch(`/api/v1/timeseries?run_id=${encodeURIComponent(runId)}&dimensions=${dimsParam}`);
+        const data = await resp.json();
+        if (!resp.ok) {
+            document.getElementById('chart-loading').classList.add('hidden');
+            document.getElementById('chart-error').classList.remove('hidden');
+            document.getElementById('chart-error').textContent = `Помилка ${resp.status}: ${data.message || 'Невідома помилка'}`;
+            return;
+        }
+        document.getElementById('chart-loading').classList.add('hidden');
+        renderChart(data);
+    } catch (e) {
+        document.getElementById('chart-loading').classList.add('hidden');
+        document.getElementById('chart-error').classList.remove('hidden');
+        document.getElementById('chart-error').textContent = `Мережева помилка: ${e.message}`;
+    }
+}
+
+loadTimeseries();
 </script>
 {% endblock %}

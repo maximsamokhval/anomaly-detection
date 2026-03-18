@@ -14,10 +14,19 @@
 
 ## Local Development
 
-### 1. Start the Service
+### Option A: With Docker (recommended)
 
 ```bash
 docker-compose up --build
+```
+
+### Option B: Without Docker (uv)
+
+```bash
+cd backend
+uv sync
+uv run python scripts/init_db.py   # create SQLite tables
+uv run uvicorn src.main:app --reload
 ```
 
 The service will be available at `http://localhost:8000`.
@@ -153,22 +162,6 @@ Click **"Table"** tab to see:
 - Sortable columns (click header to sort)
 - Filterable by anomaly type, period, dimension values
 - Click a row to navigate to drill-down
-
----
-
-## Compare Products (Optional)
-
-### Step 1: Go to Compare
-
-Click **"Compare"** in the navigation menu.
-
-### Step 2: Select Products
-
-Use multi-select to choose up to 5 products (Nomenclatures).
-
-### Step 3: View Overlaid Charts
-
-Time series for all selected products display on the same chart.
 
 ---
 
