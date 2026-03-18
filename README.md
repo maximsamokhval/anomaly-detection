@@ -202,13 +202,13 @@ curl -X POST http://localhost:8000/api/v1/analysis/run \
 
 ## Контракт 1С HTTP
 
-Сервис отправляет GET-запросы на `{endpoint}/data` с параметрами:
+Сервис отправляет один GET-запрос на `{endpoint}/data` с параметрами:
 
 ```
-register_name, date_from, date_to, page, page_size
+register_name, date_from, date_to
 ```
 
-1С **должна** возвращать JSON следующего формата:
+1С **должна** возвращать JSON с полным массивом данных за период:
 
 ```json
 {
@@ -220,14 +220,13 @@ register_name, date_from, date_to, page, page_size
       "AmountTurnover": 15000.0,
       "QuantityTurnover": 30.0
     }
-  ],
-  "has_next": false
+  ]
 }
 ```
 
 - `"Период"` — обязательное поле, дата в формате `YYYY-MM-DD` или `YYYY-MM-DDTHH:MM:SS`.
 - Имена полей измерений и метрик соответствуют `dimensions` и `metric_fields` конфигурации источника.
-- `"has_next": true` → сервис автоматически запросит следующую страницу (`page_size` по умолчанию 500).
+- 1С возвращает **весь массив за период** за один запрос — пагинация не используется.
 - Если 1С требует авторизацию — настройте `auth.type: "basic"` в источнике данных.
 
 Подробный контракт: `specs/001-anomaly-detection-mvp/contracts/1c-http.md`.

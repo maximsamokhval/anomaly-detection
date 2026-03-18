@@ -1,4 +1,4 @@
-"""Real 1C HTTP client — async httpx with pagination and auth support.
+"""Real 1C HTTP client — async httpx with auth support.
 
 Constitution I: No domain model imports; returns raw dicts.
 Phase 6: Replaces mock_1c_adapter when a real 1C service is available.
@@ -8,8 +8,6 @@ from datetime import date
 
 import httpx
 
-# Default page size matches 1C service contract
-_PAGE_SIZE = 500
 # Request timeout in seconds
 _TIMEOUT = 30.0
 
@@ -22,9 +20,8 @@ async def fetch_1c_data(
     auth_type: str = "none",
     auth_user: str | None = None,
     auth_password: str | None = None,
-    page_size: int = _PAGE_SIZE,
 ) -> list[dict]:
-    """Fetch all records from 1C HTTP service with automatic pagination.
+    """Fetch all records from 1C HTTP service in a single request.
 
     Args:
         endpoint: Base URL of the 1C HTTP service (e.g. "http://1c/base/hs/analytics/v1").
@@ -34,10 +31,9 @@ async def fetch_1c_data(
         auth_type: "none" or "basic".
         auth_user: Username for Basic auth.
         auth_password: Password for Basic auth.
-        page_size: Records per page (max 500).
 
     Returns:
-        Flat list of raw row dicts from all pages.
+        List of raw row dicts from the "data" key of the response.
 
     Raises:
         httpx.HTTPStatusError: For 4xx/5xx responses.
@@ -45,36 +41,23 @@ async def fetch_1c_data(
     """
     auth = _build_auth(auth_type, auth_user, auth_password)
 
-    all_rows: list[dict] = []
-    page = 1
+    params: dict[str, str] = {
+        "register_name": register_name,
+        "date_from": date_from.isoformat(),
+        "date_to": date_to.isoformat(),
+    }
 
     async with httpx.AsyncClient(timeout=_TIMEOUT) as client:
-        while True:
-            params: dict[str, str | int] = {
-                "register_name": register_name,
-                "date_from": date_from.isoformat(),
-                "date_to": date_to.isoformat(),
-                "page": page,
-                "page_size": page_size,
-            }
+        response = await client.get(
+            f"{endpoint.rstrip('/')}/data",
+            params=params,
+            auth=auth,
+        )
+        response.raise_for_status()
 
-            response = await client.get(
-                f"{endpoint.rstrip('/')}/data",
-                params=params,
-                auth=auth,
-            )
-            response.raise_for_status()
-
-            body = response.json()
-            rows: list[dict] = body.get("data", [])
-            all_rows.extend(rows)
-
-            if not body.get("has_next", False):
-                break
-
-            page += 1
-
-    return all_rows
+    body = response.json()
+    rows: list[dict] = body.get("data", [])
+    return rows
 
 
 async def test_connection(
@@ -96,10 +79,8 @@ async def test_connection(
 
     try:
         async with httpx.AsyncClient(timeout=10.0) as client:
-            params: dict[str, str | int] = {
+            params: dict[str, str] = {
                 "register_name": register_name,
-                "page": 1,
-                "page_size": 1,
             }
             response = await client.get(
                 f"{endpoint.rstrip('/')}/data",
