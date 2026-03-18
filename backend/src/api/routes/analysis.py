@@ -114,6 +114,15 @@ async def run_analysis(request: AnalysisRunRequest) -> AnalysisRunShortResponse:
                 "message": f"1C service unavailable: {exc}",
             },
         ) from exc
+    except ValueError as exc:
+        logger.error("[{rid}] 1C bad response | {exc}", rid=run.id[:8], exc=exc)
+        raise HTTPException(
+            status_code=502,
+            detail={
+                "error": "upstream_bad_response",
+                "message": str(exc),
+            },
+        ) from exc
 
     logger.debug("[{rid}] 1C raw rows={n} | metric_fields={mf} | dimensions={dims}",
         rid=run.id[:8],

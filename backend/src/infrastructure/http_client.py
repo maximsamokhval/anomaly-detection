@@ -95,13 +95,42 @@ async def fetch_1c_data(
         logger.error("1C fetch CONNECT ERROR after {elapsed_ms}ms | url={url} | {exc}", elapsed_ms=elapsed_ms, url=url, exc=exc)
         raise
 
-    body = response.json()
-    rows: list[dict] = body.get("data", [])
-
+    raw_text = response.text
     logger.debug(
-        "1C fetch parsed | rows={rows} | first_keys={keys}",
+        "1C fetch body_raw (first {limit}B): {body}",
+        limit=_LOG_BODY_PREVIEW,
+        body=raw_text[:_LOG_BODY_PREVIEW],
+    )
+
+    try:
+        body = response.json()
+    except Exception as exc:
+        logger.error(
+            "1C fetch JSON parse FAILED | status={status} | content-type={ct} | body={body} | error={exc}",
+            status=response.status_code,
+            ct=response.headers.get("content-type", "—"),
+            body=raw_text[:_LOG_BODY_PREVIEW],
+            exc=exc,
+        )
+        raise ValueError(
+            f"1C service returned non-JSON response (status={response.status_code}, "
+            f"body={raw_text[:200]!r})"
+        ) from exc
+
+    if not isinstance(body, dict):
+        logger.error(
+            "1C fetch unexpected JSON type={t} | body={body}",
+            t=type(body).__name__,
+            body=raw_text[:_LOG_BODY_PREVIEW],
+        )
+        raise ValueError(f"1C response must be a JSON object, got {type(body).__name__}: {raw_text[:200]!r}")
+
+    rows: list[dict] = body.get("data", [])
+    logger.debug(
+        "1C fetch parsed OK | rows={rows} | top_keys={keys} | first_row_keys={row_keys}",
         rows=len(rows),
-        keys=list(rows[0].keys()) if rows else [],
+        keys=list(body.keys()),
+        row_keys=list(rows[0].keys()) if rows else [],
     )
     return rows
 
