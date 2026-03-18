@@ -2,8 +2,12 @@
 
 import sys
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 from loguru import logger
+
+if TYPE_CHECKING:
+    import loguru
 
 # Remove default handler
 logger.remove()
@@ -30,7 +34,7 @@ logger.add(
 )
 
 
-def get_logger(name: str = __name__):
+def get_logger(name: str = __name__) -> "loguru.Logger":
     """Get a logger instance with the specified name."""
     return logger.bind(name=name)
 

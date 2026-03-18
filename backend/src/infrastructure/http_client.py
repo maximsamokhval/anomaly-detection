@@ -50,7 +50,7 @@ async def fetch_1c_data(
 
     async with httpx.AsyncClient(timeout=_TIMEOUT) as client:
         while True:
-            params = {
+            params: dict[str, str | int] = {
                 "register_name": register_name,
                 "date_from": date_from.isoformat(),
                 "date_to": date_to.isoformat(),
@@ -96,7 +96,11 @@ async def test_connection(
 
     try:
         async with httpx.AsyncClient(timeout=10.0) as client:
-            params = {"register_name": register_name, "page": 1, "page_size": 1}
+            params: dict[str, str | int] = {
+                "register_name": register_name,
+                "page": 1,
+                "page_size": 1,
+            }
             response = await client.get(
                 f"{endpoint.rstrip('/')}/data",
                 params=params,

@@ -16,13 +16,13 @@ def detect_anomalies_mock(
     run_id: str,
 ) -> list[Anomaly]:
     """Return pre-canned anomalies for mock testing.
-    
+
     Args:
         data_points: List of data points to analyze (ignored in mock)
         threshold_rules: Threshold configuration (ignored in mock)
         source_id: Source identifier
         run_id: Analysis run identifier
-    
+
     Returns:
         List of mock anomalies with predefined values
     """
