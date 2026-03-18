@@ -349,6 +349,9 @@ class DataSourceShortResponse(BaseModel):
     id: str = Field(description="Unique slug identifier")
     name: str = Field(description="Human-readable display name")
     enabled: bool = Field(description="Whether the source is active")
+    endpoint: str = Field(description="1C HTTP service base URL")
+    register_name: str = Field(description="1C accumulation register name")
+    dimensions: list[str] = Field(description="Grouping dimension field names")
 
 
 class DataSourceListResponse(BaseModel):
@@ -357,7 +360,16 @@ class DataSourceListResponse(BaseModel):
     model_config = ConfigDict(
         json_schema_extra={
             "example": {
-                "sources": [{"id": "sales_by_product", "name": "Sales by Product", "enabled": True}]
+                "sources": [
+                    {
+                        "id": "sales_by_product",
+                        "name": "Sales by Product",
+                        "enabled": True,
+                        "endpoint": "http://1c-server/base/hs/analytics/v1",
+                        "register_name": "ПартіїТоварів",
+                        "dimensions": ["Період", "Номенклатура"],
+                    }
+                ]
             }
         }
     )
@@ -417,6 +429,11 @@ class HeatMapCell(BaseModel):
     type: str = Field(description="Anomaly type code or 'none'")
     intensity: float = Field(description="Severity score 0.0–1.0 for colour mapping", ge=0, le=1)
     anomaly_id: str | None = Field(default=None, description="ID of the underlying Anomaly record")
+    pct_change: float | None = Field(
+        default=None, description="Percentage change from previous value"
+    )
+    current_value: float | None = Field(default=None, description="Current metric value")
+    previous_value: float | None = Field(default=None, description="Previous baseline value")
 
 
 class HeatMapLegend(BaseModel):
@@ -448,6 +465,12 @@ class TimeSeriesDataPoint(BaseModel):
     anomaly_type: str | None = Field(
         default=None,
         description="Anomaly type if this period was flagged, else null",
+    )
+    pct_change: float | None = Field(
+        default=None, description="Percentage change from previous value if anomalous"
+    )
+    zscore: float | None = Field(
+        default=None, description="Z-score of this observation if anomalous"
     )
 
 

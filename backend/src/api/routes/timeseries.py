@@ -5,6 +5,8 @@ from pathlib import Path
 
 from fastapi import APIRouter, HTTPException, Query
 
+from src.api.schemas import TimeSeriesDataPoint, TimeSeriesResponse
+from src.domain.models import Anomaly
 from src.infrastructure.persistence.sqlite import (
     SQLiteAnomalyRepository,
     SQLiteDataPointRepository,
@@ -20,6 +22,7 @@ _anomaly_repo = SQLiteAnomalyRepository(_DB_PATH)
 
 @router.get(
     "",
+    response_model=TimeSeriesResponse,
     summary="Get time series data for drill-down",
     description=(
         "Returns the full time series for a specific dimension combination within a run, "
@@ -33,7 +36,7 @@ _anomaly_repo = SQLiteAnomalyRepository(_DB_PATH)
 async def get_timeseries(
     run_id: str = Query(..., description="Analysis run ID"),
     dimensions: str = Query(..., description="JSON object with dimension key-value pairs"),
-) -> dict:
+) -> TimeSeriesResponse:
     """Return time series data points for a dimension combination with anomaly markers."""
     try:
         dims: dict[str, str] = json.loads(dimensions)
@@ -54,7 +57,7 @@ async def get_timeseries(
             detail={"error": "not_found", "message": "No data found for specified dimensions"},
         )
 
-    # Build anomaly type lookup: period -> anomaly_type (highest priority)
+    # Build anomaly lookup: period -> anomaly (highest priority)
     _TYPE_PRIORITY: dict[str, int] = {
         "ZERO_NEG": 1,
         "MISSING_DATA": 1,
@@ -64,32 +67,37 @@ async def get_timeseries(
         "MISSING": 5,
     }
     anomalies = _anomaly_repo.get_by_run_id(run_id)
-    period_to_type: dict[str, str] = {}
+    period_to_anomaly: dict[str, Anomaly] = {}
     for anomaly in anomalies:
-        # Match only anomalies for this dimension combination
         if anomaly.dimensions != dims:
             continue
         if not anomaly.period:
             continue
         period_str = anomaly.period.isoformat()
-        existing = period_to_type.get(period_str)
+        existing = period_to_anomaly.get(period_str)
         if existing is None or _TYPE_PRIORITY.get(anomaly.anomaly_type, 99) < _TYPE_PRIORITY.get(
-            existing, 99
+            existing.anomaly_type,
+            99,
         ):
-            period_to_type[period_str] = anomaly.anomaly_type
+            period_to_anomaly[period_str] = anomaly
 
-    series = [
-        {
-            "period": dp.period.isoformat(),
-            "value": dp.value,
-            "raw_sum": dp.raw_sum,
-            "raw_qty": dp.raw_qty,
-            "anomaly_type": period_to_type.get(dp.period.isoformat()),
-        }
-        for dp in data_points
-    ]
+    series = []
+    for dp in data_points:
+        period_str = dp.period.isoformat()
+        anom = period_to_anomaly.get(period_str)
+        series.append(
+            TimeSeriesDataPoint(
+                period=dp.period,
+                value=dp.value,
+                raw_sum=dp.raw_sum,
+                raw_qty=dp.raw_qty,
+                anomaly_type=anom.anomaly_type if anom else None,
+                pct_change=anom.pct_change if anom else None,
+                zscore=anom.zscore if anom else None,
+            )
+        )
 
-    return {
-        "dimensions": data_points[0].dimensions,
-        "data": series,
-    }
+    return TimeSeriesResponse(
+        dimensions=data_points[0].dimensions,
+        data=series,
+    )

@@ -26,115 +26,10 @@
             <span class="material-icons text-primary-600">list</span>
             Налаштовані джерела
         </h2>
-        <div class="space-y-4">
-            <!-- Source 1 -->
-            <div class="border border-gray-200 rounded-xl p-5 bg-white hover:shadow-lg transition-shadow">
-                <div class="flex justify-between items-start mb-3">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-full bg-primary-100 flex items-center justify-center">
-                            <span class="material-icons text-primary-600">database</span>
-                        </div>
-                        <div>
-                            <h3 class="text-lg font-semibold text-gray-900">ПартіїТоварівНаСкладахПоВиробниках</h3>
-                            <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-green-500 text-white">
-                                <span class="material-icons text-xs">check_circle</span>
-                                Увімкнено
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <div class="space-y-2 mb-4 ml-13">
-                    <div class="flex gap-3 text-sm">
-                        <span class="font-medium text-gray-700 min-w-[120px] flex items-center gap-2">
-                            <span class="material-icons text-sm text-gray-400">link</span>
-                            Endpoint:
-                        </span>
-                        <span class="text-gray-600">http://1c-server/base/hs/analytics/v1</span>
-                    </div>
-                    <div class="flex gap-3 text-sm">
-                        <span class="font-medium text-gray-700 min-w-[120px] flex items-center gap-2">
-                            <span class="material-icons text-sm text-gray-400">category</span>
-                            Виміри:
-                        </span>
-                        <span class="text-gray-600">Період, Номенклатура, Склад, Організація, Виробник</span>
-                    </div>
-                    <div class="flex gap-3 text-sm">
-                        <span class="font-medium text-gray-700 min-w-[120px] flex items-center gap-2">
-                            <span class="material-icons text-sm text-gray-400">history</span>
-                            Останній аналіз:
-                        </span>
-                        <span class="text-gray-600">2026-03-17 10:00:00 (5 аномалій)</span>
-                    </div>
-                </div>
-                <div class="flex gap-2 ml-13">
-                    <button class="edit-source-btn px-4 py-2 bg-gray-600 text-white text-sm font-medium rounded-lg hover:bg-gray-700 transition-colors flex items-center gap-1">
-                        <span class="material-icons text-sm">edit</span>
-                        Редагувати
-                    </button>
-                    <button class="test-connection-btn px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-1">
-                        <span class="material-icons text-sm">sync</span>
-                        Тест з'єднання
-                    </button>
-                    <button class="delete-source-btn px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-red-700 transition-colors flex items-center gap-1">
-                        <span class="material-icons text-sm">delete</span>
-                        Видалити
-                    </button>
-                </div>
-            </div>
-
-            <!-- Source 2 -->
-            <div class="border border-gray-200 rounded-xl p-5 bg-white hover:shadow-lg transition-shadow">
-                <div class="flex justify-between items-start mb-3">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-full bg-primary-100 flex items-center justify-center">
-                            <span class="material-icons text-primary-600">database</span>
-                        </div>
-                        <div>
-                            <h3 class="text-lg font-semibold text-gray-900">Собівартість виробництва</h3>
-                            <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-green-500 text-white">
-                                <span class="material-icons text-xs">check_circle</span>
-                                Увімкнено
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <div class="space-y-2 mb-4 ml-13">
-                    <div class="flex gap-3 text-sm">
-                        <span class="font-medium text-gray-700 min-w-[120px] flex items-center gap-2">
-                            <span class="material-icons text-sm text-gray-400">link</span>
-                            Endpoint:
-                        </span>
-                        <span class="text-gray-600">http://1c-server/base/hs/analytics/v1</span>
-                    </div>
-                    <div class="flex gap-3 text-sm">
-                        <span class="font-medium text-gray-700 min-w-[120px] flex items-center gap-2">
-                            <span class="material-icons text-sm text-gray-400">category</span>
-                            Виміри:
-                        </span>
-                        <span class="text-gray-600">Період, Стаття, Підрозділ</span>
-                    </div>
-                    <div class="flex gap-3 text-sm">
-                        <span class="font-medium text-gray-700 min-w-[120px] flex items-center gap-2">
-                            <span class="material-icons text-sm text-gray-400">history</span>
-                            Останній аналіз:
-                        </span>
-                        <span class="text-gray-600">Ніколи</span>
-                    </div>
-                </div>
-                <div class="flex gap-2 ml-13">
-                    <button class="edit-source-btn px-4 py-2 bg-gray-600 text-white text-sm font-medium rounded-lg hover:bg-gray-700 transition-colors flex items-center gap-1">
-                        <span class="material-icons text-sm">edit</span>
-                        Редагувати
-                    </button>
-                    <button class="test-connection-btn px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-1">
-                        <span class="material-icons text-sm">sync</span>
-                        Тест з'єднання
-                    </button>
-                    <button class="delete-source-btn px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-red-700 transition-colors flex items-center gap-1">
-                        <span class="material-icons text-sm">delete</span>
-                        Видалити
-                    </button>
-                </div>
+        <div id="sources-list" class="space-y-4">
+            <div class="flex items-center justify-center py-8 text-gray-400">
+                <span class="material-icons animate-spin mr-2">refresh</span>
+                Завантаження...
             </div>
         </div>
     </section>
@@ -189,30 +84,6 @@
                 <div id="dimensions-container" class="space-y-2">
                     <div class="flex gap-2 items-center">
                         <input type="text" class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors dimension-input" placeholder="Назва виміру (напр., Період)" value="Період">
-                        <button type="button" class="remove-dimension p-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors" title="Видалити">
-                            <span class="material-icons text-sm">delete</span>
-                        </button>
-                    </div>
-                    <div class="flex gap-2 items-center">
-                        <input type="text" class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors dimension-input" placeholder="Назва виміру" value="Номенклатура">
-                        <button type="button" class="remove-dimension p-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors" title="Видалити">
-                            <span class="material-icons text-sm">delete</span>
-                        </button>
-                    </div>
-                    <div class="flex gap-2 items-center">
-                        <input type="text" class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors dimension-input" placeholder="Назва виміру" value="Склад">
-                        <button type="button" class="remove-dimension p-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors" title="Видалити">
-                            <span class="material-icons text-sm">delete</span>
-                        </button>
-                    </div>
-                    <div class="flex gap-2 items-center">
-                        <input type="text" class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors dimension-input" placeholder="Назва виміру" value="Організація">
-                        <button type="button" class="remove-dimension p-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors" title="Видалити">
-                            <span class="material-icons text-sm">delete</span>
-                        </button>
-                    </div>
-                    <div class="flex gap-2 items-center">
-                        <input type="text" class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors dimension-input" placeholder="Назва виміру" value="Виробник">
                         <button type="button" class="remove-dimension p-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors" title="Видалити">
                             <span class="material-icons text-sm">delete</span>
                         </button>
@@ -340,11 +211,11 @@
 
             <!-- Form Actions -->
             <div class="flex flex-wrap gap-3 pt-6 border-t border-gray-200">
-                <button type="submit" class="px-6 py-3 bg-primary-600 text-white font-medium rounded-lg hover:bg-primary-700 transition-colors shadow-md flex items-center gap-2">
+                <button type="submit" id="save-btn" class="px-6 py-3 bg-primary-600 text-white font-medium rounded-lg hover:bg-primary-700 transition-colors shadow-md flex items-center gap-2">
                     <span class="material-icons text-sm">save</span>
                     Зберегти джерело
                 </button>
-                <button type="button" id="test-connection-btn" class="px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors shadow-md flex items-center gap-2">
+                <button type="button" id="test-connection-btn" class="px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors shadow-md flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed" disabled title="Спочатку збережіть джерело">
                     <span class="material-icons text-sm">sync</span>
                     Тест з'єднання
                 </button>
@@ -355,76 +226,367 @@
             </div>
         </form>
     </section>
-
-    <p class="text-sm text-gray-500 italic bg-gray-50 px-4 py-3 rounded-lg border border-gray-200 flex items-center gap-2">
-        <span class="material-icons text-sm">info</span>
-        Статичний UI демо - подання форми та тест з'єднання не функціональні
-    </p>
 </div>
 {% endblock %}
 
 {% block extra_scripts %}
 <script>
-// Static UI - Show/hide form
-document.getElementById('add-source-btn').addEventListener('click', function() {
-    document.getElementById('source-form-card').style.display = 'block';
-    document.getElementById('form-title').innerHTML = '<span class="material-icons text-primary-600">edit</span> Редагувати джерело';
-    window.scrollTo({ top: document.getElementById('source-form-card').offsetTop - 20, behavior: 'smooth' });
-});
+// ─── State ────────────────────────────────────────────────────────────────────
+let editingSourceId = null;
 
-document.getElementById('cancel-form-btn').addEventListener('click', function() {
-    document.getElementById('source-form-card').style.display = 'none';
-});
+// ─── Toast notifications ──────────────────────────────────────────────────────
+function showToast(message, type) {
+    type = type || 'success';
+    const colors = {
+        success: 'bg-green-600',
+        error:   'bg-red-600',
+        info:    'bg-blue-600',
+    };
+    const toast = document.createElement('div');
+    toast.className = 'fixed bottom-6 right-6 z-50 px-5 py-3 rounded-lg text-white text-sm font-medium shadow-xl flex items-center gap-2 transition-opacity duration-300 ' + (colors[type] || colors.info);
+    toast.innerHTML = '<span class="material-icons text-sm">' + (type === 'success' ? 'check_circle' : type === 'error' ? 'error' : 'info') + '</span>' + message;
+    document.body.appendChild(toast);
+    setTimeout(function() {
+        toast.style.opacity = '0';
+        setTimeout(function() { toast.remove(); }, 300);
+    }, 3500);
+}
 
-// Show/hide basic auth fields
-document.getElementById('auth-type').addEventListener('change', function() {
-    const basicAuthFields = document.getElementById('basic-auth-fields');
-    basicAuthFields.style.display = this.value === 'basic' ? 'block' : 'none';
-});
+// ─── Render source card ───────────────────────────────────────────────────────
+function renderSourceCard(s) {
+    const badge = s.enabled
+        ? '<span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-green-500 text-white"><span class="material-icons text-xs">check_circle</span>Увімкнено</span>'
+        : '<span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-gray-400 text-white"><span class="material-icons text-xs">pause_circle</span>Вимкнено</span>';
+    const dims = s.dimensions && s.dimensions.length ? s.dimensions.join(', ') : '—';
+    return '<div class="border border-gray-200 rounded-xl p-5 bg-white hover:shadow-lg transition-shadow">' +
+        '<div class="flex justify-between items-start mb-3">' +
+            '<div class="flex items-center gap-3">' +
+                '<div class="w-10 h-10 rounded-full bg-primary-100 flex items-center justify-center">' +
+                    '<span class="material-icons text-primary-600">database</span>' +
+                '</div>' +
+                '<div>' +
+                    '<h3 class="text-lg font-semibold text-gray-900">' + escapeHtml(s.name) + '</h3>' +
+                    badge +
+                '</div>' +
+            '</div>' +
+        '</div>' +
+        '<div class="space-y-2 mb-4 ml-13">' +
+            '<div class="flex gap-3 text-sm">' +
+                '<span class="font-medium text-gray-700 min-w-[120px] flex items-center gap-2"><span class="material-icons text-sm text-gray-400">link</span>Endpoint:</span>' +
+                '<span class="text-gray-600 break-all">' + escapeHtml(s.endpoint) + '</span>' +
+            '</div>' +
+            '<div class="flex gap-3 text-sm">' +
+                '<span class="font-medium text-gray-700 min-w-[120px] flex items-center gap-2"><span class="material-icons text-sm text-gray-400">category</span>Виміри:</span>' +
+                '<span class="text-gray-600">' + escapeHtml(dims) + '</span>' +
+            '</div>' +
+            '<div class="flex gap-3 text-sm">' +
+                '<span class="font-medium text-gray-700 min-w-[120px] flex items-center gap-2"><span class="material-icons text-sm text-gray-400">history</span>Останній аналіз:</span>' +
+                '<span class="text-gray-400 italic">Ніколи</span>' +
+            '</div>' +
+        '</div>' +
+        '<div class="flex gap-2 flex-wrap ml-13">' +
+            '<button class="edit-source-btn px-4 py-2 bg-gray-600 text-white text-sm font-medium rounded-lg hover:bg-gray-700 transition-colors flex items-center gap-1" data-source-id="' + escapeHtml(s.id) + '">' +
+                '<span class="material-icons text-sm">edit</span>Редагувати' +
+            '</button>' +
+            '<button class="test-connection-btn px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-1" data-source-id="' + escapeHtml(s.id) + '">' +
+                '<span class="material-icons text-sm">sync</span>Тест з\'єднання' +
+            '</button>' +
+            '<button class="delete-source-btn px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-red-700 transition-colors flex items-center gap-1" data-source-id="' + escapeHtml(s.id) + '" data-source-name="' + escapeHtml(s.name) + '">' +
+                '<span class="material-icons text-sm">delete</span>Видалити' +
+            '</button>' +
+        '</div>' +
+    '</div>';
+}
 
-// Form submission (mock)
-document.getElementById('source-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    alert('Статичний UI Демо: Подання форми буде реалізоване у Фазі 2');
-});
+function escapeHtml(str) {
+    if (!str) return '';
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
 
-// Test connection (mock)
-document.getElementById('test-connection-btn').addEventListener('click', function() {
-    alert('Статичний UI Демо: Тест з\'єднання викличе POST /api/v1/sources/{id}/test у Фазі 2');
-});
-
-// Dimension management (mock)
-document.querySelectorAll('.remove-dimension').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-        alert('Статичний UI Демо: Видалення виміру буде реалізоване у Фазі 2');
-    });
-});
-
-document.getElementById('add-dimension-btn').addEventListener('click', function() {
-    alert('Статичний UI Демо: Додавання вимірів буде реалізоване у Фазі 2');
-});
-
-// Edit source buttons
-document.querySelectorAll('.edit-source-btn').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-        alert('Статичний UI Демо: Редагування джерела буде реалізоване у Фазі 2');
-    });
-});
-
-// Delete source buttons
-document.querySelectorAll('.delete-source-btn').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-        alert('Статичний UI Демо: Видалення джерела буде реалізоване у Фазі 2');
-    });
-});
-
-// Test connection buttons (in source list)
-document.querySelectorAll('.test-connection-btn').forEach(function(btn) {
-    if (!btn.id) {
-        btn.addEventListener('click', function() {
-            alert('Статичний UI Демо: Тест з\'єднання буде реалізований у Фазі 2');
+// ─── Load sources list ────────────────────────────────────────────────────────
+function loadSources() {
+    var container = document.getElementById('sources-list');
+    fetch('/api/v1/sources')
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+            var sources = data.sources || [];
+            if (sources.length === 0) {
+                container.innerHTML = '<div class="flex flex-col items-center justify-center py-12 text-gray-400">' +
+                    '<span class="material-icons text-5xl mb-3">storage</span>' +
+                    '<p class="text-lg font-medium">Джерела ще не додані</p>' +
+                    '<p class="text-sm">Натисніть «Додати нове джерело» щоб почати</p>' +
+                '</div>';
+            } else {
+                container.innerHTML = sources.map(renderSourceCard).join('');
+            }
+        })
+        .catch(function() {
+            container.innerHTML = '<p class="text-red-500 text-sm">Помилка завантаження джерел</p>';
         });
+}
+
+// ─── Form state management ────────────────────────────────────────────────────
+function showAddForm() {
+    editingSourceId = null;
+    document.getElementById('source-form').reset();
+    // Reset dimensions to one empty row
+    document.getElementById('dimensions-container').innerHTML =
+        '<div class="flex gap-2 items-center">' +
+            '<input type="text" class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors dimension-input" placeholder="Назва виміру (напр., Період)">' +
+            '<button type="button" class="remove-dimension p-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors" title="Видалити"><span class="material-icons text-sm">delete</span></button>' +
+        '</div>';
+    document.getElementById('source-id').readOnly = false;
+    document.getElementById('source-id').classList.remove('bg-gray-100');
+    document.getElementById('form-title').innerHTML = '<span class="material-icons text-primary-600">add_circle</span> Додати нове джерело';
+    document.getElementById('test-connection-btn').disabled = true;
+    document.getElementById('test-connection-btn').title = 'Спочатку збережіть джерело';
+    document.getElementById('basic-auth-fields').style.display = 'none';
+    document.getElementById('auth-type').value = 'none';
+    document.getElementById('source-form-card').style.display = 'block';
+    window.scrollTo({ top: document.getElementById('source-form-card').offsetTop - 20, behavior: 'smooth' });
+}
+
+function showEditForm(source) {
+    editingSourceId = source.id;
+
+    document.getElementById('source-id').value = source.id;
+    document.getElementById('source-id').readOnly = true;
+    document.getElementById('source-id').classList.add('bg-gray-100');
+    document.getElementById('source-name').value = source.name || '';
+    document.getElementById('source-endpoint').value = source.endpoint || '';
+    document.getElementById('source-register').value = source.register_name || '';
+    document.getElementById('sum-field').value = (source.metric_fields && source.metric_fields.sum) || '';
+    document.getElementById('qty-field').value = (source.metric_fields && source.metric_fields.qty) || '';
+
+    // Dimensions
+    var dims = source.dimensions || [''];
+    var container = document.getElementById('dimensions-container');
+    container.innerHTML = dims.map(function(d) {
+        return '<div class="flex gap-2 items-center">' +
+            '<input type="text" class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors dimension-input" placeholder="Назва виміру" value="' + escapeHtml(d) + '">' +
+            '<button type="button" class="remove-dimension p-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors" title="Видалити"><span class="material-icons text-sm">delete</span></button>' +
+        '</div>';
+    }).join('');
+
+    // Threshold rules
+    var tr = source.threshold_rules || {};
+    document.getElementById('spike-pct').value = tr.spike_pct != null ? tr.spike_pct : 20.0;
+    document.getElementById('spike-zscore').value = tr.spike_zscore != null ? tr.spike_zscore : 3.0;
+    document.getElementById('spike-logic').value = tr.spike_logic || 'OR';
+    document.getElementById('moving-avg-window').value = tr.moving_avg_window != null ? tr.moving_avg_window : 6;
+    document.getElementById('trend-window').value = tr.trend_window != null ? tr.trend_window : 3;
+    document.getElementById('zero-neg-enabled').checked = tr.zero_neg_enabled !== false;
+    document.getElementById('missing-enabled').checked = tr.missing_enabled !== false;
+    document.getElementById('ratio-enabled').checked = !!tr.ratio_enabled;
+
+    // Auth
+    var auth = source.auth || {};
+    document.getElementById('auth-type').value = auth.type || 'none';
+    document.getElementById('auth-user').value = auth.user || '';
+    document.getElementById('auth-pass').value = '';
+    document.getElementById('basic-auth-fields').style.display = auth.type === 'basic' ? 'block' : 'none';
+
+    document.getElementById('form-title').innerHTML = '<span class="material-icons text-primary-600">edit</span> Редагувати джерело';
+    document.getElementById('test-connection-btn').disabled = false;
+    document.getElementById('test-connection-btn').title = '';
+    document.getElementById('source-form-card').style.display = 'block';
+    window.scrollTo({ top: document.getElementById('source-form-card').offsetTop - 20, behavior: 'smooth' });
+}
+
+function hideForm() {
+    document.getElementById('source-form-card').style.display = 'none';
+    editingSourceId = null;
+}
+
+// ─── Collect form data ────────────────────────────────────────────────────────
+function collectFormData() {
+    var dims = Array.from(document.querySelectorAll('#dimensions-container .dimension-input'))
+        .map(function(i) { return i.value.trim(); })
+        .filter(function(v) { return v.length > 0; });
+    return {
+        id: document.getElementById('source-id').value.trim(),
+        name: document.getElementById('source-name').value.trim(),
+        endpoint: document.getElementById('source-endpoint').value.trim(),
+        register_name: document.getElementById('source-register').value.trim(),
+        dimensions: dims,
+        metric_fields: {
+            sum: document.getElementById('sum-field').value.trim(),
+            qty: document.getElementById('qty-field').value.trim(),
+        },
+        threshold_rules: {
+            spike_pct: parseFloat(document.getElementById('spike-pct').value) || 20.0,
+            spike_zscore: parseFloat(document.getElementById('spike-zscore').value) || 3.0,
+            spike_logic: document.getElementById('spike-logic').value,
+            moving_avg_window: parseInt(document.getElementById('moving-avg-window').value) || 6,
+            trend_window: parseInt(document.getElementById('trend-window').value) || 3,
+            trend_min_points: 5,
+            zero_neg_enabled: document.getElementById('zero-neg-enabled').checked,
+            missing_enabled: document.getElementById('missing-enabled').checked,
+            ratio_enabled: document.getElementById('ratio-enabled').checked,
+            ratio_min: null,
+            ratio_max: null,
+        },
+        auth: {
+            type: document.getElementById('auth-type').value,
+            user: document.getElementById('auth-user').value.trim() || null,
+            password: document.getElementById('auth-pass').value || null,
+        },
+        enabled: true,
+    };
+}
+
+// ─── Save source (create / update) ───────────────────────────────────────────
+function saveSource() {
+    var saveBtn = document.getElementById('save-btn');
+    var payload = collectFormData();
+    var isNew = editingSourceId === null;
+    var url = isNew ? '/api/v1/sources' : '/api/v1/sources/' + editingSourceId;
+    var method = isNew ? 'POST' : 'PUT';
+
+    saveBtn.disabled = true;
+    saveBtn.innerHTML = '<span class="material-icons text-sm animate-spin">refresh</span> Збереження...';
+
+    fetch(url, {
+        method: method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+    })
+    .then(function(r) { return r.json().then(function(d) { return { ok: r.ok, status: r.status, data: d }; }); })
+    .then(function(res) {
+        if (res.ok) {
+            hideForm();
+            loadSources();
+            showToast(isNew ? 'Джерело створено' : 'Джерело оновлено', 'success');
+        } else if (res.status === 409) {
+            showToast('ID вже існує: ' + (res.data.detail && res.data.detail.message || 'конфлікт'), 'error');
+        } else if (res.status === 422) {
+            var msg = (res.data.detail && res.data.detail.message) || JSON.stringify(res.data.detail);
+            showToast('Помилка валідації: ' + msg, 'error');
+        } else {
+            showToast('Помилка збереження', 'error');
+        }
+    })
+    .catch(function() { showToast('Помилка мережі', 'error'); })
+    .finally(function() {
+        saveBtn.disabled = false;
+        saveBtn.innerHTML = '<span class="material-icons text-sm">save</span> Зберегти джерело';
+    });
+}
+
+// ─── Edit source ──────────────────────────────────────────────────────────────
+function editSource(sourceId) {
+    fetch('/api/v1/sources/' + sourceId)
+        .then(function(r) {
+            if (!r.ok) { showToast('Джерело не знайдено', 'error'); return null; }
+            return r.json();
+        })
+        .then(function(source) {
+            if (source) showEditForm(source);
+        })
+        .catch(function() { showToast('Помилка завантаження джерела', 'error'); });
+}
+
+// ─── Delete source ────────────────────────────────────────────────────────────
+function deleteSource(sourceId, sourceName) {
+    if (!confirm('Видалити джерело "' + sourceName + '"?\nЦю дію неможливо скасувати.')) return;
+    fetch('/api/v1/sources/' + sourceId, { method: 'DELETE' })
+        .then(function(r) {
+            if (r.status === 204) {
+                loadSources();
+                showToast('Джерело "' + sourceName + '" видалено', 'success');
+            } else if (r.status === 404) {
+                showToast('Джерело вже видалено', 'error');
+                loadSources();
+            } else {
+                showToast('Помилка видалення', 'error');
+            }
+        })
+        .catch(function() { showToast('Помилка мережі', 'error'); });
+}
+
+// ─── Test connection ──────────────────────────────────────────────────────────
+function testConnection(sourceId, triggerBtn) {
+    if (!sourceId) return;
+    var btn = triggerBtn || document.getElementById('test-connection-btn');
+    var originalHtml = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '<span class="material-icons text-sm animate-spin">refresh</span> Перевірка...';
+
+    fetch('/api/v1/sources/' + sourceId + '/test', { method: 'POST' })
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+            if (data.status === 'ok') {
+                showToast('З\'єднання успішне · ' + (data.response_time_ms != null ? data.response_time_ms + 'ms' : ''), 'success');
+            } else {
+                showToast('Помилка з\'єднання: ' + (data.message || 'невідома помилка'), 'error');
+            }
+        })
+        .catch(function() { showToast('Помилка мережі', 'error'); })
+        .finally(function() {
+            btn.disabled = false;
+            btn.innerHTML = originalHtml;
+        });
+}
+
+// ─── Dimension management ─────────────────────────────────────────────────────
+function addDimension(value) {
+    var row = document.createElement('div');
+    row.className = 'flex gap-2 items-center';
+    row.innerHTML = '<input type="text" class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors dimension-input" placeholder="Назва виміру" value="' + escapeHtml(value || '') + '">' +
+        '<button type="button" class="remove-dimension p-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors" title="Видалити"><span class="material-icons text-sm">delete</span></button>';
+    document.getElementById('dimensions-container').appendChild(row);
+    row.querySelector('input').focus();
+}
+
+// ─── Event delegation: dimension remove ───────────────────────────────────────
+document.getElementById('dimensions-container').addEventListener('click', function(e) {
+    var btn = e.target.closest('.remove-dimension');
+    if (!btn) return;
+    var inputs = document.querySelectorAll('#dimensions-container .dimension-input');
+    if (inputs.length <= 1) {
+        showToast('Має бути хоча б один вимір', 'error');
+        return;
+    }
+    btn.closest('.flex.gap-2').remove();
+});
+
+// ─── Event delegation: source list buttons ────────────────────────────────────
+document.getElementById('sources-list').addEventListener('click', function(e) {
+    var btn = e.target.closest('button');
+    if (!btn) return;
+    var sourceId   = btn.dataset.sourceId;
+    var sourceName = btn.dataset.sourceName;
+
+    if (btn.classList.contains('edit-source-btn')) {
+        editSource(sourceId);
+    } else if (btn.classList.contains('delete-source-btn')) {
+        deleteSource(sourceId, sourceName);
+    } else if (btn.classList.contains('test-connection-btn')) {
+        testConnection(sourceId, btn);
     }
 });
+
+// ─── Form events ──────────────────────────────────────────────────────────────
+document.getElementById('add-source-btn').addEventListener('click', showAddForm);
+
+document.getElementById('cancel-form-btn').addEventListener('click', hideForm);
+
+document.getElementById('add-dimension-btn').addEventListener('click', function() { addDimension(''); });
+
+document.getElementById('auth-type').addEventListener('change', function() {
+    document.getElementById('basic-auth-fields').style.display = this.value === 'basic' ? 'block' : 'none';
+});
+
+document.getElementById('source-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    saveSource();
+});
+
+document.getElementById('test-connection-btn').addEventListener('click', function() {
+    testConnection(editingSourceId, this);
+});
+
+// ─── Init ─────────────────────────────────────────────────────────────────────
+loadSources();
 </script>
 {% endblock %}
